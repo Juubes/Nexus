@@ -1,0 +1,28 @@
+main: com.juubes.nexus.Nexus
+name: Nexus
+version: 2.0
+author: Juubes
+description: A 1v1 team PvP framework.
+commands:
+  join: null
+  spec: null
+  pause: null
+  getpos: null
+  worlds: null
+  world: null
+  stats: null
+  nextmap: null
+  setlobby: null
+  editmode: null
+  savekit:
+    aliases:
+    - gameinventory
+  addteam: null
+  removeteam:
+    aliases:
+    - delteam
+  setteamspawn:
+    aliases:
+    - setspawn
+  start: null
+  setprefix: null
