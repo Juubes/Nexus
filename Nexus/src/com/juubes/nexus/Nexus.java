@@ -35,6 +35,7 @@ public class Nexus extends JavaPlugin {
 	public static final Integer CURRENT_SEASON = 5;
 	private static InitOptions options;
 
+
 	@Override
 	public void onEnable() {
 		JoinCommand njc = new JoinCommand();
