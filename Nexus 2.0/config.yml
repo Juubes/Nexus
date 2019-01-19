@@ -1,0 +1,9 @@
+mysql:
+  server: localhost
+  database: Nexus
+  user: user
+  password: password
+  
+maps:
+- HK1
+- HK2
