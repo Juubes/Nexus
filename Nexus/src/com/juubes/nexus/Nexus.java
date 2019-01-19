@@ -60,6 +60,7 @@ public class Nexus extends JavaPlugin {
 		getCommand("nextmap").setExecutor(nmCmd);
 		getCommand("start").setExecutor(new StartCommand());
 
+
 		getCommand("editmode").setExecutor(new EditModeHandler());
 		getCommand("setlobby").setExecutor(new SetLobbyCommand());
 		getCommand("addteam").setExecutor(new AddTeamCommand());
