@@ -72,7 +72,7 @@ public abstract class AbstractPlayerData {
 	}
 
 	public void setPrefix(String prefix) {
-		if (prefix.equals("null"))
+		if (prefix == null || prefix.equals("null"))
 			this.prefix = null;
 		else
 			this.prefix = prefix;

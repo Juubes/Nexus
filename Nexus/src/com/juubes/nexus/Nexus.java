@@ -25,7 +25,7 @@ import com.juubes.nexus.commands.SpectateCommand;
 import com.juubes.nexus.commands.StartCommand;
 import com.juubes.nexus.commands.StatsCommand;
 import com.juubes.nexus.commands.WorldsCommand;
-import com.juubes.nexus.logic.GameHandlingCommands;
+import com.juubes.nexus.logic.PauseCommand;
 import com.juubes.nexus.logic.GameLogic;
 import com.juubes.nexus.logic.GameWorldManager;
 import com.juubes.nexus.setup.AbstractDatabaseManager;
@@ -41,7 +41,7 @@ public class Nexus extends JavaPlugin {
 		getCommand("join").setExecutor(njc);
 		getCommand("spec").setExecutor(new SpectateCommand());
 
-		GameHandlingCommands nexusCommands = new GameHandlingCommands();
+		PauseCommand nexusCommands = new PauseCommand();
 		getCommand("pause").setExecutor(nexusCommands);
 
 		GetposCommand gpcmd = new GetposCommand();

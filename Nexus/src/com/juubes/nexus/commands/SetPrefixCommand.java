@@ -7,6 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.juubes.nexus.logic.GameLogic;
 import com.juubes.nexus.playerdata.AbstractPlayerData;
 
 public class SetPrefixCommand implements CommandExecutor {
@@ -49,6 +50,8 @@ public class SetPrefixCommand implements CommandExecutor {
 					AbstractPlayerData data = AbstractPlayerData.get(target);
 					data.setPrefix(userInput);
 					correctName = target.getName();
+
+					GameLogic.updateNameTag(target);
 				}
 
 				if (userInput == null)

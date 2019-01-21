@@ -17,12 +17,18 @@ public class PreLoadGameWorldEvent extends Event {
 	}
 
 	public World world;
+	public String mapID;
 
-	public PreLoadGameWorldEvent(World world) {
+	public PreLoadGameWorldEvent(String mapID, World world) {
 		this.world = world;
+		this.mapID = mapID;
 	}
 
 	public World getWorld() {
 		return world;
+	}
+
+	public String getMapID() {
+		return mapID;
 	}
 }

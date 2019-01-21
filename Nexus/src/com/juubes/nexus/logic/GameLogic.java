@@ -27,7 +27,11 @@ public class GameLogic {
 	}
 
 	public static void loadNextGame() {
-		currentGame = new Game();
+		loadNextGame(null);
+	}
+
+	public static void loadNextGame(String request) {
+		currentGame = new Game(request);
 		countdownHandler.startGameCountdown(20);
 		gameState = GameState.COUNTDOWN;
 
@@ -38,7 +42,6 @@ public class GameLogic {
 
 		Bukkit.getPluginManager().callEvent(new StartCountdownEvent(GameWorldManager
 				.getCurrentMapID()));
-
 		countdownHandler.stopChangeMapCountdown();
 	}
 
@@ -103,11 +106,7 @@ public class GameLogic {
 		p.getInventory().setContents(GameLogic.getCurrentGame().getKit());
 		p.getInventory().setArmorContents(getArmorForTeam(p, pd.getTeam()));
 
-		p.setDisplayName(pd.getNick());
-		p.setPlayerListName("§8[" + ChatColor.translateAlternateColorCodes('&', pd.getPrefix())
-				+ "§8] " + pd.getNick());
-		p.setCustomName(pd.getNick());
-		p.setCustomNameVisible(true);
+		updateNameTag(p);
 	}
 
 	private static ItemStack[] getArmorForTeam(Player p, Team team) {
@@ -211,6 +210,15 @@ public class GameLogic {
 
 	public static CountdownHandler getCountdownHandler() {
 		return countdownHandler;
+	}
+
+	public static void updateNameTag(Player p) {
+		AbstractPlayerData pd = AbstractPlayerData.get(p);
+		p.setDisplayName(pd.getNick());
+		p.setPlayerListName("§8[" + ChatColor.translateAlternateColorCodes('&', pd.getPrefix())
+				+ "§8] " + pd.getNick());
+		p.setCustomName(pd.getNick());
+		p.setCustomNameVisible(true);
 	}
 
 }

@@ -1,18 +1,20 @@
 package com.juubes.nexus.logic;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-public class GameHandlingCommands implements CommandExecutor {
+public class PauseCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String lbl, String[] args) {
-		{
-			Bukkit.broadcastMessage("§eKomentoa ei käsitelty: /" + cmd.getName());
+		if (!sender.isOp()) {
+			sender.sendMessage("§eEt ole operaattori. Hushus.");
+			return true;
 		}
-		return false;
+
+		GameLogic.togglePause();
+		return true;
 	}
 
 }

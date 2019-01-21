@@ -16,16 +16,16 @@ public class Game {
 	private String mapID;
 	private boolean ended;
 
-	public Game() {
+	public Game(String mapRequest) {
 		this.ended = false;
-		this.world = GameWorldManager.loadNextWorld();
+		this.world = GameWorldManager.loadNextWorld(mapRequest);
 		this.world.setTime(0);
 
 		this.mapID = GameWorldManager.getCurrentMapID();
 
+		this.mapDisplayName = Nexus.getDatabaseManager().getMapDisplayName(mapID);
 		this.lobby = Nexus.getDatabaseManager().getLobbyForMap(mapID);
 		this.teams = Nexus.getDatabaseManager().getTeams(mapID);
-		this.mapDisplayName = Nexus.getDatabaseManager().getMapDisplayName(mapID);
 		this.kit = Nexus.getDatabaseManager().getKitForGame(mapID).getContents();
 
 		this.startTime = System.currentTimeMillis();
