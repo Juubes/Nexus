@@ -45,6 +45,10 @@ public class GameLogic {
 		countdownHandler.stopChangeMapCountdown();
 	}
 
+	public static String getCurrentMapID() {
+		return GameWorldManager.getCurrentMapID();
+	}
+
 	private static GameState pausedGameState;
 
 	public static boolean isPaused() {

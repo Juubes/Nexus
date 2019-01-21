@@ -27,3 +27,4 @@ commands:
     - setspawn
   start: null
   setprefix: null
+  savemap: null

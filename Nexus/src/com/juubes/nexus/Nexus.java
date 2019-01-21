@@ -18,6 +18,7 @@ import com.juubes.nexus.commands.JoinCommand;
 import com.juubes.nexus.commands.NextmapCommand;
 import com.juubes.nexus.commands.RemoveTeamCommand;
 import com.juubes.nexus.commands.SaveKitCommand;
+import com.juubes.nexus.commands.SaveMapCommand;
 import com.juubes.nexus.commands.SetLobbyCommand;
 import com.juubes.nexus.commands.SetPrefixCommand;
 import com.juubes.nexus.commands.SetTeamSpawnCommand;
@@ -25,9 +26,9 @@ import com.juubes.nexus.commands.SpectateCommand;
 import com.juubes.nexus.commands.StartCommand;
 import com.juubes.nexus.commands.StatsCommand;
 import com.juubes.nexus.commands.WorldsCommand;
-import com.juubes.nexus.logic.PauseCommand;
 import com.juubes.nexus.logic.GameLogic;
 import com.juubes.nexus.logic.GameWorldManager;
+import com.juubes.nexus.logic.PauseCommand;
 import com.juubes.nexus.setup.AbstractDatabaseManager;
 import com.juubes.nexus.setup.InitOptions;
 
@@ -59,6 +60,7 @@ public class Nexus extends JavaPlugin {
 		getCommand("nextmap").setExecutor(nmCmd);
 		getCommand("start").setExecutor(new StartCommand());
 
+		getCommand("savemap").setExecutor(new SaveMapCommand());
 		getCommand("editmode").setExecutor(new EditModeHandler());
 		getCommand("setlobby").setExecutor(new SetLobbyCommand());
 		getCommand("addteam").setExecutor(new AddTeamCommand());
