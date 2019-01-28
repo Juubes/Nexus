@@ -16,6 +16,7 @@ import com.juubes.nexus.commands.EditModeHandler;
 import com.juubes.nexus.commands.GetposCommand;
 import com.juubes.nexus.commands.JoinCommand;
 import com.juubes.nexus.commands.NextmapCommand;
+import com.juubes.nexus.commands.PlayTimeCommand;
 import com.juubes.nexus.commands.RemoveTeamCommand;
 import com.juubes.nexus.commands.SaveKitCommand;
 import com.juubes.nexus.commands.SaveMapCommand;
@@ -46,9 +47,8 @@ public class Nexus extends JavaPlugin {
 		getCommand("pause").setExecutor(nexusCommands);
 
 		GetposCommand gpcmd = new GetposCommand();
-		getCommand("getpos").setExecutor(gpcmd);
-
 		WorldsCommand wcmd = new WorldsCommand();
+		getCommand("getpos").setExecutor(gpcmd);
 		getCommand("world").setExecutor(wcmd);
 		getCommand("worlds").setExecutor(wcmd);
 
@@ -59,6 +59,7 @@ public class Nexus extends JavaPlugin {
 		NextmapCommand nmCmd = new NextmapCommand();
 		getCommand("nextmap").setExecutor(nmCmd);
 		getCommand("start").setExecutor(new StartCommand());
+		getCommand("gametime").setExecutor(new PlayTimeCommand());
 
 		getCommand("savemap").setExecutor(new SaveMapCommand());
 		getCommand("editmode").setExecutor(new EditModeHandler());

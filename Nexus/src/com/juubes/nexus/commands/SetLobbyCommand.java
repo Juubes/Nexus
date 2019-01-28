@@ -21,6 +21,10 @@ public class SetLobbyCommand implements CommandExecutor {
 
 		Player p = (Player) sender;
 		String editWorld = EditModeHandler.getEditWorld(p);
+		if (!Nexus.getDatabaseManager().isMapCreated(editWorld)) {
+			p.sendMessage("§e" + editWorld + " ei ole vielä luotu. /createmap");
+			return true;
+		}
 		Nexus.getDatabaseManager().saveLobbyForMap(editWorld, p.getLocation());
 		sender.sendMessage("§eLobby tallennettu mappiin " + editWorld + ".");
 		EditModeHandler.pendingList.add(sender);

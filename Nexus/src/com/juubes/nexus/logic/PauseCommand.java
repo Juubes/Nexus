@@ -13,6 +13,13 @@ public class PauseCommand implements CommandExecutor {
 			return true;
 		}
 
+		GameState gameState = GameLogic.getGameState();
+		if (gameState != GameState.RUNNING && gameState != GameState.COUNTDOWN)
+		{
+			sender.sendMessage("§e");
+			return true;
+		}
+
 		GameLogic.togglePause();
 		return true;
 	}

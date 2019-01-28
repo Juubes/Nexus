@@ -183,8 +183,6 @@ public class GameLogic {
 	}
 
 	public static void togglePause() {
-		if (gameState != GameState.RUNNING && gameState != GameState.COUNTDOWN)
-			throw new IllegalStateException("GameState is " + gameState.name());
 
 		if (gameState != GameState.PAUSED) {
 			pausedGameState = gameState;

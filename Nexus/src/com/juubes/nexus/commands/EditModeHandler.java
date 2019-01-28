@@ -9,6 +9,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.juubes.nexus.Nexus;
+
 public class EditModeHandler implements CommandExecutor {
 	public static Set<CommandSender> pendingList = new HashSet<>();
 
@@ -25,7 +27,19 @@ public class EditModeHandler implements CommandExecutor {
 
 		Player p = (Player) sender;
 		if (args.length > 0) {
-			setEditModeWorld(p, args[0]);
+
+			boolean foundMapID = false;
+			for (String map : Nexus.getDatabaseManager().getMaps()) {
+				if (map.equalsIgnoreCase(args[0])) {
+					foundMapID = true;
+					setEditModeWorld(p, map);
+					break;
+				}
+			}
+			if (!foundMapID) {
+				sender.sendMessage("§cEi löydetty mappia ID:llä " + args[0]);
+			}
+
 		}
 		sender.sendMessage("§eMuokkaustilasi on maailma " + getEditWorld(p));
 		sender.sendMessage("§eVoit vaihtaa muokkaustilaa komennolla: /editmode <Map ID>");

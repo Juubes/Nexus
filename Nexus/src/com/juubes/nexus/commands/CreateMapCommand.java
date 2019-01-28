@@ -21,13 +21,13 @@ public class CreateMapCommand implements CommandExecutor {
 			return true;
 		}
 
-		String mapID = args[0].toLowerCase();
+		String mapID = args[0];
 		if (args.length == 1) {
 			sender.sendMessage("§c/createmap " + mapID + " <display name> <time ticks>");
 			return true;
 		}
 
-		String displayName = args[1].toLowerCase().replace("_", " ");
+		String displayName = args[1].replace("_", " ");
 		if (args.length == 2) {
 			sender.sendMessage("§c/createmap " + mapID + " " + ChatColor
 					.translateAlternateColorCodes('&', displayName) + " <time ticks>");
@@ -35,7 +35,7 @@ public class CreateMapCommand implements CommandExecutor {
 		}
 
 		try {
-			Short.parseShort(args[2]);
+			Integer.parseInt(args[2]);
 		} catch (Exception e) {
 			sender.sendMessage("§cValitse numero 0-100 maailman ajaksi.");
 			return true;
@@ -44,10 +44,16 @@ public class CreateMapCommand implements CommandExecutor {
 		int ticks = Integer.parseInt(args[2]);
 		Nexus.getDatabaseManager().createMap(mapID, displayName, ticks * 240);
 
+		sender.sendMessage("§eMappi " + mapID + " luotu.");
+
 		if (sender instanceof Player) {
 			Nexus.getDatabaseManager().saveLobbyForMap(mapID, ((Player) sender).getLocation());
 			sender.sendMessage("§eLobby tallennettu mappiin " + mapID + ".");
 		}
+
+
+
+		EditModeHandler.pendingList.add(sender);
 		return true;
 	}
 }

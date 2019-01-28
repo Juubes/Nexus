@@ -26,6 +26,11 @@ public class AddTeamCommand implements CommandExecutor {
 		Player p = (Player) sender;
 		String mapID = EditModeHandler.getEditWorld(p);
 
+		if (!Nexus.getDatabaseManager().isMapCreated(mapID)) {
+			p.sendMessage("§e" + mapID + " ei ole vielä luotu. /createmap");
+			return true;
+		}
+
 		if (args.length == 0) {
 			sender.sendMessage("§c/addteam <team ID> <color> <display name...>");
 			return true;
@@ -65,10 +70,14 @@ public class AddTeamCommand implements CommandExecutor {
 
 		sender.sendMessage("§eTiimi " + displayName + " tallennettu mappiin " + mapID
 				+ ". Voit asettaa spawnin /setteamspawn " + teamID + "");
+
+		EditModeHandler.pendingList.add(sender);
 		return true;
 	}
 
-	private ChatColor getChatColor(String color) {
+	private static ChatColor getChatColor(String color) {
+		if (color.equalsIgnoreCase("purple"))
+			return ChatColor.DARK_PURPLE;
 		for (ChatColor color2 : ChatColor.values()) {
 			if (color.equalsIgnoreCase(color2.name()))
 				return color2;

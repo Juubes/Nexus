@@ -27,6 +27,11 @@ public class SetTeamSpawnCommand implements CommandExecutor {
 		String teamID = args[0].toLowerCase();
 		String mapID = EditModeHandler.getEditWorld(p);
 
+		if (!Nexus.getDatabaseManager().isMapCreated(mapID)) {
+			p.sendMessage("§e" + mapID + " ei ole vielä luotu. /createmap");
+			return true;
+		}
+
 		if (!Nexus.getDatabaseManager().getTeamList(mapID).contains(teamID)) {
 			sender.sendMessage("§eTiimiä " + teamID + " ei ole luotu.");
 			return true;

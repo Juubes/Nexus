@@ -5,7 +5,9 @@ author: Juubes
 website: https://github.com/Juubes/Nexus/
 description: A 1v1 team PvP framework.
 commands:
-  join: null
+  join:
+    aliases:
+    - liity
   spec: null
   pause: null
   getpos: null
@@ -28,3 +30,6 @@ commands:
   start: null
   setprefix: null
   savemap: null
+  playtime:
+    aliases:
+    - gametime

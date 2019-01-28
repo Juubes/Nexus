@@ -16,6 +16,8 @@ public interface AbstractDatabaseManager {
 	// Maps
 	public abstract void createMap(String mapID, String displayName, int ticks);
 
+	public abstract boolean isMapCreated(String mapID);
+
 	public abstract String[] getMaps();
 
 	// Lobbies
