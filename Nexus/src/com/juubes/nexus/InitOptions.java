@@ -1,4 +1,6 @@
-package com.juubes.nexus.setup;
+package com.juubes.nexus;
+
+import com.juubes.nexus.data.AbstractDatabaseManager;
 
 public class InitOptions {
 	public AbstractDatabaseManager getDbManager() {

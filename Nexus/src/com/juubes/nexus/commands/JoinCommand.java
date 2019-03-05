@@ -6,10 +6,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.juubes.nexus.Nexus;
+import com.juubes.nexus.data.AbstractPlayerData;
+import com.juubes.nexus.data.PlayerDataHandler;
 import com.juubes.nexus.logic.GameLogic;
 import com.juubes.nexus.logic.GameState;
-import com.juubes.nexus.playerdata.AbstractPlayerData;
-import com.juubes.nexus.playerdata.PlayerDataHandler;
 
 public class JoinCommand implements CommandExecutor {
 	@Override

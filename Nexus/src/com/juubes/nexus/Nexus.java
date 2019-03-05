@@ -27,11 +27,10 @@ import com.juubes.nexus.commands.SpectateCommand;
 import com.juubes.nexus.commands.StartCommand;
 import com.juubes.nexus.commands.StatsCommand;
 import com.juubes.nexus.commands.WorldsCommand;
+import com.juubes.nexus.data.AbstractDatabaseManager;
 import com.juubes.nexus.logic.GameLogic;
 import com.juubes.nexus.logic.GameWorldManager;
 import com.juubes.nexus.logic.PauseCommand;
-import com.juubes.nexus.setup.AbstractDatabaseManager;
-import com.juubes.nexus.setup.InitOptions;
 
 public class Nexus extends JavaPlugin {
 	public static final Integer CURRENT_SEASON = 5;

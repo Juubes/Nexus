@@ -9,8 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
+import com.juubes.nexus.data.AbstractPlayerData;
 import com.juubes.nexus.events.StartCountdownEvent;
-import com.juubes.nexus.playerdata.AbstractPlayerData;
 
 public class GameLogic {
 	private static Game currentGame;

@@ -1,4 +1,4 @@
-package com.juubes.nexus.setup;
+package com.juubes.nexus.data;
 
 import java.util.Set;
 import java.util.UUID;
@@ -8,8 +8,6 @@ import org.bukkit.Location;
 import org.bukkit.inventory.Inventory;
 
 import com.juubes.nexus.logic.Team;
-import com.juubes.nexus.playerdata.AbstractPlayerData;
-import com.juubes.nexus.playerdata.AbstractStats;
 
 public interface AbstractDatabaseManager {
 

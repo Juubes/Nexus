@@ -9,7 +9,7 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import com.juubes.nexus.playerdata.AbstractPlayerData;
+import com.juubes.nexus.data.AbstractPlayerData;
 
 public class Team {
 	private ChatColor teamColor;

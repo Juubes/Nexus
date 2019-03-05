@@ -1,6 +1,6 @@
 main: com.juubes.nexus.Nexus
 name: Nexus
-version: 1.0.1
+version: 2.0.1
 author: Juubes
 website: https://github.com/Juubes/Nexus/
 description: A 1v1 team PvP framework.

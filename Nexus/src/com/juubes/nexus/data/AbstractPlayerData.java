@@ -1,4 +1,4 @@
-package com.juubes.nexus.playerdata;
+package com.juubes.nexus.data;
 
 import java.util.HashMap;
 import java.util.UUID;

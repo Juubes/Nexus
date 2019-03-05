@@ -5,8 +5,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.juubes.nexus.playerdata.AbstractPlayerData;
-import com.juubes.nexus.playerdata.PlayerDataHandler;
+import com.juubes.nexus.data.AbstractPlayerData;
+import com.juubes.nexus.data.PlayerDataHandler;
 
 public class SpectateCommand implements CommandExecutor {
 	@Override

@@ -7,8 +7,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.juubes.nexus.data.AbstractPlayerData;
 import com.juubes.nexus.logic.GameLogic;
-import com.juubes.nexus.playerdata.AbstractPlayerData;
 
 public class SetPrefixCommand implements CommandExecutor {
 	@Override
