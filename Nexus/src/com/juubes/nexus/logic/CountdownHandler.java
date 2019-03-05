@@ -26,6 +26,7 @@ public class CountdownHandler {
 				changeMap--;
 			} else if (changeMap == 0) {
 				GameLogic.loadNextGame();
+				Bukkit.broadcastMessage("§eLiity peliin komennolla /join");
 				changeMap = -1;
 			}
 

@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
+import org.bukkit.Chunk;
+import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -40,6 +43,31 @@ public class SaveMapCommand implements CommandExecutor {
 			// Save the player's map to Nexus maps folder
 			World w = p.getWorld();
 			File from = w.getWorldFolder();
+			File regionFolder = new File(from, "region");
+
+			for (File regionFile : regionFolder.listFiles()) {
+				String[] splits = regionFile.getName().split("\\.");
+				Chunk ch = w.getChunkAt(Integer.parseInt(splits[1]), Integer.parseInt(splits[2]));
+				boolean empty = true;
+				emptyLoop: {
+					for (int i = 0; i < 16; i++) {
+						for (int j = 0; j < 16; j++) {
+							for (int j2 = 0; j2 < 16; j2++) {
+								Block b = ch.getBlock(i, j, j2);
+								if (b != null && b.getType() != Material.AIR) {
+									empty = false;
+									break emptyLoop;
+								}
+							}
+						}
+					}
+				}
+				if (empty) {
+					System.out.println("Empty chunk at " + ch.getX() + ", " + ch.getZ());
+					regionFile.delete();
+				}
+			}
+
 			File to = new File(Nexus.getConfigFolder(), "maps/" + mapID);
 
 			// Remove already existing files and useless playerdata
