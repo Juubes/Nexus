@@ -3,6 +3,7 @@ package com.juubes.nexus.data;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
@@ -12,21 +13,23 @@ import com.juubes.nexus.logic.Team;
 
 public abstract class AbstractPlayerData {
 
-	protected Player p;
-	protected String name;
+	protected final UUID uuid;
+	protected final HashMap<String, Integer> reviewedMaps = new HashMap<>();
+	protected String lastSeenName;
 	protected String prefix;
-	protected UUID id;
-	protected HashMap<String, Integer> reviewedMaps = new HashMap<>();
 	protected int emeralds;
 	protected String nick;
 	protected Player lastDamager, lastMessager;
 	protected Team team;
 	protected int killStreak;
 
-	/**
-	 * @return a default playerdata
-	 */
-	public AbstractPlayerData() {
+	public AbstractPlayerData(UUID uuid, String lastSeenName, String prefix, int emeralds, String nick, int killStreak) {
+		this.uuid = uuid;
+		this.lastSeenName = lastSeenName;
+		this.prefix = prefix;
+		this.emeralds = emeralds;
+		this.nick = nick;
+		this.killStreak = killStreak;
 	}
 
 	public abstract void save();
@@ -36,17 +39,24 @@ public abstract class AbstractPlayerData {
 	}
 
 	public void setTeam(Team team) {
-		if (this.p == null)
-			throw new RuntimeException("Playerdata not bound to an online player");
+		if (!Bukkit.getPlayer(uuid).isOnline())
+			throw new NullPointerException("Playerdata for " + lastSeenName
+					+ " couldn't be bound to an online player.");
+
+		Player p = Bukkit.getPlayer(uuid);
 		this.team = team;
 		if (team == null)
 			GameLogic.sendToSpectate(p);
-		else if (GameLogic.getGameState().equals(GameState.RUNNING)) {
-			GameLogic.sendPlayerToGame(p, team);
+		else {
+			if (GameLogic.getGameState().equals(GameState.RUNNING))
+				GameLogic.sendPlayerToGame(p, team);
+			else {
+				GameLogic.updateNameTag(p);
+			}
 		}
+
 		if (team != null) {
-			p.sendMessage("§eOlet nyt tiimissä " + team.getChatColor() + "§l" + team
-					.getDisplayName());
+			p.sendMessage("§eOlet nyt tiimissä " + team.getChatColor() + "§l" + team.getDisplayName());
 		} else {
 			// If Nexus isn't ready, make sure everyone is in GM 3
 			p.setGameMode(GameMode.SPECTATOR);
@@ -59,12 +69,8 @@ public abstract class AbstractPlayerData {
 		return PlayerDataHandler.get(p);
 	}
 
-	public Player getPlayer() {
-		return p;
-	}
-
-	public String getName() {
-		return name;
+	public String getLastSeenName() {
+		return lastSeenName;
 	}
 
 	public String getPrefix() {
@@ -89,9 +95,9 @@ public abstract class AbstractPlayerData {
 	public String getNick() {
 		if (nick == null) {
 			if (team == null)
-				return "§7" + p.getName();
+				return "§7" + getLastSeenName();
 			else
-				return team.getChatColor() + p.getName();
+				return team.getChatColor() + getLastSeenName();
 		} else {
 			if (team == null)
 				return "§7" + nick;
@@ -114,10 +120,6 @@ public abstract class AbstractPlayerData {
 		this.lastDamager = lastDamager;
 	}
 
-	public UUID getID() {
-		return id;
-	}
-
 	public Player getLastMessager() {
 		return lastMessager;
 	}
@@ -134,6 +136,10 @@ public abstract class AbstractPlayerData {
 		this.lastMessager = lastMessager;
 	}
 
+	public UUID getUUID() {
+		return uuid;
+	}
+
 	/**
 	 * Gets the cached current season's stats
 	 */
@@ -145,6 +151,7 @@ public abstract class AbstractPlayerData {
 
 	@Override
 	public String toString() {
-		return "AbstractPlayerData for " + id + ", " + name;
+		return "AbstractPlayerData for " + uuid + ", " + lastSeenName;
 	}
+
 }

@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
 import com.juubes.nexus.logic.Team;
@@ -44,7 +45,7 @@ public interface AbstractDatabaseManager {
 	public abstract String getMapID(String name);
 
 	// Playerdata
-	public abstract AbstractPlayerData getPlayerData(UUID id);
+	public abstract AbstractPlayerData getPlayerData(Player p);
 
 	public abstract void savePlayerData(AbstractPlayerData data);
 

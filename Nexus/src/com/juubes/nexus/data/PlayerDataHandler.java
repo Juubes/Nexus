@@ -12,7 +12,7 @@ public class PlayerDataHandler {
 		if (p == null)
 			throw new NullPointerException("Player can't be null.");
 		for (AbstractPlayerData pd : loadedData) {
-			if (pd.getPlayer().equals(p))
+			if (pd.getUUID().equals(p.getUniqueId()))
 				return pd;
 		}
 		throw new RuntimeException("Playerdata for player " + p.getName() + " isn't loaded.");

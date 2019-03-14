@@ -40,8 +40,7 @@ public class GameLogic {
 			pd.setTeam(null);
 		}
 
-		Bukkit.getPluginManager().callEvent(new StartCountdownEvent(GameWorldManager
-				.getCurrentMapID()));
+		Bukkit.getPluginManager().callEvent(new StartCountdownEvent(GameWorldManager.getCurrentMapID()));
 		countdownHandler.stopChangeMapCountdown();
 	}
 
@@ -81,8 +80,7 @@ public class GameLogic {
 		if (lobby != null) {
 			p.teleport(lobby);
 		} else {
-			System.err.println("Lobby null for map " + GameLogic.getCurrentGame()
-					.getMapDisplayName());
+			System.err.println("Lobby null for map " + GameLogic.getCurrentGame().getMapDisplayName());
 			p.teleport(new Location(GameLogic.getCurrentGame().getWorld(), 0, 100, 0));
 		}
 		p.setGameMode(GameMode.SPECTATOR);
@@ -90,8 +88,8 @@ public class GameLogic {
 
 		// Handle appropriate nametag colours
 		p.setDisplayName(pd.getNick());
-		p.setPlayerListName("§8[" + ChatColor.translateAlternateColorCodes('&', pd.getPrefix())
-				+ "§8] " + pd.getNick());
+		p.setPlayerListName("§8[" + ChatColor.translateAlternateColorCodes('&', pd.getPrefix()) + "§8] " + pd
+				.getNick());
 		p.setCustomName(pd.getNick());
 		p.setCustomNameVisible(false);
 
@@ -100,6 +98,7 @@ public class GameLogic {
 	public static void sendPlayerToGame(Player p, Team team) {
 		AbstractPlayerData pd = AbstractPlayerData.get(p);
 		// Reset properties and teleport to spawn
+		pd.setLastDamager(null);
 		p.setFallDistance(0);
 		p.setMaxHealth(20);
 		p.setHealth(p.getMaxHealth());
@@ -195,8 +194,7 @@ public class GameLogic {
 		if (paused) {
 			for (Player p : Bukkit.getOnlinePlayers()) {
 				p.setGameMode(GameMode.SPECTATOR);
-				p.sendMessage(
-						"§ePeli on pysäytetty. Kun peli jatkuu, sinut teleportataan spawnille.");
+				p.sendMessage("§ePeli on pysäytetty. Kun peli jatkuu, sinut teleportataan spawnille.");
 			}
 		} else {
 			for (Player p : Bukkit.getOnlinePlayers()) {
@@ -217,8 +215,8 @@ public class GameLogic {
 	public static void updateNameTag(Player p) {
 		AbstractPlayerData pd = AbstractPlayerData.get(p);
 		p.setDisplayName(pd.getNick());
-		p.setPlayerListName("§8[" + ChatColor.translateAlternateColorCodes('&', pd.getPrefix())
-				+ "§8] " + pd.getNick());
+		p.setPlayerListName("§8[" + ChatColor.translateAlternateColorCodes('&', pd.getPrefix()) + "§8] " + pd
+				.getNick());
 		p.setCustomName(pd.getNick());
 		p.setCustomNameVisible(true);
 	}

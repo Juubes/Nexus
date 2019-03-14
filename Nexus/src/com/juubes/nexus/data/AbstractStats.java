@@ -3,11 +3,11 @@ package com.juubes.nexus.data;
 import java.util.UUID;
 
 public abstract class AbstractStats {
-	protected UUID uuid;
-	protected int season;
+	private final UUID uuid;
+	private final int season;
 	public long playTimeWon;
 	public long playTimeLost;
-	protected int statsID;
+	public final int statsID;
 
 	public AbstractStats(int statsID, UUID uuid, int season) {
 		this.statsID = statsID;
@@ -23,7 +23,7 @@ public abstract class AbstractStats {
 		return season;
 	}
 
-	public int getStatsID() {
+	public int getSeasonStatsID() {
 		return statsID;
 	}
 }

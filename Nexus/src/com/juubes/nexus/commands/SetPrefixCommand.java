@@ -29,7 +29,7 @@ public class SetPrefixCommand implements CommandExecutor {
 				}
 
 				if (userInput.equals("\"\""))
-					userInput = null;
+					userInput = "&eDTM-Jonne";
 				else if (userInput.equals("jonne"))
 					userInput = "&eDTM-Jonne";
 				else if (userInput.equals("admin"))
@@ -54,12 +54,8 @@ public class SetPrefixCommand implements CommandExecutor {
 					GameLogic.updateNameTag(target);
 				}
 
-				if (userInput == null)
-					sender.sendMessage("§bPrefix poistettu.");
-				else {
-					sender.sendMessage("§bPelaajan " + correctName + " §buusi prefix on "
-							+ ChatColor.translateAlternateColorCodes('&', userInput));
-				}
+				sender.sendMessage("§bPelaajan " + correctName + " §buusi prefix on " + ChatColor
+						.translateAlternateColorCodes('&', userInput));
 			}
 
 		}
