@@ -23,7 +23,8 @@ public abstract class AbstractPlayerData {
 	protected Team team;
 	protected int killStreak;
 
-	public AbstractPlayerData(UUID uuid, String lastSeenName, String prefix, int emeralds, String nick, int killStreak) {
+	public AbstractPlayerData(UUID uuid, String lastSeenName, String prefix, int emeralds, String nick,
+			int killStreak) {
 		this.uuid = uuid;
 		this.lastSeenName = lastSeenName;
 		this.prefix = prefix;
@@ -82,6 +83,13 @@ public abstract class AbstractPlayerData {
 			this.prefix = null;
 		else
 			this.prefix = prefix;
+	}
+
+	/**
+	 * @return null if no nick
+	 */
+	public String getRawNick() {
+		return nick;
 	}
 
 	public int getEmeralds() {

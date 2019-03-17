@@ -58,7 +58,7 @@ public interface AbstractDatabaseManager {
 
 	public abstract AbstractStats getTotalStats(String name);
 
-	public abstract void saveSeasonStats(AbstractStats stats, int currentSeason);
+	public abstract void saveSeasonStats(AbstractStats stats);
 
 	public abstract void saveMapSettings(String mapID);
 

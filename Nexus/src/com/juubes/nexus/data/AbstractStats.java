@@ -7,7 +7,7 @@ public abstract class AbstractStats {
 	private final int season;
 	public long playTimeWon;
 	public long playTimeLost;
-	public final int statsID;
+	public int statsID;
 
 	public AbstractStats(int statsID, UUID uuid, int season) {
 		this.statsID = statsID;
