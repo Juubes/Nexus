@@ -14,9 +14,8 @@ public class PauseCommand implements CommandExecutor {
 		}
 
 		GameState gameState = GameLogic.getGameState();
-		if (gameState != GameState.RUNNING && gameState != GameState.COUNTDOWN)
-		{
-			sender.sendMessage("§e");
+		if (gameState == GameState.PAUSED) {
+			sender.sendMessage("§ePeli on jo pysäytetty. Voit aloittaa pelin komennolla /start");
 			return true;
 		}
 

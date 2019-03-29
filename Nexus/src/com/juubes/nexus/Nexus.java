@@ -88,6 +88,10 @@ public class Nexus extends JavaPlugin {
 		return Bukkit.getPluginManager().getPlugin("Nexus");
 	}
 
+	public static InitOptions getInitOptions() {
+		return options;
+	}
+
 	public static boolean ready() {
 		if (Nexus.options.getDatabaseManager() == null) {
 			System.out.println("Setup incomplete: 1");
@@ -141,5 +145,9 @@ public class Nexus extends JavaPlugin {
 
 	public static File getConfigFolder() {
 		return new File("../Nexus");
+	}
+
+	public String getDefaultPrefix() {
+		return options.getDefaultPrefix();
 	}
 }

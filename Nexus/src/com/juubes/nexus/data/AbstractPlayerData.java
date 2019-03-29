@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
+import com.juubes.nexus.Nexus;
 import com.juubes.nexus.logic.GameLogic;
 import com.juubes.nexus.logic.GameState;
 import com.juubes.nexus.logic.Team;
@@ -75,14 +76,17 @@ public abstract class AbstractPlayerData {
 	}
 
 	public String getPrefix() {
+		if (prefix == null)
+			return ((Nexus) Nexus.getPlugin()).getDefaultPrefix();
+		return prefix;
+	}
+
+	public String getRawPrefix() {
 		return prefix;
 	}
 
 	public void setPrefix(String prefix) {
-		if (prefix == null || prefix.equals("null"))
-			this.prefix = null;
-		else
-			this.prefix = prefix;
+		this.prefix = prefix;
 	}
 
 	/**
@@ -119,7 +123,9 @@ public abstract class AbstractPlayerData {
 	}
 
 	public Player getLastDamager() {
-		if (lastDamager != null && !lastDamager.isOnline())
+		if (lastDamager == null)
+			return null;
+		if (!lastDamager.isOnline())
 			return null;
 		return lastDamager;
 	}

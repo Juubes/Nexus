@@ -13,51 +13,50 @@ import com.juubes.nexus.logic.GameLogic;
 public class SetPrefixCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String lbl, String[] args) {
-		if (cmd.getName().equals("setprefix")) {
-			if (!sender.isOp()) {
-				sender.sendMessage("§bVain operaattorit voivat asettaa prefixejä.");
-				return true;
+		if (!sender.isOp()) {
+			sender.sendMessage("§bVain operaattorit voivat asettaa prefixejä.");
+			return true;
+		}
+
+		if (args.length < 2) {
+			sender.sendMessage("§bJotai meni pielee... /setprefix <player> <prefix>");
+			return true;
+		} else {
+			String userInput = args[1];
+			for (int i = 2; i < args.length; i++) {
+				userInput += " " + args[i];
 			}
 
-			if (args.length < 2) {
-				sender.sendMessage("§bJotai meni pielee... /setprefix <player> <prefix>");
+			if (userInput.equals("\"\""))
+				userInput = null;
+			else if (userInput.equals("jonne"))
+				userInput = "&eDTM-Jonne";
+			else if (userInput.equals("admin"))
+				userInput = "&4Adminaattori";
+			else if (userInput.equals("mode"))
+				userInput = "&cModenaattori";
+			else if (userInput.equals("mode"))
+				userInput = "&6Rakennusnaattori";
+
+			Player target = Bukkit.getPlayerExact(args[0]);
+			String correctName;
+
+			if (target == null) {
+				sender.sendMessage("§cPelaaja ei ole servulla.");
 				return true;
 			} else {
-				String userInput = args[1];
-				for (int i = 2; i < args.length; i++) {
-					userInput += " " + args[i];
-				}
+				// Player is on the server
+				AbstractPlayerData data = AbstractPlayerData.get(target);
+				data.setPrefix(userInput);
+				correctName = target.getName();
 
-				if (userInput.equals("\"\""))
-					userInput = "&eDTM-Jonne";
-				else if (userInput.equals("jonne"))
-					userInput = "&eDTM-Jonne";
-				else if (userInput.equals("admin"))
-					userInput = "&4Adminaattori";
-				else if (userInput.equals("mode"))
-					userInput = "&cModenaattori";
-				else if (userInput.equals("mode"))
-					userInput = "&6Rakennusnaattori";
-
-				Player target = Bukkit.getPlayerExact(args[0]);
-				String correctName;
-
-				if (target == null) {
-					sender.sendMessage("§cPelaaja ei ole servulla.");
-					return true;
-				} else {
-					// Player is on the server
-					AbstractPlayerData data = AbstractPlayerData.get(target);
-					data.setPrefix(userInput);
-					correctName = target.getName();
-
-					GameLogic.updateNameTag(target);
-				}
-
-				sender.sendMessage("§bPelaajan " + correctName + " §buusi prefix on " + ChatColor
-						.translateAlternateColorCodes('&', userInput));
+				GameLogic.updateNameTag(target);
 			}
 
+			if (userInput == null)
+				sender.sendMessage("§bPelaajalla " + correctName + " §bei ole enää erityistä prefixiä.");
+			sender.sendMessage("§bPelaajan " + correctName + " §buusi prefix on " + ChatColor
+					.translateAlternateColorCodes('&', userInput));
 		}
 		return true;
 	}

@@ -42,6 +42,7 @@ public class SaveMapCommand implements CommandExecutor {
 			Player p = (Player) sender;
 			// Save the player's map to Nexus maps folder
 			World w = p.getWorld();
+			w.save();
 			File from = w.getWorldFolder();
 			File regionFolder = new File(from, "region");
 
@@ -51,7 +52,7 @@ public class SaveMapCommand implements CommandExecutor {
 				boolean empty = true;
 				emptyLoop: {
 					for (int i = 0; i < 16; i++) {
-						for (int j = 0; j < 16; j++) {
+						for (int j = 0; j < 256; j++) {
 							for (int j2 = 0; j2 < 16; j2++) {
 								Block b = ch.getBlock(i, j, j2);
 								if (b != null && b.getType() != Material.AIR) {

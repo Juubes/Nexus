@@ -9,6 +9,7 @@ public class InitOptions {
 
 	private AbstractDatabaseManager dbManager;
 	private String[] mapIDs;
+	private String defaultPrefix;
 
 	public AbstractDatabaseManager getDatabaseManager() {
 		return this.dbManager;
@@ -24,6 +25,14 @@ public class InitOptions {
 
 	public void setMapIDs(String[] mapIDs) {
 		this.mapIDs = mapIDs;
+	}
+
+	public String getDefaultPrefix() {
+		return defaultPrefix;
+	}
+
+	public void setDefaultPrefix(String str) {
+		this.defaultPrefix = str;
 	}
 
 }

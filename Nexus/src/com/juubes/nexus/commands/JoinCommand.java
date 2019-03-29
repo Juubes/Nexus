@@ -1,5 +1,7 @@
 package com.juubes.nexus.commands;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,6 +12,7 @@ import com.juubes.nexus.data.AbstractPlayerData;
 import com.juubes.nexus.data.PlayerDataHandler;
 import com.juubes.nexus.logic.GameLogic;
 import com.juubes.nexus.logic.GameState;
+import com.juubes.nexus.logic.Team;
 
 public class JoinCommand implements CommandExecutor {
 	@Override
@@ -30,22 +33,63 @@ public class JoinCommand implements CommandExecutor {
 		}
 
 		if (args.length == 0) {
-			// Remove from old team and join to new team
 			AbstractPlayerData data = PlayerDataHandler.get(p);
 			if (data.getTeam() == null)
 				data.setTeam(GameLogic.getCurrentGame().getSmallestTeam());
 			else
 				p.sendMessage("§eOlet jo tiimissä " + data.getTeam().getDisplayName());
 		} else if (args.length == 1) {
-			// Test for valid team
-			if (GameLogic.getCurrentGame().getTeam(args[0]) == null) {
+			if (!p.hasPermission("DTM.teamselect")) {
+				p.sendMessage("§eSinulla ei ole permejä valita tiimiä.");
+				return true;
+			}
+
+			Team team = getTeamWithName(args[0]);
+			if (team == null) {
 				sender.sendMessage("§ePelissä ei ole tiimiä " + args[0].toLowerCase() + ".");
 				return true;
 			}
 
+			AbstractPlayerData pd = AbstractPlayerData.get(p);
+			if (pd.getTeam() == null)
+				pd.setTeam(team);
+			else
+				p.sendMessage("§eOlet jo tiimissä " + pd.getTeam().getDisplayName());
 		} else if (args.length > 1) {
-			// TODO: support for admin joining
+			if (!p.isOp()) {
+				p.sendMessage("§eEt ole operaattori.");
+				return true;
+			}
+
+			Player target = Bukkit.getPlayer(args[0]);
+			if (target == null) {
+				p.sendMessage("§eTämä pelaaja ei ole online.");
+				return true;
+			}
+
+			Team team = getTeamWithName(args[1]);
+			if (team == null) {
+				sender.sendMessage("§ePelissä ei ole tiimiä " + args[1].toLowerCase() + ".");
+				return true;
+			}
+
+			AbstractPlayerData targetPlayerData = AbstractPlayerData.get(target);
+			targetPlayerData.setTeam(team);
+
+			p.sendMessage("§ePelaaja " + target.getDisplayName() + " §elähetetty tiimiin " + team.getDisplayName()
+					+ "§e.");
 		}
 		return true;
+	}
+
+	private Team getTeamWithName(String name) {
+		Team team = GameLogic.getCurrentGame().getTeam(name);
+		if (team != null)
+			return team;
+		for (Team t : GameLogic.getCurrentGame().getTeams()) {
+			if (ChatColor.stripColor(t.getDisplayName()).equalsIgnoreCase(name))
+				return t;
+		}
+		return null;
 	}
 }

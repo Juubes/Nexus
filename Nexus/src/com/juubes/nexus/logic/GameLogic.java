@@ -9,7 +9,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
+import com.juubes.nexus.Nexus;
 import com.juubes.nexus.data.AbstractPlayerData;
+import com.juubes.nexus.data.PlayerDataHandler;
 import com.juubes.nexus.events.StartCountdownEvent;
 
 public class GameLogic {
@@ -38,6 +40,7 @@ public class GameLogic {
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			AbstractPlayerData pd = AbstractPlayerData.get(p);
 			pd.setTeam(null);
+			pd.setLastDamager(null);
 		}
 
 		Bukkit.getPluginManager().callEvent(new StartCountdownEvent(GameWorldManager.getCurrentMapID()));
@@ -61,6 +64,11 @@ public class GameLogic {
 	public static void restartGame() {
 		gameState = GameState.COUNTDOWN;
 		countdownHandler.changeMapCountdown(30);
+		Bukkit.getScheduler().runTaskAsynchronously(Nexus.getPlugin(), () -> {
+			for (AbstractPlayerData pd : PlayerDataHandler.getLoadedData()) {
+				pd.save();
+			}
+		});
 	}
 
 	public static void startGame() {
@@ -98,7 +106,6 @@ public class GameLogic {
 	public static void sendPlayerToGame(Player p, Team team) {
 		AbstractPlayerData pd = AbstractPlayerData.get(p);
 		// Reset properties and teleport to spawn
-		pd.setLastDamager(null);
 		p.setFallDistance(0);
 		p.setMaxHealth(20);
 		p.setHealth(p.getMaxHealth());
