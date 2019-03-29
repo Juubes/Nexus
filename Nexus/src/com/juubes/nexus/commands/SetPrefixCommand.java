@@ -55,8 +55,9 @@ public class SetPrefixCommand implements CommandExecutor {
 
 			if (userInput == null)
 				sender.sendMessage("ßbPelaajalla " + correctName + " ßbei ole en‰‰ erityist‰ prefixi‰.");
-			sender.sendMessage("ßbPelaajan " + correctName + " ßbuusi prefix on " + ChatColor
-					.translateAlternateColorCodes('&', userInput));
+			else
+				sender.sendMessage("ßbPelaajan " + correctName + " ßbuusi prefix on " + ChatColor
+						.translateAlternateColorCodes('&', userInput));
 		}
 		return true;
 	}
