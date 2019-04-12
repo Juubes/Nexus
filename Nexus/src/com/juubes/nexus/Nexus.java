@@ -28,12 +28,12 @@ import com.juubes.nexus.commands.StartCommand;
 import com.juubes.nexus.commands.StatsCommand;
 import com.juubes.nexus.commands.WorldsCommand;
 import com.juubes.nexus.data.AbstractDatabaseManager;
+import com.juubes.nexus.events.AutoJoinMoveListener;
 import com.juubes.nexus.logic.GameLogic;
 import com.juubes.nexus.logic.GameWorldManager;
 import com.juubes.nexus.logic.PauseCommand;
 
 public class Nexus extends JavaPlugin {
-	public static final Integer CURRENT_SEASON = 5;
 	private static InitOptions options;
 
 	@Override
@@ -68,6 +68,8 @@ public class Nexus extends JavaPlugin {
 		getCommand("setteamspawn").setExecutor(new SetTeamSpawnCommand());
 
 		getCommand("savekit").setExecutor(new SaveKitCommand());
+
+		Bukkit.getPluginManager().registerEvents(new AutoJoinMoveListener(), this);
 
 		saveDefaultKitFile();
 	}
@@ -116,8 +118,7 @@ public class Nexus extends JavaPlugin {
 		try {
 			File newConf = new File(getConfigFolder(), "config.yml");
 			if (!newConf.exists())
-				YamlConfiguration.loadConfiguration(new InputStreamReader(getResource(
-						"config.yml"))).save(newConf);
+				YamlConfiguration.loadConfiguration(new InputStreamReader(getResource("config.yml"))).save(newConf);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -127,8 +128,7 @@ public class Nexus extends JavaPlugin {
 		try {
 			File newConf = new File(getConfigFolder(), "kits.yml");
 			if (!newConf.exists())
-				YamlConfiguration.loadConfiguration(new InputStreamReader(getResource("kits.yml")))
-						.save(newConf);
+				YamlConfiguration.loadConfiguration(new InputStreamReader(getResource("kits.yml"))).save(newConf);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -149,5 +149,10 @@ public class Nexus extends JavaPlugin {
 
 	public String getDefaultPrefix() {
 		return options.getDefaultPrefix();
+	}
+
+	public static int getCurrentSeason() {
+		Nexus instance = (Nexus) Bukkit.getPluginManager().getPlugin("Nexus");
+		return instance.getConfig().getInt("current-season");
 	}
 }

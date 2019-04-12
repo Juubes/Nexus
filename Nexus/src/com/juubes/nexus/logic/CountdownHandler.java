@@ -1,8 +1,11 @@
 package com.juubes.nexus.logic;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import com.juubes.nexus.Nexus;
+import com.juubes.nexus.data.AbstractPlayerData;
+import com.juubes.nexus.data.PlayerDataHandler;
 
 public class CountdownHandler {
 	private int startGame = -1;
@@ -13,13 +16,11 @@ public class CountdownHandler {
 			if (Bukkit.getOnlinePlayers().size() == 0)
 				return;
 			if (changeMap > 0) {
-				if (changeMap < 4 || changeMap == 10 || changeMap == 20 || changeMap == 30
-						|| changeMap % 60 == 0)
+				if (changeMap < 4 || changeMap == 10 || changeMap == 20 || changeMap == 30 || changeMap % 60 == 0)
 					Bukkit.broadcastMessage("§eVaihdetaan mappia " + changeMap + " sekunnissa.");
 			}
 			if (startGame > 0) {
-				if (startGame < 4 || startGame == 10 || startGame == 20 || startGame == 30
-						|| startGame % 60 == 0)
+				if (startGame < 4 || startGame == 10 || startGame == 20 || startGame == 30 || startGame % 60 == 0)
 					Bukkit.broadcastMessage("§ePeli alkaa " + startGame + " sekunnissa.");
 			}
 			if (changeMap > 0) {
@@ -42,6 +43,17 @@ public class CountdownHandler {
 				}
 				GameLogic.startGame();
 				startGame = -1;
+			} else if (startGame == 10) {
+				for (Player p : Bukkit.getOnlinePlayers()) {
+					if (p.getWorld() != GameLogic.getCurrentGame().getWorld())
+						continue;
+					AbstractPlayerData pd = PlayerDataHandler.get(p);
+					if (pd.isAutoJoin()) {
+						pd.setTeam(GameLogic.getCurrentGame().getSmallestTeam());
+						p.sendMessage("§eSinut on automaattisesti lisätty tiimiin " + pd.getTeam().getDisplayName()
+								+ "§e, koska liikuit!");
+					}
+				}
 			}
 		}, 0, 20);
 	}

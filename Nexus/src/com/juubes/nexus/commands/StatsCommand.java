@@ -28,7 +28,7 @@ public class StatsCommand implements CommandExecutor {
 		} else {
 			// Print target's stats
 			AbstractStats stats = Nexus.getDatabaseManager().getSeasonStats(args[0],
-					Nexus.CURRENT_SEASON);
+					Nexus.getCurrentSeason());
 			if (stats == null) {
 				sender.sendMessage("§eEi löydetty statseja pelaajalle " + args[0]);
 				return true;

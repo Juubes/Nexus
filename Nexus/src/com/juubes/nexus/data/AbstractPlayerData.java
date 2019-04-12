@@ -23,6 +23,7 @@ public abstract class AbstractPlayerData {
 	protected Player lastDamager, lastMessager;
 	protected Team team;
 	protected int killStreak;
+	protected boolean autoJoin;
 
 	public AbstractPlayerData(UUID uuid, String lastSeenName, String prefix, int emeralds, String nick,
 			int killStreak) {
@@ -32,6 +33,7 @@ public abstract class AbstractPlayerData {
 		this.emeralds = emeralds;
 		this.nick = nick;
 		this.killStreak = killStreak;
+		this.autoJoin = false;
 	}
 
 	public abstract void save();
@@ -154,6 +156,10 @@ public abstract class AbstractPlayerData {
 		return uuid;
 	}
 
+	public void setAutoJoin(boolean b) {
+		this.autoJoin = b;
+	}
+
 	/**
 	 * Gets the cached current season's stats
 	 */
@@ -166,6 +172,10 @@ public abstract class AbstractPlayerData {
 	@Override
 	public String toString() {
 		return "AbstractPlayerData for " + uuid + ", " + lastSeenName;
+	}
+
+	public boolean isAutoJoin() {
+		return autoJoin;
 	}
 
 }

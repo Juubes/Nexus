@@ -83,6 +83,9 @@ public class GameLogic {
 	}
 
 	public static void sendToSpectate(Player p) {
+		if (p.getWorld() != currentGame.getWorld())
+			return;
+
 		AbstractPlayerData pd = AbstractPlayerData.get(p);
 		Location lobby = GameLogic.getCurrentGame().getLobby();
 		if (lobby != null) {
