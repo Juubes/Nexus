@@ -16,17 +16,17 @@ public class Game {
 	private String mapID;
 	private boolean ended;
 
-	public Game(String mapRequest) {
+	public Game(Nexus nexus, String mapRequest) {
 		this.ended = false;
-		this.world = GameWorldManager.loadNextWorld(mapRequest);
+		this.world = nexus.getGameWorldManager().loadNextWorld(mapRequest);
 		this.world.setTime(0);
 
-		this.mapID = GameWorldManager.getCurrentMapID();
+		this.mapID = nexus.getGameWorldManager().getCurrentMapID();
 
-		this.mapDisplayName = Nexus.getDatabaseManager().getMapDisplayName(mapID);
-		this.lobby = Nexus.getDatabaseManager().getLobbyForMap(mapID);
-		this.teams = Nexus.getDatabaseManager().getTeams(mapID);
-		this.kit = Nexus.getDatabaseManager().getKitForGame(mapID).getContents();
+		this.mapDisplayName = nexus.getDatabaseManager().getMapDisplayName(mapID);
+		this.lobby = nexus.getDatabaseManager().getLobbyForMap(mapID);
+		this.teams = nexus.getDatabaseManager().getTeams(mapID);
+		this.kit = nexus.getDatabaseManager().getKitForGame(mapID).getContents();
 
 		this.startTime = System.currentTimeMillis();
 	}

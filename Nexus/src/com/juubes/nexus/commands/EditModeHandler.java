@@ -12,16 +12,21 @@ import org.bukkit.entity.Player;
 import com.juubes.nexus.Nexus;
 
 public class EditModeHandler implements CommandExecutor {
-	public static Set<CommandSender> pendingList = new HashSet<>();
+	private Set<CommandSender> pendingList = new HashSet<>();
+	private final Nexus nexus;
+
+	public EditModeHandler(Nexus nexus) {
+		this.nexus = nexus;
+	}
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String lbl, String[] args) {
 		if (!sender.isOp()) {
-			sender.sendMessage("§eSulla ei ole permejä muokkaustilaan senkin pelle.");
+			sender.sendMessage("ï¿½eSulla ei ole permejï¿½ muokkaustilaan senkin pelle.");
 			return true;
 		}
 		if (!(sender instanceof Player)) {
-			sender.sendMessage("§eEt voi tehdä tätä komentoa.");
+			sender.sendMessage("ï¿½eEt voi tehdï¿½ tï¿½tï¿½ komentoa.");
 			return true;
 		}
 
@@ -29,7 +34,7 @@ public class EditModeHandler implements CommandExecutor {
 		if (args.length > 0) {
 
 			boolean foundMapID = false;
-			for (String map : Nexus.getDatabaseManager().getMaps()) {
+			for (String map : nexus.getDatabaseManager().getMaps()) {
 				if (map.equalsIgnoreCase(args[0])) {
 					foundMapID = true;
 					setEditModeWorld(p, map);
@@ -37,25 +42,29 @@ public class EditModeHandler implements CommandExecutor {
 				}
 			}
 			if (!foundMapID) {
-				sender.sendMessage("§cEi löydetty mappia ID:llä " + args[0]);
+				sender.sendMessage("ï¿½cEi lï¿½ydetty mappia ID:llï¿½ " + args[0]);
 			}
 
 		}
-		sender.sendMessage("§eMuokkaustilasi on maailma " + getEditWorld(p));
-		sender.sendMessage("§eVoit vaihtaa muokkaustilaa komennolla: /editmode <Map ID>");
+		sender.sendMessage("ï¿½eMuokkaustilasi on maailma " + getEditWorld(p));
+		sender.sendMessage("ï¿½eVoit vaihtaa muokkaustilaa komennolla: /editmode <Map ID>");
 		return true;
 	}
 
-	private final static HashMap<Player, String> EDITMODE = new HashMap<>();
+	private final HashMap<Player, String> EDITMODE = new HashMap<>();
 
-	public static String getEditWorld(Player p) {
+	public String getEditWorld(Player p) {
 		if (EDITMODE.get(p) == null)
 			return p.getWorld().getName();
 		else
 			return EDITMODE.get(p);
 	}
 
-	public static void setEditModeWorld(Player p, String mapID) {
+	public void setEditModeWorld(Player p, String mapID) {
 		EDITMODE.put(p, mapID);
+	}
+	
+	public Set<CommandSender> getPendingList() {
+		return pendingList;
 	}
 }

@@ -17,24 +17,30 @@ import com.juubes.nexus.Nexus;
 
 public class SaveMapCommand implements CommandExecutor {
 
+	private final Nexus nexus;
+	
+	public SaveMapCommand(Nexus nexus) {
+		this.nexus = nexus;
+	}
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String lbl, String[] args) {
 		if (!sender.isOp()) {
-			sender.sendMessage("§cMapin voi luoda vain operaattori.");
+			sender.sendMessage("ï¿½cMapin voi luoda vain operaattori.");
 			return true;
 		}
 		if (!(sender instanceof Player)) {
-			sender.sendMessage("§cTän voi suorittaa vain pelaajana.");
+			sender.sendMessage("ï¿½cTï¿½n voi suorittaa vain pelaajana.");
 			return true;
 		}
 
 		if (args.length == 0) {
-			sender.sendMessage("§c/savemap <Map ID>");
+			sender.sendMessage("ï¿½c/savemap <Map ID>");
 
 		} else {
 			// Make sure correct capitalization
 			String mapID = args[0];
-			for (String map : Nexus.getDatabaseManager().getMaps()) {
+			for (String map : nexus.getDatabaseManager().getMaps()) {
 				if (mapID.equalsIgnoreCase(map))
 					mapID = map;
 			}
@@ -69,7 +75,7 @@ public class SaveMapCommand implements CommandExecutor {
 				}
 			}
 
-			File to = new File(Nexus.getConfigFolder(), "maps/" + mapID);
+			File to = new File(nexus.getConfigFolder(), "maps/" + mapID);
 
 			// Remove already existing files and useless playerdata
 			try {
@@ -82,10 +88,10 @@ public class SaveMapCommand implements CommandExecutor {
 				new File(to, "session.lock").delete();
 			} catch (IOException e) {
 				e.printStackTrace();
-				sender.sendMessage("§cJotain meni pieleen: " + e.getMessage());
+				sender.sendMessage("ï¿½cJotain meni pieleen: " + e.getMessage());
 				return true;
 			}
-			sender.sendMessage("§eMappi tallennettu!");
+			sender.sendMessage("ï¿½eMappi tallennettu!");
 		}
 		return true;
 	}

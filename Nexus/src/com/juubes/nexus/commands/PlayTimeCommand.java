@@ -4,19 +4,24 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import com.juubes.nexus.logic.GameLogic;
+import com.juubes.nexus.Nexus;
 
 public class PlayTimeCommand implements CommandExecutor {
+	private final Nexus nexus;
+
+	public PlayTimeCommand(Nexus nexus) {
+		this.nexus = nexus;
+	}
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String lbl, String[] args) {
 		if (args.length == 0) {
-			int minutes = (int) ((System.currentTimeMillis() - GameLogic.getCurrentGame()
+			int minutes = (int) ((System.currentTimeMillis() - nexus.getGameLogic().getCurrentGame()
 					.getStartTime()) / 1000 / 60);
-			sender.sendMessage("§ePelattu " + minutes + " minuuttia");
+			sender.sendMessage("ï¿½ePelattu " + minutes + " minuuttia");
 		} else {
 			if (!sender.isOp()) {
-				sender.sendMessage("§cTämä on liian oopee komento.");
+				sender.sendMessage("ï¿½cTï¿½mï¿½ on liian oopee komento.");
 				return true;
 			}
 
@@ -29,8 +34,8 @@ public class PlayTimeCommand implements CommandExecutor {
 			}
 
 			long newStartTime = (System.currentTimeMillis() - num * 60 * 1000);
-			GameLogic.getCurrentGame().setStartTime(newStartTime);
-			sender.sendMessage("§ePelin uusi aika on " + num + " minuuttia.");
+			nexus.getGameLogic().getCurrentGame().setStartTime(newStartTime);
+			sender.sendMessage("ï¿½ePelin uusi aika on " + num + " minuuttia.");
 		}
 		return true;
 	}

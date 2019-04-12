@@ -4,19 +4,24 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import com.juubes.nexus.logic.GameLogic;
+import com.juubes.nexus.Nexus;
 
 public class StatusCommand implements CommandExecutor {
+	private final Nexus nexus;
+
+	public StatusCommand(Nexus nexus) {
+		this.nexus = nexus;
+	}
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String lbl, String[] args) {
 		if (!sender.isOp()) {
-			sender.sendMessage("§eTsot tsot... tää on ylläpitokomento.");
+			sender.sendMessage("ï¿½eTsot tsot... tï¿½ï¿½ on yllï¿½pitokomento.");
 			return true;
 		}
 
-		sender.sendMessage("§eMapin nimi: §b" + GameLogic.getCurrentGame().getMapDisplayName());
-		sender.sendMessage("§eTiimejä: §b" + GameLogic.getCurrentGame().getTeams().length);
+		sender.sendMessage("ï¿½eMapin nimi: ï¿½b" + nexus.getGameLogic().getCurrentGame().getMapDisplayName());
+		sender.sendMessage("ï¿½eTiimejï¿½: ï¿½b" + nexus.getGameLogic().getCurrentGame().getTeams().length);
 		return true;
 	}
 

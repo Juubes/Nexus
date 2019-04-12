@@ -4,22 +4,30 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
+import com.juubes.nexus.Nexus;
+
 public class PauseCommand implements CommandExecutor {
 
+	private final Nexus nexus;
+	
+	public PauseCommand(Nexus nexus) {
+		this.nexus = nexus;
+	}
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String lbl, String[] args) {
 		if (!sender.isOp()) {
-			sender.sendMessage("§eEt ole operaattori. Hushus.");
+			sender.sendMessage("ï¿½eEt ole operaattori. Hushus.");
 			return true;
 		}
 
-		GameState gameState = GameLogic.getGameState();
+		GameState gameState = nexus.getGameLogic().getGameState();
 		if (gameState == GameState.PAUSED) {
-			sender.sendMessage("§ePeli on jo pysäytetty. Voit aloittaa pelin komennolla /start");
+			sender.sendMessage("ï¿½ePeli on jo pysï¿½ytetty. Voit aloittaa pelin komennolla /start");
 			return true;
 		}
 
-		GameLogic.togglePause();
+		nexus.getGameLogic().togglePause();
 		return true;
 	}
 

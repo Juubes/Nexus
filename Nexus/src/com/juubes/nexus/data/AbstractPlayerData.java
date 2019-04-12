@@ -8,14 +8,14 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 import com.juubes.nexus.Nexus;
-import com.juubes.nexus.logic.GameLogic;
 import com.juubes.nexus.logic.GameState;
 import com.juubes.nexus.logic.Team;
 
 public abstract class AbstractPlayerData {
-
+	protected final Nexus nexus;
 	protected final UUID uuid;
-	protected final HashMap<String, Integer> reviewedMaps = new HashMap<>();
+	protected final HashMap<String, Integer> reviewedMaps;
+
 	protected String lastSeenName;
 	protected String prefix;
 	protected int emeralds;
@@ -25,9 +25,12 @@ public abstract class AbstractPlayerData {
 	protected int killStreak;
 	protected boolean autoJoin;
 
-	public AbstractPlayerData(UUID uuid, String lastSeenName, String prefix, int emeralds, String nick,
+	public AbstractPlayerData(Nexus nexus, UUID uuid, String lastSeenName, String prefix, int emeralds, String nick,
 			int killStreak) {
+		this.nexus = nexus;
 		this.uuid = uuid;
+		this.reviewedMaps = new HashMap<>();
+
 		this.lastSeenName = lastSeenName;
 		this.prefix = prefix;
 		this.emeralds = emeralds;
@@ -44,28 +47,28 @@ public abstract class AbstractPlayerData {
 
 	public void setTeam(Team team) {
 		if (!Bukkit.getPlayer(uuid).isOnline())
-			throw new NullPointerException("Playerdata for " + lastSeenName
-					+ " couldn't be bound to an online player.");
+			throw new NullPointerException(
+					"Playerdata for " + lastSeenName + " couldn't be bound to an online player.");
 
 		Player p = Bukkit.getPlayer(uuid);
 		this.team = team;
 		if (team == null)
-			GameLogic.sendToSpectate(p);
+			nexus.getGameLogic().sendToSpectate(p);
 		else {
-			if (GameLogic.getGameState().equals(GameState.RUNNING))
-				GameLogic.sendPlayerToGame(p, team);
+			if (nexus.getGameLogic().getGameState().equals(GameState.RUNNING))
+				nexus.getGameLogic().sendPlayerToGame(p, team);
 			else {
-				GameLogic.updateNameTag(p);
+				nexus.getGameLogic().updateNameTag(p);
 			}
 		}
 
 		if (team != null) {
-			p.sendMessage("§eOlet nyt tiimissä " + team.getChatColor() + "§l" + team.getDisplayName());
+			p.sendMessage("ï¿½eOlet nyt tiimissï¿½ " + team.getChatColor() + "ï¿½l" + team.getDisplayName());
 		} else {
 			// If Nexus isn't ready, make sure everyone is in GM 3
 			p.setGameMode(GameMode.SPECTATOR);
-			p.teleport(GameLogic.getCurrentGame().getLobby());
-			p.sendMessage("§eOlet nyt spectaaja.");
+			p.teleport(nexus.getGameLogic().getCurrentGame().getLobby());
+			p.sendMessage("ï¿½eOlet nyt spectaaja.");
 		}
 	}
 
@@ -79,7 +82,7 @@ public abstract class AbstractPlayerData {
 
 	public String getPrefix() {
 		if (prefix == null)
-			return ((Nexus) Nexus.getPlugin()).getDefaultPrefix();
+			return ((Nexus) Nexus.getAPI()).getDefaultPrefix();
 		return prefix;
 	}
 
@@ -109,12 +112,12 @@ public abstract class AbstractPlayerData {
 	public String getNick() {
 		if (nick == null) {
 			if (team == null)
-				return "§7" + getLastSeenName();
+				return "ï¿½7" + getLastSeenName();
 			else
 				return team.getChatColor() + getLastSeenName();
 		} else {
 			if (team == null)
-				return "§7" + nick;
+				return "ï¿½7" + nick;
 			else
 				return team.getChatColor() + nick;
 		}
