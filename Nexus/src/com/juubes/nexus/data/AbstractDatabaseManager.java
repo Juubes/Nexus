@@ -49,15 +49,16 @@ public abstract class AbstractDatabaseManager {
 
 	public abstract void savePlayerData(AbstractPlayerData data);
 
+	public abstract UUID getUUIDByLastSeenName(String name);
 	
 	// Stats
 	public abstract AbstractStats getSeasonStats(UUID id, int currentSeason);
 
-	public abstract AbstractStats getTotalStats(UUID id);
+	public abstract AbstractTotalStats getTotalStats(UUID id);
 
 	public abstract AbstractStats getSeasonStats(String name, int currentSeason);
 
-	public abstract AbstractStats getTotalStats(String name);
+	public abstract AbstractTotalStats getTotalStats(String name);
 
 	public abstract void saveSeasonStats(AbstractStats stats);
 
@@ -66,5 +67,6 @@ public abstract class AbstractDatabaseManager {
 	public abstract void setTeamDisplayName(String mapID, String teamID, String displayName);
 
 	public abstract void setTeamColor(String mapID, String teamID, ChatColor color);
+
 
 }
