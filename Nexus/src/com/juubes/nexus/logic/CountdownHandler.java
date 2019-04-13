@@ -8,54 +8,63 @@ import com.juubes.nexus.data.AbstractPlayerData;
 import com.juubes.nexus.data.PlayerDataHandler;
 
 public class CountdownHandler {
+	private final Nexus nexus;
+
 	private int startGame = -1;
 	private int changeMap = 0;
 
-	public CountdownHandler() {
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(Nexus.getPlugin(), () -> {
+	public CountdownHandler(Nexus nexus) {
+		this.nexus = nexus;
+		
+		startScheduling();
+	}
+
+	private void startScheduling() {
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(nexus, () -> {
 			if (Bukkit.getOnlinePlayers().size() == 0)
 				return;
 			if (changeMap > 0) {
 				if (changeMap < 4 || changeMap == 10 || changeMap == 20 || changeMap == 30 || changeMap % 60 == 0)
-					Bukkit.broadcastMessage("§eVaihdetaan mappia " + changeMap + " sekunnissa.");
+					Bukkit.broadcastMessage("ï¿½eVaihdetaan mappia " + changeMap + " sekunnissa.");
 			}
 			if (startGame > 0) {
 				if (startGame < 4 || startGame == 10 || startGame == 20 || startGame == 30 || startGame % 60 == 0)
-					Bukkit.broadcastMessage("§ePeli alkaa " + startGame + " sekunnissa.");
+					Bukkit.broadcastMessage("ï¿½ePeli alkaa " + startGame + " sekunnissa.");
 			}
 			if (changeMap > 0) {
 				changeMap--;
 			} else if (changeMap == 0) {
-				GameLogic.loadNextGame();
-				Bukkit.broadcastMessage("§eLiity peliin komennolla /join");
+				nexus.getGameLogic().loadNextGame();
+				Bukkit.broadcastMessage("ï¿½eLiity peliin komennolla /join");
 				changeMap = -1;
 			}
 
 			if (startGame > 0) {
 				startGame--;
 			} else if (startGame == 0) {
-				for (Team team : GameLogic.getCurrentGame().getTeams()) {
+				for (Team team : nexus.getGameLogic().getCurrentGame().getTeams()) {
 					if (team.getPlayers().size() == 0) {
-						Bukkit.broadcastMessage("§ePelissä ei ole tarpeeksi pelaajia.");
+						Bukkit.broadcastMessage("ï¿½ePelissï¿½ ei ole tarpeeksi pelaajia.");
 						startGame = 30;
 						return;
 					}
 				}
-				GameLogic.startGame();
+				nexus.getGameLogic().startGame();
 				startGame = -1;
 			} else if (startGame == 10) {
 				for (Player p : Bukkit.getOnlinePlayers()) {
-					if (p.getWorld() != GameLogic.getCurrentGame().getWorld())
+					if (p.getWorld() != nexus.getGameLogic().getCurrentGame().getWorld())
 						continue;
 					AbstractPlayerData pd = PlayerDataHandler.get(p);
 					if (pd.isAutoJoin()) {
-						pd.setTeam(GameLogic.getCurrentGame().getSmallestTeam());
-						p.sendMessage("§eSinut on automaattisesti lisätty tiimiin " + pd.getTeam().getDisplayName()
-								+ "§e, koska liikuit!");
+						pd.setTeam(nexus.getGameLogic().getCurrentGame().getSmallestTeam());
+						p.sendMessage("ï¿½eSinut on automaattisesti lisï¿½tty tiimiin " + pd.getTeam().getDisplayName()
+								+ "ï¿½e, koska liikuit!");
 					}
 				}
 			}
 		}, 0, 20);
+			
 	}
 
 	public void startGameCountdown(int seconds) {

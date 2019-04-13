@@ -12,66 +12,72 @@ import com.juubes.nexus.ColorCodes;
 import com.juubes.nexus.Nexus;
 
 public class AddTeamCommand implements CommandExecutor {
+	private final Nexus nexus;
+	
+	public AddTeamCommand(Nexus nexus) {
+		this.nexus = nexus;
+	}
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String lbl, String[] args) {
 		if (!(sender instanceof Player)) {
-			sender.sendMessage("§eTämän voi suorittaa vain pelaajana.");
+			sender.sendMessage("ï¿½eTï¿½mï¿½n voi suorittaa vain pelaajana.");
 			return true;
 		}
 		if (!sender.isOp()) {
-			sender.sendMessage("§cSinulla ei ole permejä.");
+			sender.sendMessage("ï¿½cSinulla ei ole permejï¿½.");
 			return true;
 		}
 
 		Player p = (Player) sender;
-		String mapID = EditModeHandler.getEditWorld(p);
+		String mapID = nexus.getEditModeHandler().getEditWorld(p);
 
-		if (!Nexus.getDatabaseManager().isMapCreated(mapID)) {
-			p.sendMessage("§e" + mapID + " ei ole vielä luotu. /createmap");
+		if (!nexus.getDatabaseManager().isMapCreated(mapID)) {
+			p.sendMessage("ï¿½e" + mapID + " ei ole vielï¿½ luotu. /createmap");
 			return true;
 		}
 
 		if (args.length == 0) {
-			sender.sendMessage("§c/addteam <team ID> <color> <display name...>");
+			sender.sendMessage("ï¿½c/addteam <team ID> <color> <display name...>");
 			return true;
 		}
 
 		String teamID = args[0].toLowerCase();
 		if (args.length == 1) {
-			sender.sendMessage("§c/addteam " + teamID + " <color> <display name...>");
+			sender.sendMessage("ï¿½c/addteam " + teamID + " <color> <display name...>");
 			return true;
 		}
 
 		String color = args[1].toUpperCase();
 		if (args.length == 2) {
-			sender.sendMessage("§c/addteam " + teamID + " " + color + " <display name...>");
+			sender.sendMessage("ï¿½c/addteam " + teamID + " " + color + " <display name...>");
 			return true;
 		}
 
-		for (String dbTeamID : Nexus.getDatabaseManager().getTeamList(mapID)) {
+		for (String dbTeamID : nexus.getDatabaseManager().getTeamList(mapID)) {
 			if (dbTeamID.equals(teamID)) {
-				sender.sendMessage("§eTiimi " + teamID + " on jo luotu.");
+				sender.sendMessage("ï¿½eTiimi " + teamID + " on jo luotu.");
 				return true;
 			}
 		}
 		ChatColor parsedColor = getChatColor(color);
 		if (parsedColor == null) {
-			sender.sendMessage("§eTiimin väri ei kelpaa: " + color + ".");
+			sender.sendMessage("ï¿½eTiimin vï¿½ri ei kelpaa: " + color + ".");
 			return true;
 		}
 
 		String displayName = args[2];
 
-		Set<String> teamIDs = Nexus.getDatabaseManager().getTeamList(mapID);
+		Set<String> teamIDs = nexus.getDatabaseManager().getTeamList(mapID);
 		teamIDs.add(teamID);
-		Nexus.getDatabaseManager().setTeamList(mapID, teamIDs);
-		Nexus.getDatabaseManager().setTeamDisplayName(mapID, teamID, displayName);
-		Nexus.getDatabaseManager().setTeamColor(mapID, teamID, parsedColor);
+		nexus.getDatabaseManager().setTeamList(mapID, teamIDs);
+		nexus.getDatabaseManager().setTeamDisplayName(mapID, teamID, displayName);
+		nexus.getDatabaseManager().setTeamColor(mapID, teamID, parsedColor);
 
-		sender.sendMessage("§eTiimi " + displayName + " tallennettu mappiin " + mapID
+		sender.sendMessage("ï¿½eTiimi " + displayName + " tallennettu mappiin " + mapID
 				+ ". Voit asettaa spawnin /setteamspawn " + teamID + "");
 
-		EditModeHandler.pendingList.add(sender);
+		nexus.getEditModeHandler().getPendingList().add(sender);
 		return true;
 	}
 

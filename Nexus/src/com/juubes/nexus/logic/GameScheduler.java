@@ -12,7 +12,7 @@ public class GameScheduler {
 	public static void start() {
 		if (started)
 			return;
-		Bukkit.getScheduler().runTaskTimer(Nexus.getPlugin(), () -> {
+		Bukkit.getScheduler().runTaskTimer(Nexus.getAPI(), () -> {
 
 			if (startGameCounter > -1) {
 

@@ -7,9 +7,15 @@ public class InitOptions {
 		return dbManager;
 	}
 
-	private AbstractDatabaseManager dbManager;
-	private String[] mapIDs;
-	private String defaultPrefix;
+	private final AbstractDatabaseManager dbManager;
+	private final String[] mapIDs;
+	private final String defaultPrefix;
+
+	public InitOptions(AbstractDatabaseManager dbManager, String[] mapIDs, String defaultPrefix) {
+		this.dbManager = dbManager;
+		this.mapIDs = mapIDs;
+		this.defaultPrefix = defaultPrefix;
+	}
 
 	public AbstractDatabaseManager getDatabaseManager() {
 		return this.dbManager;
@@ -19,20 +25,8 @@ public class InitOptions {
 		return mapIDs;
 	}
 
-	public void setDatabaseManager(AbstractDatabaseManager dbManager) {
-		this.dbManager = dbManager;
-	}
-
-	public void setMapIDs(String[] mapIDs) {
-		this.mapIDs = mapIDs;
-	}
-
 	public String getDefaultPrefix() {
 		return defaultPrefix;
-	}
-
-	public void setDefaultPrefix(String str) {
-		this.defaultPrefix = str;
 	}
 
 }

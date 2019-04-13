@@ -3,12 +3,10 @@ package com.juubes.nexus;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.juubes.nexus.commands.AddTeamCommand;
@@ -34,15 +32,27 @@ import com.juubes.nexus.logic.GameWorldManager;
 import com.juubes.nexus.logic.PauseCommand;
 
 public class Nexus extends JavaPlugin {
-	private static InitOptions options;
+	private final Lang lang;
+	private final GameWorldManager gameWorldManager;
+	private final GameLogic gameLogic;
+	private final EditModeHandler editModeHandler;
+
+	private InitOptions options;
+
+	public Nexus() {
+		this.editModeHandler= new EditModeHandler(this);
+		this.lang = new Lang();
+		this.gameWorldManager = new GameWorldManager(this);
+		this.gameLogic = new GameLogic(this);
+	}
 
 	@Override
 	public void onEnable() {
-		JoinCommand njc = new JoinCommand();
+		JoinCommand njc = new JoinCommand(this);
 		getCommand("join").setExecutor(njc);
 		getCommand("spec").setExecutor(new SpectateCommand());
 
-		PauseCommand nexusCommands = new PauseCommand();
+		PauseCommand nexusCommands = new PauseCommand(this);
 		getCommand("pause").setExecutor(nexusCommands);
 
 		GetposCommand gpcmd = new GetposCommand();
@@ -51,59 +61,59 @@ public class Nexus extends JavaPlugin {
 		getCommand("world").setExecutor(wcmd);
 		getCommand("worlds").setExecutor(wcmd);
 
-		StatsCommand scmd = new StatsCommand();
+		StatsCommand scmd = new StatsCommand(this);
 		getCommand("stats").setExecutor(scmd);
-		getCommand("setprefix").setExecutor(new SetPrefixCommand());
+		getCommand("setprefix").setExecutor(new SetPrefixCommand(this));
 
-		NextmapCommand nmCmd = new NextmapCommand();
+		NextmapCommand nmCmd = new NextmapCommand(this);
 		getCommand("nextmap").setExecutor(nmCmd);
-		getCommand("start").setExecutor(new StartCommand());
-		getCommand("gametime").setExecutor(new PlayTimeCommand());
+		getCommand("start").setExecutor(new StartCommand(this));
+		getCommand("gametime").setExecutor(new PlayTimeCommand(this));
 
-		getCommand("savemap").setExecutor(new SaveMapCommand());
-		getCommand("editmode").setExecutor(new EditModeHandler());
-		getCommand("setlobby").setExecutor(new SetLobbyCommand());
-		getCommand("addteam").setExecutor(new AddTeamCommand());
-		getCommand("removeteam").setExecutor(new RemoveTeamCommand());
-		getCommand("setteamspawn").setExecutor(new SetTeamSpawnCommand());
+		getCommand("savemap").setExecutor(new SaveMapCommand(this));
+		getCommand("editmode").setExecutor(new EditModeHandler(this));
+		getCommand("setlobby").setExecutor(new SetLobbyCommand(this));
+		getCommand("addteam").setExecutor(new AddTeamCommand(this));
+		getCommand("removeteam").setExecutor(new RemoveTeamCommand(this));
+		getCommand("setteamspawn").setExecutor(new SetTeamSpawnCommand(this));
 
-		getCommand("savekit").setExecutor(new SaveKitCommand());
+		getCommand("savekit").setExecutor(new SaveKitCommand(this));
 
 		Bukkit.getPluginManager().registerEvents(new AutoJoinMoveListener(), this);
 
 		saveDefaultKitFile();
 	}
 
-	public static void init(InitOptions options) {
-		Nexus.getPlugin().saveDefaultConfig();
+	public void init(InitOptions options) {
+		this.options = options;
+		this.saveDefaultConfig();
 
-		Nexus.options = options;
-		GameWorldManager.init(Arrays.asList(options.getMapIDs()));
-		GameLogic.init();
+		gameLogic.loadNextGame();
+
 	}
 
-	public static AbstractDatabaseManager getDatabaseManager() {
+	public AbstractDatabaseManager getDatabaseManager() {
 		return options.getDatabaseManager();
 	}
 
-	public static Plugin getPlugin() {
-		return Bukkit.getPluginManager().getPlugin("Nexus");
+	public static Nexus getAPI() {
+		return (Nexus) Bukkit.getPluginManager().getPlugin("Nexus");
 	}
 
-	public static InitOptions getInitOptions() {
+	public InitOptions getInitOptions() {
 		return options;
 	}
 
-	public static boolean ready() {
-		if (Nexus.options.getDatabaseManager() == null) {
+	public boolean isReady() {
+		if (options.getDatabaseManager() == null) {
 			System.out.println("Setup incomplete: 1");
 			return false;
 		}
-		if (Nexus.options.getMapIDs() == null) {
+		if (options.getMapIDs() == null) {
 			System.out.println("Setup incomplete: 2");
 			return false;
 		}
-		if (!GameLogic.isReadyToPlay()) {
+		if (!getGameLogic().isReadyToPlay()) {
 			System.out.println("Setup incomplete: 3");
 			return false;
 		}
@@ -143,7 +153,7 @@ public class Nexus extends JavaPlugin {
 		return nexusConfig;
 	}
 
-	public static File getConfigFolder() {
+	public File getConfigFolder() {
 		return new File("../Nexus");
 	}
 
@@ -151,8 +161,23 @@ public class Nexus extends JavaPlugin {
 		return options.getDefaultPrefix();
 	}
 
-	public static int getCurrentSeason() {
-		Nexus instance = (Nexus) Bukkit.getPluginManager().getPlugin("Nexus");
-		return instance.getConfig().getInt("current-season");
+	public GameLogic getGameLogic() {
+		return gameLogic;
+	}
+
+	public GameWorldManager getGameWorldManager() {
+		return gameWorldManager;
+	}
+
+	public int getCurrentSeason() {
+		return getConfig().getInt("current-season");
+	}
+
+	public Lang getLang() {
+		return lang;
+	}
+
+	public EditModeHandler getEditModeHandler() {
+		return editModeHandler;
 	}
 }

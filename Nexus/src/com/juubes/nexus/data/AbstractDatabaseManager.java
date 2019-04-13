@@ -10,7 +10,7 @@ import org.bukkit.inventory.Inventory;
 
 import com.juubes.nexus.logic.Team;
 
-public interface AbstractDatabaseManager {
+public abstract class AbstractDatabaseManager {
 
 	// Maps
 	public abstract void createMap(String mapID, String displayName, int ticks);

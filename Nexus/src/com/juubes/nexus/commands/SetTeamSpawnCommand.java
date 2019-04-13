@@ -8,39 +8,45 @@ import org.bukkit.entity.Player;
 import com.juubes.nexus.Nexus;
 
 public class SetTeamSpawnCommand implements CommandExecutor {
+	private final Nexus nexus;
+
+	public SetTeamSpawnCommand(Nexus nexus) {
+		this.nexus = nexus;
+	}
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String lbl, String[] args) {
 		if (!sender.isOp()) {
-			sender.sendMessage("§eTämä on supersalainen adminkomento. Hushus.");
+			sender.sendMessage("ï¿½eTï¿½mï¿½ on supersalainen adminkomento. Hushus.");
 			return true;
 		}
 		if (!(sender instanceof Player)) {
-			sender.sendMessage("§eEt voi tehdä tätä komentoa.");
+			sender.sendMessage("ï¿½eEt voi tehdï¿½ tï¿½tï¿½ komentoa.");
 			return true;
 		}
 		Player p = (Player) sender;
 		if (args.length != 1) {
-			sender.sendMessage("§c/setteamspawn <tiimi>");
+			sender.sendMessage("ï¿½c/setteamspawn <tiimi>");
 			return true;
 		}
 
 		String teamID = args[0].toLowerCase();
-		String mapID = EditModeHandler.getEditWorld(p);
+		String mapID = nexus.getEditModeHandler().getEditWorld(p);
 
-		if (!Nexus.getDatabaseManager().isMapCreated(mapID)) {
-			p.sendMessage("§e" + mapID + " ei ole vielä luotu. /createmap");
+		if (!nexus.getDatabaseManager().isMapCreated(mapID)) {
+			p.sendMessage("ï¿½e" + mapID + " ei ole vielï¿½ luotu. /createmap");
 			return true;
 		}
 
-		if (!Nexus.getDatabaseManager().getTeamList(mapID).contains(teamID)) {
-			sender.sendMessage("§eTiimiä " + teamID + " ei ole luotu.");
+		if (!nexus.getDatabaseManager().getTeamList(mapID).contains(teamID)) {
+			sender.sendMessage("ï¿½eTiimiï¿½ " + teamID + " ei ole luotu.");
 			return true;
 		}
 
-		Nexus.getDatabaseManager().saveTeamSpawn(mapID, teamID, p.getLocation());
-		sender.sendMessage("§eTiimin spawni asetettu mappiin " + mapID + ".");
+		nexus.getDatabaseManager().saveTeamSpawn(mapID, teamID, p.getLocation());
+		sender.sendMessage("ï¿½eTiimin spawni asetettu mappiin " + mapID + ".");
 
-		EditModeHandler.pendingList.add(sender);
+		nexus.getEditModeHandler().getPendingList().add(sender);
 
 		return true;
 	}

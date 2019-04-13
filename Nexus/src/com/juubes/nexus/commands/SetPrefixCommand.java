@@ -7,19 +7,25 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.juubes.nexus.Nexus;
 import com.juubes.nexus.data.AbstractPlayerData;
-import com.juubes.nexus.logic.GameLogic;
 
 public class SetPrefixCommand implements CommandExecutor {
+	private final Nexus nexus;
+
+	public SetPrefixCommand(Nexus nexus) {
+		this.nexus = nexus;
+	}
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String lbl, String[] args) {
 		if (!sender.isOp()) {
-			sender.sendMessage("§bVain operaattorit voivat asettaa prefixejä.");
+			sender.sendMessage("ï¿½bVain operaattorit voivat asettaa prefixejï¿½.");
 			return true;
 		}
 
 		if (args.length < 2) {
-			sender.sendMessage("§bJotai meni pielee... /setprefix <player> <prefix>");
+			sender.sendMessage("ï¿½bJotai meni pielee... /setprefix <player> <prefix>");
 			return true;
 		} else {
 			String userInput = args[1];
@@ -42,7 +48,7 @@ public class SetPrefixCommand implements CommandExecutor {
 			String correctName;
 
 			if (target == null) {
-				sender.sendMessage("§cPelaaja ei ole servulla.");
+				sender.sendMessage("ï¿½cPelaaja ei ole servulla.");
 				return true;
 			} else {
 				// Player is on the server
@@ -50,14 +56,14 @@ public class SetPrefixCommand implements CommandExecutor {
 				data.setPrefix(userInput);
 				correctName = target.getName();
 
-				GameLogic.updateNameTag(target);
+				nexus.getGameLogic().updateNameTag(target);
 			}
 
 			if (userInput == null)
-				sender.sendMessage("§bPelaajalla " + correctName + " §bei ole enää erityistä prefixiä.");
+				sender.sendMessage("ï¿½bPelaajalla " + correctName + " ï¿½bei ole enï¿½ï¿½ erityistï¿½ prefixiï¿½.");
 			else
-				sender.sendMessage("§bPelaajan " + correctName + " §buusi prefix on " + ChatColor
-						.translateAlternateColorCodes('&', userInput));
+				sender.sendMessage("ï¿½bPelaajan " + correctName + " ï¿½buusi prefix on "
+						+ ChatColor.translateAlternateColorCodes('&', userInput));
 		}
 		return true;
 	}

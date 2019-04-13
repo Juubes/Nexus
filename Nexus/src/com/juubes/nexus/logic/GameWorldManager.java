@@ -2,8 +2,8 @@ package com.juubes.nexus.logic;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -18,19 +18,22 @@ import com.juubes.nexus.Nexus;
 import com.juubes.nexus.events.PreLoadGameWorldEvent;
 
 public class GameWorldManager {
-	private static List<String> mapsIDs = new LinkedList<>();
-	private static String currentMapID;
+	private final Nexus nexus;
 
-	public static void init(List<String> mapIDs) {
-		GameWorldManager.mapsIDs = mapIDs;
-		Collections.shuffle(mapIDs);
+	private final List<String> mapsIDs;
+	private String currentMapID;
+
+	public GameWorldManager(Nexus nexus) {
+		this.nexus = nexus;
+		this.mapsIDs = Arrays.asList(nexus.getInitOptions().getMapIDs());
+		Collections.shuffle(this.mapsIDs);
 	}
 
-	public static String getCurrentMapID() {
+	public String getCurrentMapID() {
 		return currentMapID;
 	}
 
-	public static World loadNextWorld(String request) {
+	public World loadNextWorld(String request) {
 		String nextMapID;
 		if (request == null)
 			do {
@@ -70,7 +73,7 @@ public class GameWorldManager {
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			if (p.getWorld().equals(Bukkit.getWorlds().get(0)))
 				continue;
-			Location lobby = Nexus.getDatabaseManager().getLobbyForMap(nextMapID);
+			Location lobby = nexus.getDatabaseManager().getLobbyForMap(nextMapID);
 			if (lobby != null)
 				p.teleport(lobby);
 			else
@@ -83,8 +86,7 @@ public class GameWorldManager {
 
 			// Delete the worldfolder so it doens't get messy
 			try {
-				FileUtils.deleteDirectory(new File(Bukkit.getWorldContainer() + "/"
-						+ currentMapID));
+				FileUtils.deleteDirectory(new File(Bukkit.getWorldContainer() + "/" + currentMapID));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

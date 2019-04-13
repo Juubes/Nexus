@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class AbstractTotalStats {
-//	kills, deaths, monuments, wins, losses, winTime, lossTime, biggestKillStreak;
-
 	protected final HashMap<Integer, ? extends AbstractStats> allStats;
 	protected final UUID uuid;
 
@@ -56,9 +54,5 @@ public class AbstractTotalStats {
 
 	public UUID getUUID() {
 		return uuid;
-	}
-
-	public HashMap<Integer, ? extends AbstractStats> getAllStats() {
-		return allStats;
 	}
 }

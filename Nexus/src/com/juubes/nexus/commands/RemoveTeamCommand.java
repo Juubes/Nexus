@@ -10,27 +10,33 @@ import org.bukkit.entity.Player;
 import com.juubes.nexus.Nexus;
 
 public class RemoveTeamCommand implements CommandExecutor {
+	private final Nexus nexus;
+
+	public RemoveTeamCommand(Nexus nexus) {
+		this.nexus = nexus;
+	}
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String lbl, String[] args) {
 		if (!(sender instanceof Player)) {
-			sender.sendMessage("§eTämän voi suorittaa vain pelaajana.");
+			sender.sendMessage("ï¿½eTï¿½mï¿½n voi suorittaa vain pelaajana.");
 			return true;
 		}
 		if (!sender.isOp()) {
-			sender.sendMessage("§cSinulla ei ole permejä.");
+			sender.sendMessage("ï¿½cSinulla ei ole permejï¿½.");
 			return true;
 		}
 
 		Player p = (Player) sender;
-		String mapID = EditModeHandler.getEditWorld(p);
+		String mapID = nexus.getEditModeHandler().getEditWorld(p);
 
 		if (args.length == 0) {
-			sender.sendMessage("§c/removeteam <team ID>");
+			sender.sendMessage("ï¿½c/removeteam <team ID>");
 			return true;
 		}
 
 		String teamID = args[0].toLowerCase();
-		Set<String> teams = Nexus.getDatabaseManager().getTeamList(mapID);
+		Set<String> teams = nexus.getDatabaseManager().getTeamList(mapID);
 		boolean teamExists = false;
 		for (String id2 : teams) {
 			if (id2.equals(teamID)) {
@@ -38,18 +44,18 @@ public class RemoveTeamCommand implements CommandExecutor {
 			}
 		}
 		if (!teamExists) {
-			sender.sendMessage("§eTiimiä " + teamID + " ei ole ladattu.");
-			sender.sendMessage("§eTiimit: ");
-			for (String id : Nexus.getDatabaseManager().getTeamList(mapID)) {
-				sender.sendMessage("§e  " + id);
+			sender.sendMessage("ï¿½eTiimiï¿½ " + teamID + " ei ole ladattu.");
+			sender.sendMessage("ï¿½eTiimit: ");
+			for (String id : nexus.getDatabaseManager().getTeamList(mapID)) {
+				sender.sendMessage("ï¿½e  " + id);
 			}
 			return true;
 		}
 
 		teams.remove(teamID);
 
-		Nexus.getDatabaseManager().setTeamList(mapID, teams);
-		sender.sendMessage("§e" + teamID + " tiimi poistettu.");
+		nexus.getDatabaseManager().setTeamList(mapID, teams);
+		sender.sendMessage("ï¿½e" + teamID + " tiimi poistettu.");
 		return true;
 	}
 }

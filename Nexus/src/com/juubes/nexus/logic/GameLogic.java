@@ -15,25 +15,28 @@ import com.juubes.nexus.data.PlayerDataHandler;
 import com.juubes.nexus.events.StartCountdownEvent;
 
 public class GameLogic {
-	private static Game currentGame;
-	private static GameState gameState = GameState.STOPPED;
-	private static CountdownHandler countdownHandler;
+	private final Nexus nexus;
+	private final CountdownHandler countdownHandler;
 
-	public static void init() {
-		countdownHandler = new CountdownHandler();
-		loadNextGame();
+	private Game currentGame;
+	private GameState gameState = GameState.STOPPED;
+
+	public GameLogic(Nexus nexus) {
+		this.nexus = nexus;
+		this.countdownHandler= new CountdownHandler(nexus);
 	}
 
-	public static Game getCurrentGame() {
+	public Game getCurrentGame() {
 		return currentGame;
 	}
 
-	public static void loadNextGame() {
-		loadNextGame(null);
+	
+	public void loadNextGame() {
+		this.loadNextGame(null);
 	}
 
-	public static void loadNextGame(String request) {
-		currentGame = new Game(request);
+	public void loadNextGame(String request) {
+		currentGame = new Game(nexus, request);
 		countdownHandler.startGameCountdown(20);
 		gameState = GameState.COUNTDOWN;
 
@@ -43,35 +46,35 @@ public class GameLogic {
 			pd.setLastDamager(null);
 		}
 
-		Bukkit.getPluginManager().callEvent(new StartCountdownEvent(GameWorldManager.getCurrentMapID()));
+		Bukkit.getPluginManager().callEvent(new StartCountdownEvent(nexus.getGameWorldManager().getCurrentMapID()));
 		countdownHandler.stopChangeMapCountdown();
 	}
 
-	public static String getCurrentMapID() {
-		return GameWorldManager.getCurrentMapID();
+	public String getCurrentMapID() {
+		return nexus.getGameWorldManager().getCurrentMapID();
 	}
 
-	private static GameState pausedGameState;
+	private GameState pausedGameState;
 
-	public static boolean isPaused() {
+	public boolean isPaused() {
 		return gameState == GameState.PAUSED;
 	}
 
-	public static GameState getGameState() {
+	public GameState getGameState() {
 		return gameState;
 	}
 
-	public static void restartGame() {
+	public void restartGame() {
 		gameState = GameState.COUNTDOWN;
 		countdownHandler.changeMapCountdown(30);
-		Bukkit.getScheduler().runTaskAsynchronously(Nexus.getPlugin(), () -> {
+		Bukkit.getScheduler().runTaskAsynchronously(nexus, () -> {
 			for (AbstractPlayerData pd : PlayerDataHandler.getLoadedData()) {
 				pd.save();
 			}
 		});
 	}
 
-	public static void startGame() {
+	public void startGame() {
 		gameState = GameState.RUNNING;
 
 		for (Player p : Bukkit.getOnlinePlayers()) {
@@ -82,31 +85,31 @@ public class GameLogic {
 		countdownHandler.stopStartGameCountdown();
 	}
 
-	public static void sendToSpectate(Player p) {
+	public void sendToSpectate(Player p) {
 		if (p.getWorld() != currentGame.getWorld())
 			return;
 
 		AbstractPlayerData pd = AbstractPlayerData.get(p);
-		Location lobby = GameLogic.getCurrentGame().getLobby();
+		Location lobby = getCurrentGame().getLobby();
 		if (lobby != null) {
 			p.teleport(lobby);
 		} else {
-			System.err.println("Lobby null for map " + GameLogic.getCurrentGame().getMapDisplayName());
-			p.teleport(new Location(GameLogic.getCurrentGame().getWorld(), 0, 100, 0));
+			System.err.println("Lobby null for map " + getCurrentGame().getMapDisplayName());
+			p.teleport(new Location(getCurrentGame().getWorld(), 0, 100, 0));
 		}
 		p.setGameMode(GameMode.SPECTATOR);
 		p.getInventory().clear();
 
 		// Handle appropriate nametag colours
 		p.setDisplayName(pd.getNick());
-		p.setPlayerListName("§8[" + ChatColor.translateAlternateColorCodes('&', pd.getPrefix()) + "§8] " + pd
-				.getNick());
+		p.setPlayerListName(
+				"ï¿½8[" + ChatColor.translateAlternateColorCodes('&', pd.getPrefix()) + "ï¿½8] " + pd.getNick());
 		p.setCustomName(pd.getNick());
 		p.setCustomNameVisible(false);
 
 	}
 
-	public static void sendPlayerToGame(Player p, Team team) {
+	public void sendPlayerToGame(Player p, Team team) {
 		AbstractPlayerData pd = AbstractPlayerData.get(p);
 		// Reset properties and teleport to spawn
 		p.setFallDistance(0);
@@ -116,13 +119,13 @@ public class GameLogic {
 		p.teleport(team.getSpawn());
 		p.setGameMode(GameMode.SURVIVAL);
 
-		p.getInventory().setContents(GameLogic.getCurrentGame().getKit());
+		p.getInventory().setContents(getCurrentGame().getKit());
 		p.getInventory().setArmorContents(getArmorForTeam(p, pd.getTeam()));
 
 		updateNameTag(p);
 	}
 
-	private static ItemStack[] getArmorForTeam(Player p, Team team) {
+	private ItemStack[] getArmorForTeam(Player p, Team team) {
 		ItemStack[] items = new ItemStack[4];
 
 		ItemStack helmet = new ItemStack(Material.LEATHER_HELMET);
@@ -151,7 +154,7 @@ public class GameLogic {
 		return items;
 	}
 
-	public static boolean isReadyToPlay() {
+	public boolean isReadyToPlay() {
 		if (getCurrentGame() == null) {
 			System.err.println("Current game == null");
 			return false;
@@ -191,8 +194,7 @@ public class GameLogic {
 		return true;
 	}
 
-	public static void togglePause() {
-
+	public void togglePause() {
 		if (gameState != GameState.PAUSED) {
 			pausedGameState = gameState;
 			gameState = GameState.PAUSED;
@@ -204,7 +206,7 @@ public class GameLogic {
 		if (paused) {
 			for (Player p : Bukkit.getOnlinePlayers()) {
 				p.setGameMode(GameMode.SPECTATOR);
-				p.sendMessage("§ePeli on pysäytetty. Kun peli jatkuu, sinut teleportataan spawnille.");
+				p.sendMessage("ï¿½ePeli on pysï¿½ytetty. Kun peli jatkuu, sinut teleportataan spawnille.");
 			}
 		} else {
 			for (Player p : Bukkit.getOnlinePlayers()) {
@@ -212,21 +214,21 @@ public class GameLogic {
 				if (pd.getTeam() != null) {
 					p.teleport(pd.getTeam().getSpawn());
 					p.setGameMode(GameMode.SURVIVAL);
-					p.sendMessage("§ePeli ei ole enää pysäytetty. Teleportattu spawnille.");
+					p.sendMessage("ï¿½ePeli ei ole enï¿½ï¿½ pysï¿½ytetty. Teleportattu spawnille.");
 				}
 			}
 		}
 	}
 
-	public static CountdownHandler getCountdownHandler() {
+	public CountdownHandler getCountdownHandler() {
 		return countdownHandler;
 	}
 
-	public static void updateNameTag(Player p) {
+	public void updateNameTag(Player p) {
 		AbstractPlayerData pd = AbstractPlayerData.get(p);
 		p.setDisplayName(pd.getNick());
-		p.setPlayerListName("§8[" + ChatColor.translateAlternateColorCodes('&', pd.getPrefix()) + "§8] " + pd
-				.getNick());
+		p.setPlayerListName(
+				"ï¿½8[" + ChatColor.translateAlternateColorCodes('&', pd.getPrefix()) + "ï¿½8] " + pd.getNick());
 		p.setCustomName(pd.getNick());
 		p.setCustomNameVisible(true);
 	}

@@ -10,27 +10,32 @@ import com.juubes.nexus.data.AbstractPlayerData;
 import com.juubes.nexus.data.AbstractStats;
 
 public class StatsCommand implements CommandExecutor {
+	private final Nexus nexus;
+
+	public StatsCommand(Nexus nexus) {
+		this.nexus = nexus;
+	}
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String lbl, String[] args) {
 		if (args.length == 0) {
 			// Print own stats
 			if (!(sender instanceof Player)) {
-				sender.sendMessage("§eDude... sä oot konsoli. Ei sul oo statsei.");
-				sender.sendMessage("§b/stats <nimi>");
+				sender.sendMessage("ï¿½eDude... sï¿½ oot konsoli. Ei sul oo statsei.");
+				sender.sendMessage("ï¿½b/stats <nimi>");
 				return true;
 			}
 			Player p = (Player) sender;
 			AbstractPlayerData pd = AbstractPlayerData.get(p);
-			sender.sendMessage("§e§l    Kausi");
+			sender.sendMessage("ï¿½eï¿½l    Kausi");
 			sender.sendMessage(pd.getSeasonStats().toString());
-			sender.sendMessage("§e§l    Yhteensä");
+			sender.sendMessage("ï¿½eï¿½l    Yhteensï¿½");
 			sender.sendMessage(pd.getTotalStats().toString());
 		} else {
 			// Print target's stats
-			AbstractStats stats = Nexus.getDatabaseManager().getSeasonStats(args[0],
-					Nexus.getCurrentSeason());
+			AbstractStats stats = nexus.getDatabaseManager().getSeasonStats(args[0], nexus.getCurrentSeason());
 			if (stats == null) {
-				sender.sendMessage("§eEi löydetty statseja pelaajalle " + args[0]);
+				sender.sendMessage("ï¿½eEi lï¿½ydetty statseja pelaajalle " + args[0]);
 				return true;
 			}
 		}
