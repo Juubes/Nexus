@@ -45,7 +45,6 @@ public class GameLogic {
 			pd.setTeam(null);
 			pd.setLastDamager(null);
 		}
-
 		Bukkit.getPluginManager().callEvent(new StartCountdownEvent(nexus.getGameWorldManager().getCurrentMapID()));
 		countdownHandler.stopChangeMapCountdown();
 	}
