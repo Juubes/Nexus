@@ -49,6 +49,7 @@ public abstract class AbstractDatabaseManager {
 
 	public abstract void savePlayerData(AbstractPlayerData data);
 
+	
 	// Stats
 	public abstract AbstractStats getSeasonStats(UUID id, int currentSeason);
 
