@@ -36,7 +36,7 @@ public class GameLogic {
 	}
 
 	public void loadNextGame(String request) {
-		currentGame = new Game(nexus, request);
+		currentGame = nexus.getGameLoader().loadGame(request);
 		countdownHandler.startGameCountdown(20);
 		gameState = GameState.COUNTDOWN;
 

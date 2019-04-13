@@ -27,6 +27,7 @@ import com.juubes.nexus.commands.StatsCommand;
 import com.juubes.nexus.commands.WorldsCommand;
 import com.juubes.nexus.data.AbstractDatabaseManager;
 import com.juubes.nexus.events.AutoJoinMoveListener;
+import com.juubes.nexus.logic.GameLoader;
 import com.juubes.nexus.logic.GameLogic;
 import com.juubes.nexus.logic.GameWorldManager;
 import com.juubes.nexus.logic.PauseCommand;
@@ -179,5 +180,9 @@ public class Nexus extends JavaPlugin {
 
 	public EditModeHandler getEditModeHandler() {
 		return editModeHandler;
+	}
+
+	public GameLoader getGameLoader() {
+		return options.getGameLoader();
 	}
 }
