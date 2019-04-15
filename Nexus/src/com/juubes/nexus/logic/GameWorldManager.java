@@ -2,8 +2,7 @@ package com.juubes.nexus.logic;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -19,14 +18,13 @@ import com.juubes.nexus.events.PreLoadGameWorldEvent;
 
 public class GameWorldManager {
 	private final Nexus nexus;
-
-	private final List<String> mapsIDs;
+	private final List<String> mapIDs;
+	
 	private String currentMapID;
 
 	public GameWorldManager(Nexus nexus) {
 		this.nexus = nexus;
-		this.mapsIDs = Arrays.asList(nexus.getInitOptions().getMapIDs());
-		Collections.shuffle(this.mapsIDs);
+		this.mapIDs = new ArrayList<String>();
 	}
 
 	public String getCurrentMapID() {
@@ -37,7 +35,7 @@ public class GameWorldManager {
 		String nextMapID;
 		if (request == null)
 			do {
-				nextMapID = mapsIDs.get((int) (Math.random() * mapsIDs.size()));
+				nextMapID = mapIDs.get((int) (Math.random() * mapIDs.size()));
 			} while (nextMapID.equals(currentMapID));
 		else
 			nextMapID = request;

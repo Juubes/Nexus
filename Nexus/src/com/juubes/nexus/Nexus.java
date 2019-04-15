@@ -49,6 +49,8 @@ public class Nexus extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
+		this.saveDefaultConfig();
+
 		JoinCommand njc = new JoinCommand(this);
 		getCommand("join").setExecutor(njc);
 		getCommand("spec").setExecutor(new SpectateCommand());
@@ -83,14 +85,16 @@ public class Nexus extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new AutoJoinMoveListener(), this);
 
 		saveDefaultKitFile();
+		
+		gameLogic.getCountdownHandler().startScheduling();
 	}
 
 	public void init(InitOptions options) {
 		this.options = options;
-		this.saveDefaultConfig();
 
-		gameLogic.loadNextGame();
-
+		
+		
+//		gameLogic.loadNextGame();
 	}
 
 	public AbstractDatabaseManager getDatabaseManager() {

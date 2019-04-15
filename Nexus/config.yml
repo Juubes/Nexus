@@ -1,9 +1,4 @@
 current-season: 1
-mysql:
-  server: localhost
-  database: Nexus
-  user: user
-  password: password
 maps:
-- HK1
-- HK2
+- map1
+- map2

@@ -15,11 +15,10 @@ public class CountdownHandler {
 
 	public CountdownHandler(Nexus nexus) {
 		this.nexus = nexus;
-		
-		startScheduling();
 	}
 
-	private void startScheduling() {
+	
+	public void startScheduling() {
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(nexus, () -> {
 			if (Bukkit.getOnlinePlayers().size() == 0)
 				return;
