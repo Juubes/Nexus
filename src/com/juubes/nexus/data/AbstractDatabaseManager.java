@@ -1,5 +1,6 @@
 package com.juubes.nexus.data;
 
+import java.util.LinkedList;
 import java.util.Set;
 import java.util.UUID;
 
@@ -50,7 +51,7 @@ public abstract class AbstractDatabaseManager {
 	public abstract void savePlayerData(AbstractPlayerData data);
 
 	public abstract UUID getUUIDByLastSeenName(String name);
-	
+
 	// Stats
 	public abstract AbstractSeasonStats getSeasonStats(UUID id, int currentSeason);
 
@@ -68,5 +69,9 @@ public abstract class AbstractDatabaseManager {
 
 	public abstract void setTeamColor(String mapID, String teamID, ChatColor color);
 
+	// Leaderboard
+	public abstract LinkedList<? extends AbstractSeasonStats> getLeaderboard(int count, int season);
+
+	public abstract LinkedList<? extends AbstractTotalStats> getAlltimeLeaderboard(int count);
 
 }
