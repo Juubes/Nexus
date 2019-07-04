@@ -166,11 +166,11 @@ public abstract class AbstractPlayerData {
 	/**
 	 * Gets the cached current season's stats
 	 */
-	public abstract AbstractStats getSeasonStats();
+	public abstract AbstractSeasonStats getSeasonStats();
 
-	public abstract AbstractStats getSeasonStats(int season);
+	public abstract AbstractSeasonStats getSeasonStats(int season);
 
-	public abstract AbstractStats getTotalStats();
+	public abstract AbstractSeasonStats getTotalStats();
 
 	@Override
 	public String toString() {

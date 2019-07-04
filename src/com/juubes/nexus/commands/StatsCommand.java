@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 
 import com.juubes.nexus.Nexus;
 import com.juubes.nexus.data.AbstractPlayerData;
-import com.juubes.nexus.data.AbstractStats;
+import com.juubes.nexus.data.AbstractSeasonStats;
 
 public class StatsCommand implements CommandExecutor {
 	private final Nexus nexus;
@@ -33,7 +33,7 @@ public class StatsCommand implements CommandExecutor {
 			sender.sendMessage(pd.getTotalStats().toString());
 		} else {
 			// Print target's stats
-			AbstractStats stats = nexus.getDatabaseManager().getSeasonStats(args[0], nexus.getCurrentSeason());
+			AbstractSeasonStats stats = nexus.getDatabaseManager().getSeasonStats(args[0], nexus.getCurrentSeason());
 			if (stats == null) {
 				sender.sendMessage("�eEi l�ydetty statseja pelaajalle " + args[0]);
 				return true;

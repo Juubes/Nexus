@@ -2,7 +2,7 @@ package com.juubes.nexus.data;
 
 import java.util.UUID;
 
-public abstract class AbstractStats {
+public abstract class AbstractSeasonStats {
 	private final UUID uuid;
 	private final int season;
 	public long playTimeWon;
@@ -10,7 +10,7 @@ public abstract class AbstractStats {
 	public int statsID;
 	public int kills, deaths, wins, losses, biggestKillStreak;
 
-	public AbstractStats(int statsID, UUID uuid, int season) {
+	public AbstractSeasonStats(int statsID, UUID uuid, int season) {
 		this.statsID = statsID;
 		this.season = season;
 		this.uuid = uuid;

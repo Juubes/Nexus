@@ -52,15 +52,15 @@ public abstract class AbstractDatabaseManager {
 	public abstract UUID getUUIDByLastSeenName(String name);
 	
 	// Stats
-	public abstract AbstractStats getSeasonStats(UUID id, int currentSeason);
+	public abstract AbstractSeasonStats getSeasonStats(UUID id, int currentSeason);
 
 	public abstract AbstractTotalStats getTotalStats(UUID id);
 
-	public abstract AbstractStats getSeasonStats(String name, int currentSeason);
+	public abstract AbstractSeasonStats getSeasonStats(String name, int currentSeason);
 
 	public abstract AbstractTotalStats getTotalStats(String name);
 
-	public abstract void saveSeasonStats(AbstractStats stats);
+	public abstract void saveSeasonStats(AbstractSeasonStats stats);
 
 	public abstract void saveMapSettings(String mapID);
 
