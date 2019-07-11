@@ -53,6 +53,22 @@ public class AbstractTotalStats {
 		return sum;
 	}
 
+	public long getPlayTimeWon() {
+		int sum = 0;
+		for (AbstractSeasonStats stats : allStats.values()) {
+			sum += stats.playTimeWon;
+		}
+		return sum;
+	}
+
+	public long getPlayTimeLost() {
+		int sum = 0;
+		for (AbstractSeasonStats stats : allStats.values()) {
+			sum += stats.playTimeLost;
+		}
+		return sum;
+	}
+
 	public double getKDRatio() {
 		NumberFormat f = NumberFormat.getInstance();
 		f.setMaximumFractionDigits(2);
@@ -70,4 +86,5 @@ public class AbstractTotalStats {
 	public UUID getUUID() {
 		return uuid;
 	}
+
 }
