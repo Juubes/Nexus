@@ -53,7 +53,7 @@ public abstract class AbstractDatabaseManager {
 
 	public abstract UUID getUUIDByLastSeenName(String name);
 
-	public abstract HashMap<UUID, AbstractPlayerData> getAllPlayerData();
+	public abstract HashMap<UUID, ? extends AbstractPlayerData> getAllPlayerData();
 
 	// Stats
 	public abstract AbstractSeasonStats getSeasonStats(String name, int season);
