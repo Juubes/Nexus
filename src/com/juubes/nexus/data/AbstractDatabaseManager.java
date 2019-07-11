@@ -1,5 +1,6 @@
 package com.juubes.nexus.data;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.UUID;
@@ -52,14 +53,16 @@ public abstract class AbstractDatabaseManager {
 
 	public abstract UUID getUUIDByLastSeenName(String name);
 
+	public abstract HashMap<UUID, AbstractPlayerData> getAllPlayerData();
+
 	// Stats
-	public abstract AbstractSeasonStats getSeasonStats(UUID id, int currentSeason);
+	public abstract AbstractSeasonStats getSeasonStats(String name, int season);
 
-	public abstract AbstractTotalStats getTotalStats(UUID id);
-
-	public abstract AbstractSeasonStats getSeasonStats(String name, int currentSeason);
+	public abstract AbstractSeasonStats getSeasonStats(UUID id, int season);
 
 	public abstract AbstractTotalStats getTotalStats(String name);
+
+	public abstract AbstractTotalStats getTotalStats(UUID id);
 
 	public abstract void saveSeasonStats(AbstractSeasonStats stats);
 

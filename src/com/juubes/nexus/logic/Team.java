@@ -9,9 +9,12 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import com.juubes.nexus.data.AbstractPlayerData;
+import com.google.common.base.Preconditions;
+import com.juubes.nexus.Nexus;
 
 public class Team {
+	private final Nexus nexus;
+
 	private ChatColor teamColor;
 	private String displayName;
 	private Location spawn;
@@ -27,18 +30,16 @@ public class Team {
 	 *            give the color
 	 *
 	 */
-	public Team(String ID, ChatColor teamColor, String displayName, Location spawn) {
-		if (ID == null || teamColor == null || displayName == null)
-			throw new NullPointerException(ID + "  " + teamColor + "  " + displayName);
-
-		this.ID = ID;
-		this.teamColor = teamColor;
-		this.displayName = displayName;
+	public Team(Nexus nexus, String ID, ChatColor teamColor, String displayName, Location spawn) {
+		this.nexus = nexus;
+		this.ID = Preconditions.checkNotNull(ID);
+		this.teamColor = Preconditions.checkNotNull(teamColor);
+		this.displayName = Preconditions.checkNotNull(displayName);
 		this.spawn = spawn;
 	}
 
 	public String getDisplayName() {
-		return teamColor + "§l" + displayName;
+		return teamColor.toString() + ChatColor.BOLD + displayName;
 	}
 
 	public ChatColor getChatColor() {
@@ -48,7 +49,7 @@ public class Team {
 	public List<Player> getPlayers() {
 		List<Player> players = new ArrayList<>();
 		for (Player player : Bukkit.getOnlinePlayers()) {
-			if (AbstractPlayerData.get(player).getTeam() == this)
+			if (nexus.getDatabaseManager().getPlayerData(player).getTeam() == this)
 				players.add(player);
 		}
 		return players;
@@ -64,7 +65,7 @@ public class Team {
 
 	@Override
 	public String toString() {
-		return this.getDisplayName() + "§r";
+		return this.getDisplayName() + "ï¿½r";
 	}
 
 	public Color getLeatherColor() {

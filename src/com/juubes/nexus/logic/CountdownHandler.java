@@ -5,7 +5,6 @@ import org.bukkit.entity.Player;
 
 import com.juubes.nexus.Nexus;
 import com.juubes.nexus.data.AbstractPlayerData;
-import com.juubes.nexus.data.PlayerDataHandler;
 
 public class CountdownHandler {
 	private final Nexus nexus;
@@ -17,7 +16,7 @@ public class CountdownHandler {
 		this.nexus = nexus;
 	}
 
-	
+
 	public void startScheduling() {
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(nexus, () -> {
 			if (Bukkit.getOnlinePlayers().size() == 0)
@@ -54,7 +53,7 @@ public class CountdownHandler {
 				for (Player p : Bukkit.getOnlinePlayers()) {
 					if (p.getWorld() != nexus.getGameLogic().getCurrentGame().getWorld())
 						continue;
-					AbstractPlayerData pd = PlayerDataHandler.get(p);
+					AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p);
 					if (pd.isAutoJoin()) {
 						pd.setTeam(nexus.getGameLogic().getCurrentGame().getSmallestTeam());
 						p.sendMessage("�eSinut on automaattisesti lis�tty tiimiin " + pd.getTeam().getDisplayName()
@@ -63,7 +62,7 @@ public class CountdownHandler {
 				}
 			}
 		}, 0, 20);
-			
+
 	}
 
 	public void startGameCountdown(int seconds) {

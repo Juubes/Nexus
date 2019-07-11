@@ -41,7 +41,7 @@ public class Nexus extends JavaPlugin {
 	private InitOptions options;
 
 	public Nexus() {
-		this.editModeHandler= new EditModeHandler(this);
+		this.editModeHandler = new EditModeHandler(this);
 		this.lang = new Lang();
 		this.gameWorldManager = new GameWorldManager(this);
 		this.gameLogic = new GameLogic(this);
@@ -50,10 +50,11 @@ public class Nexus extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		this.saveDefaultConfig();
+		this.makeDefaultFolders();
 
 		JoinCommand njc = new JoinCommand(this);
 		getCommand("join").setExecutor(njc);
-		getCommand("spec").setExecutor(new SpectateCommand());
+		getCommand("spec").setExecutor(new SpectateCommand(this));
 
 		PauseCommand nexusCommands = new PauseCommand(this);
 		getCommand("pause").setExecutor(nexusCommands);
@@ -82,19 +83,21 @@ public class Nexus extends JavaPlugin {
 
 		getCommand("savekit").setExecutor(new SaveKitCommand(this));
 
-		Bukkit.getPluginManager().registerEvents(new AutoJoinMoveListener(), this);
+		Bukkit.getPluginManager().registerEvents(new AutoJoinMoveListener(this), this);
 
 		saveDefaultKitFile();
-		
+
 		gameLogic.getCountdownHandler().startScheduling();
+	}
+
+	private void makeDefaultFolders() {
+		new File(this.getConfigFolder(), "maps").mkdirs();
+		new File(this.getConfigFolder(), "settings").mkdirs();
 	}
 
 	public void init(InitOptions options) {
 		this.options = options;
-
-		
-		
-//		gameLogic.loadNextGame();
+		gameLogic.loadNextGame();
 	}
 
 	public AbstractDatabaseManager getDatabaseManager() {

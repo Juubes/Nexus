@@ -52,7 +52,7 @@ public class SetPrefixCommand implements CommandExecutor {
 				return true;
 			} else {
 				// Player is on the server
-				AbstractPlayerData data = AbstractPlayerData.get(target);
+				AbstractPlayerData data = nexus.getDatabaseManager().getPlayerData(target);
 				data.setPrefix(userInput);
 				correctName = target.getName();
 

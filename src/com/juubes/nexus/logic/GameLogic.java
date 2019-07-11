@@ -11,7 +11,6 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import com.juubes.nexus.Nexus;
 import com.juubes.nexus.data.AbstractPlayerData;
-import com.juubes.nexus.data.PlayerDataHandler;
 import com.juubes.nexus.events.StartCountdownEvent;
 
 public class GameLogic {
@@ -23,14 +22,13 @@ public class GameLogic {
 
 	public GameLogic(Nexus nexus) {
 		this.nexus = nexus;
-		this.countdownHandler= new CountdownHandler(nexus);
+		this.countdownHandler = new CountdownHandler(nexus);
 	}
 
 	public Game getCurrentGame() {
 		return currentGame;
 	}
 
-	
 	public void loadNextGame() {
 		this.loadNextGame(null);
 	}
@@ -41,7 +39,7 @@ public class GameLogic {
 		gameState = GameState.COUNTDOWN;
 
 		for (Player p : Bukkit.getOnlinePlayers()) {
-			AbstractPlayerData pd = AbstractPlayerData.get(p);
+			AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p);
 			pd.setTeam(null);
 			pd.setLastDamager(null);
 		}
@@ -67,7 +65,7 @@ public class GameLogic {
 		gameState = GameState.COUNTDOWN;
 		countdownHandler.changeMapCountdown(30);
 		Bukkit.getScheduler().runTaskAsynchronously(nexus, () -> {
-			for (AbstractPlayerData pd : PlayerDataHandler.getLoadedData()) {
+			for (AbstractPlayerData pd : nexus.getDatabaseManager().getAllPlayerData().values()) {
 				pd.save();
 			}
 		});
@@ -77,7 +75,7 @@ public class GameLogic {
 		gameState = GameState.RUNNING;
 
 		for (Player p : Bukkit.getOnlinePlayers()) {
-			AbstractPlayerData pd = AbstractPlayerData.get(p);
+			AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p);
 			if (pd.getTeam() != null && p.getWorld().equals(getCurrentGame().getWorld()))
 				sendPlayerToGame(p, pd.getTeam());
 		}
@@ -88,7 +86,7 @@ public class GameLogic {
 		if (p.getWorld() != currentGame.getWorld())
 			return;
 
-		AbstractPlayerData pd = AbstractPlayerData.get(p);
+		AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p);
 		Location lobby = getCurrentGame().getLobby();
 		if (lobby != null) {
 			p.teleport(lobby);
@@ -101,15 +99,15 @@ public class GameLogic {
 
 		// Handle appropriate nametag colours
 		p.setDisplayName(pd.getNick());
-		p.setPlayerListName(
-				"�8[" + ChatColor.translateAlternateColorCodes('&', pd.getPrefix()) + "�8] " + pd.getNick());
+		p.setPlayerListName("�8[" + ChatColor.translateAlternateColorCodes('&', pd.getPrefix()) + "�8] " + pd
+				.getNick());
 		p.setCustomName(pd.getNick());
 		p.setCustomNameVisible(false);
 
 	}
 
 	public void sendPlayerToGame(Player p, Team team) {
-		AbstractPlayerData pd = AbstractPlayerData.get(p);
+		AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p);
 		// Reset properties and teleport to spawn
 		p.setFallDistance(0);
 		p.setMaxHealth(20);
@@ -209,7 +207,7 @@ public class GameLogic {
 			}
 		} else {
 			for (Player p : Bukkit.getOnlinePlayers()) {
-				AbstractPlayerData pd = AbstractPlayerData.get(p);
+				AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p);
 				if (pd.getTeam() != null) {
 					p.teleport(pd.getTeam().getSpawn());
 					p.setGameMode(GameMode.SURVIVAL);
@@ -224,10 +222,10 @@ public class GameLogic {
 	}
 
 	public void updateNameTag(Player p) {
-		AbstractPlayerData pd = AbstractPlayerData.get(p);
+		AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p);
 		p.setDisplayName(pd.getNick());
-		p.setPlayerListName(
-				"�8[" + ChatColor.translateAlternateColorCodes('&', pd.getPrefix()) + "�8] " + pd.getNick());
+		p.setPlayerListName("�8[" + ChatColor.translateAlternateColorCodes('&', pd.getPrefix()) + "�8] " + pd
+				.getNick());
 		p.setCustomName(pd.getNick());
 		p.setCustomNameVisible(true);
 	}

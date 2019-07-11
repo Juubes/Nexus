@@ -47,8 +47,8 @@ public abstract class AbstractPlayerData {
 
 	public void setTeam(Team team) {
 		if (!Bukkit.getPlayer(uuid).isOnline())
-			throw new NullPointerException(
-					"Playerdata for " + lastSeenName + " couldn't be bound to an online player.");
+			throw new NullPointerException("Playerdata for " + lastSeenName
+					+ " couldn't be bound to an online player.");
 
 		Player p = Bukkit.getPlayer(uuid);
 		this.team = team;
@@ -72,17 +72,13 @@ public abstract class AbstractPlayerData {
 		}
 	}
 
-	public static AbstractPlayerData get(Player p) {
-		return PlayerDataHandler.get(p);
-	}
-
 	public String getLastSeenName() {
 		return lastSeenName;
 	}
 
 	public String getPrefix() {
 		if (prefix == null)
-			return ((Nexus) Nexus.getAPI()).getDefaultPrefix();
+			return Nexus.getAPI().getDefaultPrefix();
 		return prefix;
 	}
 
@@ -170,7 +166,7 @@ public abstract class AbstractPlayerData {
 
 	public abstract AbstractSeasonStats getSeasonStats(int season);
 
-	public abstract AbstractSeasonStats getTotalStats();
+	public abstract AbstractTotalStats getTotalStats();
 
 	@Override
 	public String toString() {
@@ -180,5 +176,4 @@ public abstract class AbstractPlayerData {
 	public boolean isAutoJoin() {
 		return autoJoin;
 	}
-
 }

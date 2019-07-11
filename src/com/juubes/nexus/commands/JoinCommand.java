@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 
 import com.juubes.nexus.Nexus;
 import com.juubes.nexus.data.AbstractPlayerData;
-import com.juubes.nexus.data.PlayerDataHandler;
 import com.juubes.nexus.logic.GameState;
 import com.juubes.nexus.logic.Team;
 
@@ -38,7 +37,7 @@ public class JoinCommand implements CommandExecutor {
 		}
 
 		if (args.length == 0) {
-			AbstractPlayerData data = PlayerDataHandler.get(p);
+			AbstractPlayerData data = nexus.getDatabaseManager().getPlayerData(p);
 			if (data.getTeam() == null)
 				data.setTeam(nexus.getGameLogic().getCurrentGame().getSmallestTeam());
 			else
@@ -55,7 +54,7 @@ public class JoinCommand implements CommandExecutor {
 				return true;
 			}
 
-			AbstractPlayerData pd = AbstractPlayerData.get(p);
+			AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p);
 			if (pd.getTeam() == null)
 				pd.setTeam(team);
 			else
@@ -78,11 +77,11 @@ public class JoinCommand implements CommandExecutor {
 				return true;
 			}
 
-			AbstractPlayerData targetPlayerData = AbstractPlayerData.get(target);
+			AbstractPlayerData targetPlayerData = nexus.getDatabaseManager().getPlayerData(p);
 			targetPlayerData.setTeam(team);
 
-			p.sendMessage(
-					"�ePelaaja " + target.getDisplayName() + " �el�hetetty tiimiin " + team.getDisplayName() + "�e.");
+			p.sendMessage("�ePelaaja " + target.getDisplayName() + " �el�hetetty tiimiin " + team.getDisplayName()
+					+ "�e.");
 		}
 		return true;
 	}

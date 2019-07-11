@@ -1,5 +1,6 @@
 package com.juubes.nexus.data;
 
+import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -23,7 +24,7 @@ public class AbstractTotalStats {
 	public int getBiggestKillStreak() {
 		int biggest = 0;
 		for (AbstractSeasonStats stats : allStats.values()) {
-			biggest = Math.max(biggest, stats.biggestKillStreak);
+			biggest = Math.max(biggest, stats.longestKillStreak);
 		}
 		return biggest;
 	}
@@ -50,6 +51,20 @@ public class AbstractTotalStats {
 			sum += stats.losses;
 		}
 		return sum;
+	}
+
+	public double getKDRatio() {
+		NumberFormat f = NumberFormat.getInstance();
+		f.setMaximumFractionDigits(2);
+		f.setMinimumFractionDigits(2);
+
+		int kills = this.getKills();
+		int deaths = this.getDeaths();
+
+		String KD = f.format((double) kills / (double) deaths);
+		if (kills < 1 || deaths < 1)
+			KD = "0.00";
+		return Double.parseDouble(KD);
 	}
 
 	public UUID getUUID() {

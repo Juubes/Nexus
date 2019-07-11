@@ -3,6 +3,7 @@ package com.juubes.nexus.logic;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -19,12 +20,12 @@ import com.juubes.nexus.events.PreLoadGameWorldEvent;
 public class GameWorldManager {
 	private final Nexus nexus;
 	private final List<String> mapIDs;
-	
+
 	private String currentMapID;
 
 	public GameWorldManager(Nexus nexus) {
 		this.nexus = nexus;
-		this.mapIDs = new ArrayList<String>();
+		this.mapIDs = new ArrayList<>();
 	}
 
 	public String getCurrentMapID() {
@@ -32,6 +33,9 @@ public class GameWorldManager {
 	}
 
 	public World loadNextWorld(String request) {
+		mapIDs.clear();
+		mapIDs.addAll(Arrays.asList(nexus.getInitOptions().getMapIDs()));
+
 		String nextMapID;
 		if (request == null)
 			do {
@@ -43,7 +47,7 @@ public class GameWorldManager {
 		// First delete and replace with a generated world, then load it
 		System.out.println("Next map ID: " + nextMapID);
 		File worldAtContainer = new File(Bukkit.getWorldContainer(), nextMapID);
-		File backupWorld = new File("../Nexus/maps/" + nextMapID);
+		File backupWorld = new File(nexus.getConfigFolder(), "maps/" + nextMapID);
 
 		try {
 			FileUtils.deleteDirectory(worldAtContainer);
