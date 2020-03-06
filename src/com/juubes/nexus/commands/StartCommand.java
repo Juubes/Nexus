@@ -17,12 +17,12 @@ public class StartCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String lbl, String[] args) {
 		if (!sender.isOp()) {
-			sender.sendMessage("�cEi permej�.");
+			sender.sendMessage("§cEi permejä.");
 			return true;
 		}
 
 		if (nexus.getGameLogic().getGameState() == GameState.RUNNING) {
-			sender.sendMessage("�ePeli on jo k�ynniss�.");
+			sender.sendMessage("§ePeli on jo käynnissä.");
 			return true;
 		}
 
@@ -38,7 +38,7 @@ public class StartCommand implements CommandExecutor {
 			return true;
 		}
 
-		sender.sendMessage("�ePeli on pys�ytetty kokonaan. /dtm status");
+		sender.sendMessage("§ePeli on pysäytetty kokonaan. /dtm status");
 		return true;
 	}
 }

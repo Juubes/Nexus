@@ -18,22 +18,22 @@ public class SetLobbyCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String lbl, String[] args) {
 		if (!sender.isOp()) {
-			sender.sendMessage("�eT�m� on supersalainen adminkomento. Hushus.");
+			sender.sendMessage("§eTämä on supersalainen adminkomento. Hushus.");
 			return true;
 		}
 		if (!(sender instanceof Player)) {
-			sender.sendMessage("�eEt voi tehd� t�t� komentoa.");
+			sender.sendMessage("§eEt voi tehdä tätä komentoa.");
 			return true;
 		}
 
 		Player p = (Player) sender;
 		String editWorld = nexus.getEditModeHandler().getEditWorld(p);
 		if (!nexus.getDatabaseManager().isMapCreated(editWorld)) {
-			p.sendMessage("�e" + editWorld + " ei ole viel� luotu. /createmap");
+			p.sendMessage("§e" + editWorld + " ei ole vielä luotu. /createmap");
 			return true;
 		}
 		nexus.getDatabaseManager().saveLobbyForMap(editWorld, p.getLocation());
-		sender.sendMessage("�eLobby tallennettu mappiin " + editWorld + ".");
+		sender.sendMessage("§eLobby tallennettu mappiin " + editWorld + ".");
 		nexus.getEditModeHandler().getPendingList().add(sender);
 		return true;
 	}

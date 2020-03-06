@@ -9,6 +9,8 @@ import com.juubes.nexus.Nexus;
 import com.juubes.nexus.data.AbstractPlayerData;
 import com.juubes.nexus.data.AbstractSeasonStats;
 
+import static com.sun.tools.javac.jvm.ByteCodes.pop;
+
 public class StatsCommand implements CommandExecutor {
 	private final Nexus nexus;
 
@@ -21,21 +23,21 @@ public class StatsCommand implements CommandExecutor {
 		if (args.length == 0) {
 			// Print own stats
 			if (!(sender instanceof Player)) {
-				sender.sendMessage("�eDude... s� oot konsoli. Ei sul oo statsei.");
-				sender.sendMessage("�b/stats <nimi>");
+				sender.sendMessage("§eDude... sä oot konsoli. Ei sul oo statsei.");
+				sender.sendMessage("§b/stats <nimi>");
 				return true;
 			}
 			Player p = (Player) sender;
 			AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p);
-			sender.sendMessage("�e�l    Kausi");
+			sender.sendMessage("§e§l    Kausi");
 			sender.sendMessage(pd.getSeasonStats().toString());
-			sender.sendMessage("�e�l    Yhteens�");
+			sender.sendMessage("§e§l    Yhteensä");
 			sender.sendMessage(pd.getTotalStats().toString());
 		} else {
 			// Print target's stats
 			AbstractSeasonStats stats = nexus.getDatabaseManager().getSeasonStats(args[0], nexus.getCurrentSeason());
 			if (stats == null) {
-				sender.sendMessage("�eEi l�ydetty statseja pelaajalle " + args[0]);
+				sender.sendMessage("§eEi löydetty statseja pelaajalle " + args[0]);
 				return true;
 			}
 		}

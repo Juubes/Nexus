@@ -17,16 +17,16 @@ public class SetTeamSpawnCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String lbl, String[] args) {
 		if (!sender.isOp()) {
-			sender.sendMessage("�eT�m� on supersalainen adminkomento. Hushus.");
+			sender.sendMessage("§eT§m§ on supersalainen adminkomento. Hushus.");
 			return true;
 		}
 		if (!(sender instanceof Player)) {
-			sender.sendMessage("�eEt voi tehd� t�t� komentoa.");
+			sender.sendMessage("§eEt voi tehdä tätä komentoa.");
 			return true;
 		}
 		Player p = (Player) sender;
 		if (args.length != 1) {
-			sender.sendMessage("�c/setteamspawn <tiimi>");
+			sender.sendMessage("§c/setteamspawn <tiimi>");
 			return true;
 		}
 
@@ -34,17 +34,17 @@ public class SetTeamSpawnCommand implements CommandExecutor {
 		String mapID = nexus.getEditModeHandler().getEditWorld(p);
 
 		if (!nexus.getDatabaseManager().isMapCreated(mapID)) {
-			p.sendMessage("�e" + mapID + " ei ole viel� luotu. /createmap");
+			p.sendMessage("§e" + mapID + " ei ole vielä luotu. /createmap");
 			return true;
 		}
 
 		if (!nexus.getDatabaseManager().getTeamList(mapID).contains(teamID)) {
-			sender.sendMessage("�eTiimi� " + teamID + " ei ole luotu.");
+			sender.sendMessage("§eTiimiä " + teamID + " ei ole luotu.");
 			return true;
 		}
 
 		nexus.getDatabaseManager().saveTeamSpawn(mapID, teamID, p.getLocation());
-		sender.sendMessage("�eTiimin spawni asetettu mappiin " + mapID + ".");
+		sender.sendMessage("§eTiimin spawni asetettu mappiin " + mapID + ".");
 
 		nexus.getEditModeHandler().getPendingList().add(sender);
 

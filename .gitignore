@@ -1,7 +1,7 @@
 bin/
 target/
+Nexus 2.0.2.iml
 .project
 .classpath
 .settings/*
-#.settings/org.eclipse.m2e.core.prefs
-#.settings/org.eclipse.jdt.core.prefs
+.idea/

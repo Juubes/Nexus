@@ -16,12 +16,12 @@ public class StatusCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String lbl, String[] args) {
 		if (!sender.isOp()) {
-			sender.sendMessage("�eTsot tsot... t�� on yll�pitokomento.");
+			sender.sendMessage("§eTsot tsot... tää on ylläpitokomento.");
 			return true;
 		}
 
-		sender.sendMessage("�eMapin nimi: �b" + nexus.getGameLogic().getCurrentGame().getMapDisplayName());
-		sender.sendMessage("�eTiimej�: �b" + nexus.getGameLogic().getCurrentGame().getTeams().length);
+		sender.sendMessage("§eMapin nimi: §b" + nexus.getGameLogic().getCurrentGame().getMapDisplayName());
+		sender.sendMessage("§eTiimejä: §b" + nexus.getGameLogic().getCurrentGame().getTeams().length);
 		return true;
 	}
 

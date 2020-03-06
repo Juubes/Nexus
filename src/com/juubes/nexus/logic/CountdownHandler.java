@@ -23,17 +23,17 @@ public class CountdownHandler {
 				return;
 			if (changeMap > 0) {
 				if (changeMap < 4 || changeMap == 10 || changeMap == 20 || changeMap == 30 || changeMap % 60 == 0)
-					Bukkit.broadcastMessage("�eVaihdetaan mappia " + changeMap + " sekunnissa.");
+					Bukkit.broadcastMessage("§eVaihdetaan mappia " + changeMap + " sekunnissa.");
 			}
 			if (startGame > 0) {
 				if (startGame < 4 || startGame == 10 || startGame == 20 || startGame == 30 || startGame % 60 == 0)
-					Bukkit.broadcastMessage("�ePeli alkaa " + startGame + " sekunnissa.");
+					Bukkit.broadcastMessage("§ePeli alkaa " + startGame + " sekunnissa.");
 			}
 			if (changeMap > 0) {
 				changeMap--;
 			} else if (changeMap == 0) {
 				nexus.getGameLogic().loadNextGame();
-				Bukkit.broadcastMessage("�eLiity peliin komennolla /join");
+				Bukkit.broadcastMessage("§eLiity peliin komennolla /join");
 				changeMap = -1;
 			}
 
@@ -42,7 +42,7 @@ public class CountdownHandler {
 			} else if (startGame == 0) {
 				for (Team team : nexus.getGameLogic().getCurrentGame().getTeams()) {
 					if (team.getPlayers().size() == 0) {
-						Bukkit.broadcastMessage("�ePeliss� ei ole tarpeeksi pelaajia.");
+						Bukkit.broadcastMessage("§ePelissä ei ole tarpeeksi pelaajia.");
 						startGame = 30;
 						return;
 					}
@@ -56,8 +56,8 @@ public class CountdownHandler {
 					AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p);
 					if (pd.isAutoJoin()) {
 						pd.setTeam(nexus.getGameLogic().getCurrentGame().getSmallestTeam());
-						p.sendMessage("�eSinut on automaattisesti lis�tty tiimiin " + pd.getTeam().getDisplayName()
-								+ "�e, koska liikuit!");
+						p.sendMessage("§eSinut on automaattisesti lisätty tiimiin " + pd.getTeam().getDisplayName()
+								+ "§e, koska liikuit!");
 					}
 				}
 			}

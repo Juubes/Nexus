@@ -19,7 +19,7 @@ public abstract class AbstractSeasonStats {
 	}
 
 	public AbstractSeasonStats(int statsID, UUID uuid, int season, int kills, int deaths, int wins, int losses,
-			int playTimeWon, int playTimeLost, int longestKillStreak) {
+			long playTimeWon2, long playTimeLost2, int longestKillStreak) {
 		this.statsID = statsID;
 		this.season = season;
 		this.uuid = uuid;
@@ -28,8 +28,8 @@ public abstract class AbstractSeasonStats {
 		this.deaths = deaths;
 		this.wins = wins;
 		this.losses = losses;
-		this.playTimeWon = playTimeWon;
-		this.playTimeLost = playTimeLost;
+		this.playTimeWon = playTimeWon2;
+		this.playTimeLost = playTimeLost2;
 		this.longestKillStreak = longestKillStreak;
 	}
 

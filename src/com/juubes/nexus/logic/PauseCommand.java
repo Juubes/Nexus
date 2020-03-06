@@ -17,13 +17,13 @@ public class PauseCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String lbl, String[] args) {
 		if (!sender.isOp()) {
-			sender.sendMessage("�eEt ole operaattori. Hushus.");
+			sender.sendMessage("§eEt ole operaattori. Hushus.");
 			return true;
 		}
 
 		GameState gameState = nexus.getGameLogic().getGameState();
 		if (gameState == GameState.PAUSED) {
-			sender.sendMessage("�ePeli on jo pys�ytetty. Voit aloittaa pelin komennolla /start");
+			sender.sendMessage("§ePeli on jo pysäytetty. Voit aloittaa pelin komennolla /start");
 			return true;
 		}
 

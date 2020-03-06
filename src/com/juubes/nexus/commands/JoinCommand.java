@@ -22,17 +22,17 @@ public class JoinCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String lbl, String[] args) {
 		if (!(sender instanceof Player)) {
-			sender.sendMessage("�eYou wot mate?");
+			sender.sendMessage("§eYou wot mate?");
 			return true;
 		}
 		Player p = (Player) sender;
 		if (!nexus.isReady()) {
-			sender.sendMessage("�eNexus ei ole valmis pelattavaksi.");
+			sender.sendMessage("§eNexus ei ole valmis pelattavaksi.");
 			return true;
 		}
 
 		if (nexus.getGameLogic().getGameState() == GameState.PAUSED) {
-			sender.sendMessage("�eDTM on pys�ytetty.");
+			sender.sendMessage("§eDTM on pysäytetty.");
 			return true;
 		}
 
@@ -41,16 +41,16 @@ public class JoinCommand implements CommandExecutor {
 			if (data.getTeam() == null)
 				data.setTeam(nexus.getGameLogic().getCurrentGame().getSmallestTeam());
 			else
-				p.sendMessage("�eOlet jo tiimiss� " + data.getTeam().getDisplayName());
+				p.sendMessage("§eOlet jo tiimissä§ " + data.getTeam().getDisplayName());
 		} else if (args.length == 1) {
 			if (!p.hasPermission("DTM.teamselect")) {
-				p.sendMessage("�eSinulla ei ole permej� valita tiimi�.");
+				p.sendMessage("§eSinulla ei ole permejä valita tiimiä.");
 				return true;
 			}
 
 			Team team = getTeamWithName(args[0]);
 			if (team == null) {
-				sender.sendMessage("�ePeliss� ei ole tiimi� " + args[0].toLowerCase() + ".");
+				sender.sendMessage("§ePeliss§ ei ole tiimiä " + args[0].toLowerCase() + ".");
 				return true;
 			}
 
@@ -58,30 +58,30 @@ public class JoinCommand implements CommandExecutor {
 			if (pd.getTeam() == null)
 				pd.setTeam(team);
 			else
-				p.sendMessage("�eOlet jo tiimiss� " + pd.getTeam().getDisplayName());
+				p.sendMessage("§eOlet jo tiimissä " + pd.getTeam().getDisplayName());
 		} else if (args.length > 1) {
 			if (!p.isOp()) {
-				p.sendMessage("�eEt ole operaattori.");
+				p.sendMessage("§eEt ole operaattori.");
 				return true;
 			}
 
 			Player target = Bukkit.getPlayer(args[0]);
 			if (target == null) {
-				p.sendMessage("�eT�m� pelaaja ei ole online.");
+				p.sendMessage("§eTämä pelaaja ei ole online.");
 				return true;
 			}
 
 			Team team = getTeamWithName(args[1]);
 			if (team == null) {
-				sender.sendMessage("�ePeliss� ei ole tiimi� " + args[1].toLowerCase() + ".");
+				sender.sendMessage("§ePelissä ei ole tiimiä " + args[1].toLowerCase() + ".");
 				return true;
 			}
 
 			AbstractPlayerData targetPlayerData = nexus.getDatabaseManager().getPlayerData(p);
 			targetPlayerData.setTeam(team);
 
-			p.sendMessage("�ePelaaja " + target.getDisplayName() + " �el�hetetty tiimiin " + team.getDisplayName()
-					+ "�e.");
+			p.sendMessage("§ePelaaja " + target.getDisplayName() + " §elähetetty tiimiin " + team.getDisplayName()
+					+ "§e.");
 		}
 		return true;
 	}

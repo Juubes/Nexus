@@ -16,12 +16,12 @@ public class PlayTimeCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String lbl, String[] args) {
 		if (args.length == 0) {
-			int minutes = (int) ((System.currentTimeMillis() - nexus.getGameLogic().getCurrentGame()
-					.getStartTime()) / 1000 / 60);
-			sender.sendMessage("�ePelattu " + minutes + " minuuttia");
+			int minutes = (int) ((System.currentTimeMillis() - nexus.getGameLogic().getCurrentGame().getStartTime())
+					/ 1000 / 60);
+			sender.sendMessage("§ePelattu " + minutes + " minuuttia");
 		} else {
 			if (!sender.isOp()) {
-				sender.sendMessage("�cT�m� on liian oopee komento.");
+				sender.sendMessage("§cTämä on liian oopee komento.");
 				return true;
 			}
 
@@ -35,7 +35,7 @@ public class PlayTimeCommand implements CommandExecutor {
 
 			long newStartTime = (System.currentTimeMillis() - num * 60 * 1000);
 			nexus.getGameLogic().getCurrentGame().setStartTime(newStartTime);
-			sender.sendMessage("�ePelin uusi aika on " + num + " minuuttia.");
+			sender.sendMessage("§ePelin uusi aika on " + num + " minuuttia.");
 		}
 		return true;
 	}

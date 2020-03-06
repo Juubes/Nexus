@@ -16,7 +16,7 @@ public class NextmapCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String lbl, String[] args) {
 		if (!sender.isOp()) {
-			sender.sendMessage("�eSinulla ei ole permej�.");
+			sender.sendMessage("§eSinulla ei ole permej§.");
 			return true;
 		}
 
@@ -24,7 +24,7 @@ public class NextmapCommand implements CommandExecutor {
 			nexus.getGameLogic().loadNextGame();
 		else {
 			if (args[0].equalsIgnoreCase(nexus.getGameWorldManager().getCurrentMapID())) {
-				sender.sendMessage("�eT�m� mappi on jo ladattu.");
+				sender.sendMessage("§eTämä mappi on jo ladattu.");
 				return true;
 			}
 			for (String mapName : nexus.getDatabaseManager().getMaps())
@@ -32,7 +32,7 @@ public class NextmapCommand implements CommandExecutor {
 					nexus.getGameLogic().loadNextGame(mapName);
 					return true;
 				}
-			sender.sendMessage("�eEi l�ydetty mappia " + args[0]);
+			sender.sendMessage("§eEi löydetty mappia " + args[0]);
 		}
 		return true;
 	}

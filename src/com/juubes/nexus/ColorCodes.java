@@ -4,10 +4,10 @@ import org.bukkit.ChatColor;
 
 public enum ColorCodes {
 
-	BLACK, DARKBLUE, DARKGREEN, DARKAQUA, DARKRED, DARK_PURPLE, GOLD, GRAY, DARKGRAY, BLUE, GREEN, AQUA, RED, LIGHTPURPLE, YELLOW, WHITE;
+    AQUA, BLACK, BLUE, DARKAQUA, DARKBLUE, DARKGRAY, DARKGREEN, DARKRED, DARK_PURPLE, GOLD, GRAY, GREEN, LIGHTPURPLE, RED, WHITE, YELLOW;
 
-	public static ChatColor fromColorCode(String str) {
-		int index = Integer.valueOf(str, 16);
-		return ChatColor.valueOf(values()[index].name());
-	}
+    public static ChatColor fromColorCode(String str) {
+        int index = Integer.valueOf(str, 16);
+        return ChatColor.valueOf(values()[index].name());
+    }
 }

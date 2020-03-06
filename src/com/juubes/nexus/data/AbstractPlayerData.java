@@ -63,12 +63,12 @@ public abstract class AbstractPlayerData {
 		}
 
 		if (team != null) {
-			p.sendMessage("�eOlet nyt tiimiss� " + team.getChatColor() + "�l" + team.getDisplayName());
+			p.sendMessage("§eOlet nyt tiimissä " + team.getChatColor() + "§l" + team.getDisplayName());
 		} else {
 			// If Nexus isn't ready, make sure everyone is in GM 3
 			p.setGameMode(GameMode.SPECTATOR);
 			p.teleport(nexus.getGameLogic().getCurrentGame().getLobby());
-			p.sendMessage("�eOlet nyt spectaaja.");
+			p.sendMessage("§eOlet nyt spectaaja.");
 		}
 	}
 
@@ -108,12 +108,12 @@ public abstract class AbstractPlayerData {
 	public String getNick() {
 		if (nick == null) {
 			if (team == null)
-				return "�7" + getLastSeenName();
+				return "§7" + getLastSeenName();
 			else
 				return team.getChatColor() + getLastSeenName();
 		} else {
 			if (team == null)
-				return "�7" + nick;
+				return "§7" + nick;
 			else
 				return team.getChatColor() + nick;
 		}

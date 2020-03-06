@@ -4,11 +4,14 @@ version: 2.0.2
 author: Juubes
 website: https://github.com/Juubes/Nexus/
 description: A 1v1 team PvP framework.
+api-version: 1.8
 commands:
   join:
     aliases:
-    - liity
-  spec: null
+      - liity
+  spec:
+    aliases:
+      - spectate
   pause: null
   getpos: null
   worlds: null
@@ -19,17 +22,17 @@ commands:
   editmode: null
   savekit:
     aliases:
-    - gameinventory
+      - gameinventory
   addteam: null
   removeteam:
     aliases:
-    - delteam
+      - delteam
   setteamspawn:
     aliases:
-    - setspawn
+      - setspawn
   start: null
   setprefix: null
   savemap: null
   playtime:
     aliases:
-    - gametime
+      - gametime

@@ -99,7 +99,7 @@ public class GameLogic {
 
 		// Handle appropriate nametag colours
 		p.setDisplayName(pd.getNick());
-		p.setPlayerListName("�8[" + ChatColor.translateAlternateColorCodes('&', pd.getPrefix()) + "�8] " + pd
+		p.setPlayerListName("§8[" + ChatColor.translateAlternateColorCodes('&', pd.getPrefix()) + "§8] " + pd
 				.getNick());
 		p.setCustomName(pd.getNick());
 		p.setCustomNameVisible(false);
@@ -203,7 +203,7 @@ public class GameLogic {
 		if (paused) {
 			for (Player p : Bukkit.getOnlinePlayers()) {
 				p.setGameMode(GameMode.SPECTATOR);
-				p.sendMessage("�ePeli on pys�ytetty. Kun peli jatkuu, sinut teleportataan spawnille.");
+				p.sendMessage("§ePeli on pysäytetty. Kun peli jatkuu, sinut teleportataan spawnille.");
 			}
 		} else {
 			for (Player p : Bukkit.getOnlinePlayers()) {
@@ -211,7 +211,7 @@ public class GameLogic {
 				if (pd.getTeam() != null) {
 					p.teleport(pd.getTeam().getSpawn());
 					p.setGameMode(GameMode.SURVIVAL);
-					p.sendMessage("�ePeli ei ole en�� pys�ytetty. Teleportattu spawnille.");
+					p.sendMessage("§ePeli ei ole enää pys§ytetty. Teleportattu spawnille.");
 				}
 			}
 		}
@@ -224,7 +224,7 @@ public class GameLogic {
 	public void updateNameTag(Player p) {
 		AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p);
 		p.setDisplayName(pd.getNick());
-		p.setPlayerListName("�8[" + ChatColor.translateAlternateColorCodes('&', pd.getPrefix()) + "�8] " + pd
+		p.setPlayerListName("§8[" + ChatColor.translateAlternateColorCodes('&', pd.getPrefix()) + "§8] " + pd
 				.getNick());
 		p.setCustomName(pd.getNick());
 		p.setCustomNameVisible(true);

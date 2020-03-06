@@ -17,12 +17,12 @@ public class SaveKitCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String lbl, String[] args) {
 		if (!(sender instanceof Player)) {
-			sender.sendMessage("�ePikkasen hankala kuule setuppaa kitit tollee.");
+			sender.sendMessage("§ePikkasen hankala kuule setuppaa kitit tollee.");
 			return true;
 		}
 
 		if (!sender.isOp()) {
-			sender.sendMessage("�eSulla ei ole permej� setupata kittej�.");
+			sender.sendMessage("§eSulla ei ole permejä setupata kittejä.");
 			return true;
 		}
 
@@ -30,11 +30,11 @@ public class SaveKitCommand implements CommandExecutor {
 		if (args.length == 0) {
 			String editMode = nexus.getEditModeHandler().getEditWorld(p);
 			nexus.getDatabaseManager().saveKitForGame(editMode, p.getInventory());
-			sender.sendMessage("�eKitti tallennettu mapille " + editMode);
+			sender.sendMessage("§eKitti tallennettu mapille " + editMode);
 		} else {
 			String mapID = args[0];
 			nexus.getDatabaseManager().saveKitForGame(mapID, p.getInventory());
-			sender.sendMessage("�eKitti tallennettu mapille " + mapID);
+			sender.sendMessage("§eKitti tallennettu mapille " + mapID);
 		}
 
 		return true;

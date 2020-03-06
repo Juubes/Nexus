@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.juubes.nexus.Lang;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,11 +23,11 @@ public class EditModeHandler implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String lbl, String[] args) {
 		if (!sender.isOp()) {
-			sender.sendMessage("�eSulla ei ole permej� muokkaustilaan senkin pelle.");
+			sender.sendMessage("§eSulla ei ole permejä muokkaustilaan senkin pelle.");
 			return true;
 		}
 		if (!(sender instanceof Player)) {
-			sender.sendMessage("�eEt voi tehd� t�t� komentoa.");
+			sender.sendMessage("§eEt voi tehd§ tätä komentoa.");
 			return true;
 		}
 
@@ -42,12 +43,12 @@ public class EditModeHandler implements CommandExecutor {
 				}
 			}
 			if (!foundMapID) {
-				sender.sendMessage("�cEi l�ydetty mappia ID:ll� " + args[0]);
+				sender.sendMessage(Lang.get("map-not-found"));
 			}
 
 		}
-		sender.sendMessage("�eMuokkaustilasi on maailma " + getEditWorld(p));
-		sender.sendMessage("�eVoit vaihtaa muokkaustilaa komennolla: /editmode <Map ID>");
+		sender.sendMessage("§eMuokkaustilasi on maailma " + getEditWorld(p));
+		sender.sendMessage("§eVoit vaihtaa muokkaustilaa komennolla: /editmode <Map ID>");
 		return true;
 	}
 

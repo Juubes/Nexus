@@ -20,12 +20,12 @@ public class SetPrefixCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String lbl, String[] args) {
 		if (!sender.isOp()) {
-			sender.sendMessage("�bVain operaattorit voivat asettaa prefixej�.");
+			sender.sendMessage("§bVain operaattorit voivat asettaa prefixejä.");
 			return true;
 		}
 
 		if (args.length < 2) {
-			sender.sendMessage("�bJotai meni pielee... /setprefix <player> <prefix>");
+			sender.sendMessage("§bJotai meni pielee... /setprefix <player> <prefix>");
 			return true;
 		} else {
 			String userInput = args[1];
@@ -37,18 +37,13 @@ public class SetPrefixCommand implements CommandExecutor {
 				userInput = null;
 			else if (userInput.equals("jonne"))
 				userInput = "&eDTM-Jonne";
-			else if (userInput.equals("admin"))
-				userInput = "&4Adminaattori";
-			else if (userInput.equals("mode"))
-				userInput = "&cModenaattori";
-			else if (userInput.equals("mode"))
-				userInput = "&6Rakennusnaattori";
+			// TODO: Extra autocompletions?
 
 			Player target = Bukkit.getPlayerExact(args[0]);
 			String correctName;
 
 			if (target == null) {
-				sender.sendMessage("�cPelaaja ei ole servulla.");
+				sender.sendMessage("§cPelaaja ei ole servulla.");
 				return true;
 			} else {
 				// Player is on the server
@@ -60,9 +55,9 @@ public class SetPrefixCommand implements CommandExecutor {
 			}
 
 			if (userInput == null)
-				sender.sendMessage("�bPelaajalla " + correctName + " �bei ole en�� erityist� prefixi�.");
+				sender.sendMessage("§bPelaajalla " + correctName + " §bei ole enää erityistä prefixiä.");
 			else
-				sender.sendMessage("�bPelaajan " + correctName + " �buusi prefix on "
+				sender.sendMessage("§bPelaajan " + correctName + " §buusi prefix on "
 						+ ChatColor.translateAlternateColorCodes('&', userInput));
 		}
 		return true;

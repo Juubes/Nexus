@@ -18,7 +18,7 @@ public class SpectateCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String lbl, String[] args) {
 		if (!(sender instanceof Player)) {
-			sender.sendMessage("�eAatteliks sie alkaa leijjumaa tai jotai?");
+			sender.sendMessage("§eAatteliks sie alkaa leijjumaa tai jotai?");
 			return true;
 		}
 
