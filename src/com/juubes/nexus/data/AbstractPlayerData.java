@@ -69,6 +69,8 @@ public abstract class AbstractPlayerData {
 			p.setGameMode(GameMode.SPECTATOR);
 			p.teleport(nexus.getGameLogic().getCurrentGame().getLobby());
 			p.sendMessage("§eOlet nyt spectaaja.");
+			p.sendMessage("§eVoit liittyä komennolla /join");
+			nexus.getGameLogic().updateNameTag(p);
 		}
 	}
 

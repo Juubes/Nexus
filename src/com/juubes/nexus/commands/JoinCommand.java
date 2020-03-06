@@ -41,7 +41,7 @@ public class JoinCommand implements CommandExecutor {
 			if (data.getTeam() == null)
 				data.setTeam(nexus.getGameLogic().getCurrentGame().getSmallestTeam());
 			else
-				p.sendMessage("§eOlet jo tiimissä§ " + data.getTeam().getDisplayName());
+				p.sendMessage("§eOlet jo tiimissä " + data.getTeam().getDisplayName());
 		} else if (args.length == 1) {
 			if (!p.hasPermission("DTM.teamselect")) {
 				p.sendMessage("§eSinulla ei ole permejä valita tiimiä.");
@@ -50,7 +50,7 @@ public class JoinCommand implements CommandExecutor {
 
 			Team team = getTeamWithName(args[0]);
 			if (team == null) {
-				sender.sendMessage("§ePeliss§ ei ole tiimiä " + args[0].toLowerCase() + ".");
+				sender.sendMessage("§ePelissä ei ole tiimiä " + args[0].toLowerCase() + ".");
 				return true;
 			}
 
