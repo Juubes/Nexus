@@ -12,6 +12,7 @@ commands:
   spec:
     aliases:
       - spectate
+      - leave
   pause: null
   getpos: null
   worlds: null
