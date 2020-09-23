@@ -15,6 +15,7 @@ import org.bukkit.WorldType;
 import org.bukkit.entity.Player;
 
 import com.juubes.nexus.Nexus;
+import com.juubes.nexus.NexusLocation;
 import com.juubes.nexus.events.PreLoadGameWorldEvent;
 
 public class GameWorldManager {
@@ -75,9 +76,9 @@ public class GameWorldManager {
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			if (p.getWorld().equals(Bukkit.getWorlds().get(0)))
 				continue;
-			Location lobby = nexus.getDatabaseManager().getLobbyForMap(nextMapID);
+			NexusLocation lobby = nexus.getDatabaseManager().getLobbyForMap(nextMapID);
 			if (lobby != null)
-				p.teleport(lobby);
+				p.teleport(lobby.toLocation(createdWorld));
 			else
 				p.teleport(new Location(createdWorld, 0, 100, 0));
 		}

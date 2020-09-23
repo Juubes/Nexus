@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.juubes.nexus.Nexus;
+import com.juubes.nexus.NexusLocation;
 
 public class SetLobbyCommand implements CommandExecutor {
 
@@ -32,7 +33,7 @@ public class SetLobbyCommand implements CommandExecutor {
 			p.sendMessage("§e" + editWorld + " ei ole vielä luotu. /createmap");
 			return true;
 		}
-		nexus.getDatabaseManager().saveLobbyForMap(editWorld, p.getLocation());
+		nexus.getDatabaseManager().saveLobbyForMap(editWorld, new NexusLocation(p.getLocation()));
 		sender.sendMessage("§eLobby tallennettu mappiin " + editWorld + ".");
 		nexus.getEditModeHandler().getPendingList().add(sender);
 		return true;

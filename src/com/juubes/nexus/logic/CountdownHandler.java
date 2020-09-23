@@ -16,7 +16,6 @@ public class CountdownHandler {
 		this.nexus = nexus;
 	}
 
-
 	public void startScheduling() {
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(nexus, () -> {
 			if (Bukkit.getOnlinePlayers().size() == 0)
@@ -53,7 +52,7 @@ public class CountdownHandler {
 				for (Player p : Bukkit.getOnlinePlayers()) {
 					if (p.getWorld() != nexus.getGameLogic().getCurrentGame().getWorld())
 						continue;
-					AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p);
+					AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p.getUniqueId());
 					if (pd.isAutoJoin()) {
 						pd.setTeam(nexus.getGameLogic().getCurrentGame().getSmallestTeam());
 						p.sendMessage("§eSinut on automaattisesti lisätty tiimiin " + pd.getTeam().getDisplayName()

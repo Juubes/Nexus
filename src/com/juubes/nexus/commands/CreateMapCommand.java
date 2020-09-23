@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.juubes.nexus.Nexus;
+import com.juubes.nexus.NexusLocation;
 
 public class CreateMapCommand implements CommandExecutor {
 	private final Nexus nexus;
@@ -53,7 +54,7 @@ public class CreateMapCommand implements CommandExecutor {
 		sender.sendMessage("§eMappi " + mapID + " luotu.");
 
 		if (sender instanceof Player) {
-			nexus.getDatabaseManager().saveLobbyForMap(mapID, ((Player) sender).getLocation());
+			nexus.getDatabaseManager().saveLobbyForMap(mapID, new NexusLocation(((Player) sender).getLocation()));
 			sender.sendMessage("§eLobby tallennettu mappiin " + mapID + ".");
 		}
 

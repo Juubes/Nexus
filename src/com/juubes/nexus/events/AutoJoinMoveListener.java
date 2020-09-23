@@ -1,7 +1,6 @@
 package com.juubes.nexus.events;
 
 import org.bukkit.Location;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
@@ -15,9 +14,8 @@ public class AutoJoinMoveListener implements Listener {
 		this.nexus = nexus;
 	}
 
-	@EventHandler
 	public void onMove(PlayerMoveEvent e) {
-		AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(e.getPlayer());
+		AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(e.getPlayer().getUniqueId());
 		Location locFrom = e.getFrom();
 		Location locTo = e.getTo();
 

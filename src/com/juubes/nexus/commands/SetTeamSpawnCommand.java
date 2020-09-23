@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.juubes.nexus.Nexus;
+import com.juubes.nexus.NexusLocation;
 
 public class SetTeamSpawnCommand implements CommandExecutor {
 	private final Nexus nexus;
@@ -43,7 +44,7 @@ public class SetTeamSpawnCommand implements CommandExecutor {
 			return true;
 		}
 
-		nexus.getDatabaseManager().saveTeamSpawn(mapID, teamID, p.getLocation());
+		nexus.getDatabaseManager().saveTeamSpawn(mapID, teamID, new NexusLocation(p.getLocation()));
 		sender.sendMessage("§eTiimin spawni asetettu mappiin " + mapID + ".");
 
 		nexus.getEditModeHandler().getPendingList().add(sender);

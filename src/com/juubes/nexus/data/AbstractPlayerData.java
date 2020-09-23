@@ -8,6 +8,7 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 import com.juubes.nexus.Nexus;
+import com.juubes.nexus.logic.Game;
 import com.juubes.nexus.logic.GameState;
 import com.juubes.nexus.logic.Team;
 
@@ -20,7 +21,7 @@ public abstract class AbstractPlayerData {
 	protected String prefix;
 	protected int emeralds;
 	protected String nick;
-	protected Player lastDamager, lastMessager;
+	protected UUID lastDamager, lastMessager;
 	protected Team team;
 	protected int killStreak;
 	protected boolean autoJoin;
@@ -65,9 +66,11 @@ public abstract class AbstractPlayerData {
 		if (team != null) {
 			p.sendMessage("§eOlet nyt tiimissä " + team.getChatColor() + "§l" + team.getDisplayName());
 		} else {
+			Game currentGame = nexus.getGameLogic().getCurrentGame();
+
 			// If Nexus isn't ready, make sure everyone is in GM 3
 			p.setGameMode(GameMode.SPECTATOR);
-			p.teleport(nexus.getGameLogic().getCurrentGame().getLobby());
+			p.teleport(currentGame.getLobby().toLocation(currentGame.getWorld()));
 			p.sendMessage("§eOlet nyt spectaaja.");
 			p.sendMessage("§eVoit liittyä komennolla /join");
 			nexus.getGameLogic().updateNameTag(p);
@@ -76,6 +79,10 @@ public abstract class AbstractPlayerData {
 
 	public String getLastSeenName() {
 		return lastSeenName;
+	}
+
+	public void setLastSeenName(String name) {
+		this.lastSeenName = name;
 	}
 
 	public String getPrefix() {
@@ -128,17 +135,18 @@ public abstract class AbstractPlayerData {
 	public Player getLastDamager() {
 		if (lastDamager == null)
 			return null;
-		if (!lastDamager.isOnline())
+		Player p = Bukkit.getPlayer(lastDamager);
+		if (p == null || !p.isOnline())
 			return null;
-		return lastDamager;
+		return Bukkit.getPlayer(lastDamager);
 	}
 
 	public void setLastDamager(Player lastDamager) {
-		this.lastDamager = lastDamager;
+		this.lastDamager = lastDamager == null ? null : lastDamager.getUniqueId();
 	}
 
 	public Player getLastMessager() {
-		return lastMessager;
+		return Bukkit.getPlayer(lastMessager);
 	}
 
 	public int getKillStreak() {
@@ -150,7 +158,7 @@ public abstract class AbstractPlayerData {
 	}
 
 	public void setLastMessager(Player lastMessager) {
-		this.lastMessager = lastMessager;
+		this.lastMessager = lastMessager == null ? null : lastMessager.getUniqueId();
 	}
 
 	public UUID getUUID() {
@@ -178,4 +186,5 @@ public abstract class AbstractPlayerData {
 	public boolean isAutoJoin() {
 		return autoJoin;
 	}
+
 }

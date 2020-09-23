@@ -3,13 +3,14 @@ package com.juubes.nexus.commands;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
-import com.juubes.nexus.Lang;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.juubes.nexus.Lang;
 import com.juubes.nexus.Nexus;
 
 public class EditModeHandler implements CommandExecutor {
@@ -52,19 +53,19 @@ public class EditModeHandler implements CommandExecutor {
 		return true;
 	}
 
-	private final HashMap<Player, String> EDITMODE = new HashMap<>();
+	private final HashMap<UUID, String> EDITMODE = new HashMap<>();
 
 	public String getEditWorld(Player p) {
-		if (EDITMODE.get(p) == null)
+		if (EDITMODE.get(p.getUniqueId()) == null)
 			return p.getWorld().getName();
 		else
-			return EDITMODE.get(p);
+			return EDITMODE.get(p.getUniqueId());
 	}
 
 	public void setEditModeWorld(Player p, String mapID) {
-		EDITMODE.put(p, mapID);
+		EDITMODE.put(p.getUniqueId(), mapID);
 	}
-	
+
 	public Set<CommandSender> getPendingList() {
 		return pendingList;
 	}

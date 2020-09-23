@@ -4,11 +4,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 public class Lang {
     private final HashMap<String, String> translations = new HashMap<>();

@@ -27,6 +27,7 @@ import com.juubes.nexus.commands.StatsCommand;
 import com.juubes.nexus.commands.WorldsCommand;
 import com.juubes.nexus.data.AbstractDatabaseManager;
 import com.juubes.nexus.events.AutoJoinMoveListener;
+import com.juubes.nexus.events.NameTagColorer;
 import com.juubes.nexus.logic.GameLoader;
 import com.juubes.nexus.logic.GameLogic;
 import com.juubes.nexus.logic.GameWorldManager;
@@ -37,6 +38,7 @@ public class Nexus extends JavaPlugin {
     private final GameWorldManager gameWorldManager;
     private final GameLogic gameLogic;
     private final EditModeHandler editModeHandler;
+    private final NameTagColorer nameTagColorer;
 
     private InitOptions options;
 
@@ -45,6 +47,7 @@ public class Nexus extends JavaPlugin {
         this.lang = new Lang();
         this.gameWorldManager = new GameWorldManager(this);
         this.gameLogic = new GameLogic(this);
+        this.nameTagColorer = new NameTagColorer();
     }
 
     @Override
@@ -194,4 +197,8 @@ public class Nexus extends JavaPlugin {
     public GameLoader getGameLoader() {
         return options.getGameLoader();
     }
+
+	public NameTagColorer getNameTagColorer() {
+		return nameTagColorer;
+	}
 }

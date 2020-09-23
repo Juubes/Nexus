@@ -22,7 +22,7 @@ public class SpectateCommand implements CommandExecutor {
 			return true;
 		}
 
-		AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData((Player) sender);
+		AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(((Player) sender).getUniqueId());
 		pd.setTeam(null);
 		return true;
 	}

@@ -37,7 +37,7 @@ public class JoinCommand implements CommandExecutor {
 		}
 
 		if (args.length == 0) {
-			AbstractPlayerData data = nexus.getDatabaseManager().getPlayerData(p);
+			AbstractPlayerData data = nexus.getDatabaseManager().getPlayerData(p.getUniqueId());
 			if (data.getTeam() == null)
 				data.setTeam(nexus.getGameLogic().getCurrentGame().getSmallestTeam());
 			else
@@ -54,7 +54,7 @@ public class JoinCommand implements CommandExecutor {
 				return true;
 			}
 
-			AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p);
+			AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p.getUniqueId());
 			if (pd.getTeam() == null)
 				pd.setTeam(team);
 			else
@@ -77,7 +77,7 @@ public class JoinCommand implements CommandExecutor {
 				return true;
 			}
 
-			AbstractPlayerData targetPlayerData = nexus.getDatabaseManager().getPlayerData(p);
+			AbstractPlayerData targetPlayerData = nexus.getDatabaseManager().getPlayerData(p.getUniqueId());
 			targetPlayerData.setTeam(team);
 
 			p.sendMessage("§ePelaaja " + target.getDisplayName() + " §elähetetty tiimiin " + team.getDisplayName()

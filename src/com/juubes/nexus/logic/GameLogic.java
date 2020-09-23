@@ -18,11 +18,12 @@ public class GameLogic {
 	private final CountdownHandler countdownHandler;
 
 	private Game currentGame;
-	private GameState gameState = GameState.STOPPED;
+	private GameState gameState;
 
 	public GameLogic(Nexus nexus) {
 		this.nexus = nexus;
 		this.countdownHandler = new CountdownHandler(nexus);
+		this.gameState = GameState.RUNNING;
 	}
 
 	public Game getCurrentGame() {
@@ -35,11 +36,15 @@ public class GameLogic {
 
 	public void loadNextGame(String request) {
 		currentGame = nexus.getGameLoader().loadGame(request);
+
+		if (currentGame == null)
+			throw new NullPointerException();
+
 		countdownHandler.startGameCountdown(20);
 		gameState = GameState.COUNTDOWN;
 
 		for (Player p : Bukkit.getOnlinePlayers()) {
-			AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p);
+			AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p.getUniqueId());
 			pd.setTeam(null);
 			pd.setLastDamager(null);
 		}
@@ -67,6 +72,7 @@ public class GameLogic {
 		Bukkit.getScheduler().runTaskAsynchronously(nexus, () -> {
 			for (AbstractPlayerData pd : nexus.getDatabaseManager().getAllPlayerData().values()) {
 				pd.save();
+				// TODO: error, concurrent modif
 			}
 		});
 	}
@@ -75,9 +81,13 @@ public class GameLogic {
 		gameState = GameState.RUNNING;
 
 		for (Player p : Bukkit.getOnlinePlayers()) {
-			AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p);
+			AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p.getUniqueId());
 			if (pd.getTeam() != null && p.getWorld().equals(getCurrentGame().getWorld()))
 				sendPlayerToGame(p, pd.getTeam());
+			// TODO: this doesn't belong in Nexus
+			p.sendMessage("§eDestroy the Monument - §btuhoa obsidiaanit");
+			p.sendMessage("§eEnsimmäinen tiimi, joka tuhoaa vihollisen monumentit, voittaa.");
+			p.sendMessage("§eMonumentit muuttuvat obsidiaaniksi §b3§e minuutin kuluttua!");
 		}
 		countdownHandler.stopStartGameCountdown();
 	}
@@ -86,8 +96,8 @@ public class GameLogic {
 		if (p.getWorld() != currentGame.getWorld())
 			return;
 
-		AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p);
-		Location lobby = getCurrentGame().getLobby();
+		AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p.getUniqueId());
+		Location lobby = getCurrentGame().getLobby().toLocation(nexus.getGameLogic().currentGame.getWorld());
 		if (lobby != null) {
 			p.teleport(lobby);
 		} else {
@@ -107,13 +117,13 @@ public class GameLogic {
 	}
 
 	public void sendPlayerToGame(Player p, Team team) {
-		AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p);
+		AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p.getUniqueId());
 		// Reset properties and teleport to spawn
 		p.setFallDistance(0);
 		p.setMaxHealth(20);
 		p.setHealth(p.getMaxHealth());
 		p.setFoodLevel(20);
-		p.teleport(team.getSpawn());
+		p.teleport(team.getSpawn().toLocation(nexus.getGameLogic().currentGame.getWorld()));
 		p.setGameMode(GameMode.SURVIVAL);
 
 		p.getInventory().setContents(getCurrentGame().getKit());
@@ -207,11 +217,13 @@ public class GameLogic {
 			}
 		} else {
 			for (Player p : Bukkit.getOnlinePlayers()) {
-				AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p);
-				if (pd.getTeam() != null) {
-					p.teleport(pd.getTeam().getSpawn());
+				AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p.getUniqueId());
+				if (pd.getTeam() != null && gameState == GameState.RUNNING) {
+					p.teleport(pd.getTeam().getSpawn().toLocation(p.getWorld()));
 					p.setGameMode(GameMode.SURVIVAL);
-					p.sendMessage("§ePeli ei ole enää pys§ytetty. Teleportattu spawnille.");
+					p.sendMessage("§ePeli ei ole enää pysäytetty. Teleportattu spawnille.");
+				} else {
+					p.sendMessage("§ePeli ei ole enää pysäytetty.");
 				}
 			}
 		}
@@ -222,12 +234,14 @@ public class GameLogic {
 	}
 
 	public void updateNameTag(Player p) {
-		AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p);
+		AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p.getUniqueId());
 		p.setDisplayName(pd.getNick());
 		p.setPlayerListName("§8[" + ChatColor.translateAlternateColorCodes('&', pd.getPrefix()) + "§8] " + pd
 				.getNick());
 		p.setCustomName(pd.getNick());
 		p.setCustomNameVisible(true);
-	}
 
+		if (pd.getTeam() != null)
+			nexus.getNameTagColorer().changeNameTag(p, pd.getTeam().getChatColor());
+	}
 }

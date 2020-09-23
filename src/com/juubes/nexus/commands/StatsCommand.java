@@ -9,8 +9,6 @@ import com.juubes.nexus.Nexus;
 import com.juubes.nexus.data.AbstractPlayerData;
 import com.juubes.nexus.data.AbstractSeasonStats;
 
-import static com.sun.tools.javac.jvm.ByteCodes.pop;
-
 public class StatsCommand implements CommandExecutor {
 	private final Nexus nexus;
 
@@ -28,7 +26,7 @@ public class StatsCommand implements CommandExecutor {
 				return true;
 			}
 			Player p = (Player) sender;
-			AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p);
+			AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p.getUniqueId());
 			sender.sendMessage("§e§l    Kausi");
 			sender.sendMessage(pd.getSeasonStats().toString());
 			sender.sendMessage("§e§l    Yhteensä");

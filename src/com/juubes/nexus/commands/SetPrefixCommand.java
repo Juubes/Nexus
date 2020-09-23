@@ -47,7 +47,7 @@ public class SetPrefixCommand implements CommandExecutor {
 				return true;
 			} else {
 				// Player is on the server
-				AbstractPlayerData data = nexus.getDatabaseManager().getPlayerData(target);
+				AbstractPlayerData data = nexus.getDatabaseManager().getPlayerData(target.getUniqueId());
 				data.setPrefix(userInput);
 				correctName = target.getName();
 
@@ -57,8 +57,8 @@ public class SetPrefixCommand implements CommandExecutor {
 			if (userInput == null)
 				sender.sendMessage("§bPelaajalla " + correctName + " §bei ole enää erityistä prefixiä.");
 			else
-				sender.sendMessage("§bPelaajan " + correctName + " §buusi prefix on "
-						+ ChatColor.translateAlternateColorCodes('&', userInput));
+				sender.sendMessage("§bPelaajan " + correctName + " §buusi prefix on " + ChatColor
+						.translateAlternateColorCodes('&', userInput));
 		}
 		return true;
 	}

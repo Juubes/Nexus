@@ -1,15 +1,15 @@
 package com.juubes.nexus.logic;
 
-import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 
 import com.juubes.nexus.Nexus;
+import com.juubes.nexus.NexusLocation;
 
 public class Game {
 	private ItemStack[] kit;
 	private Team[] teams;
-	private Location lobby;
+	private NexusLocation lobby;
 	private long startTime;
 	private World world;
 	private String mapDisplayName;
@@ -43,9 +43,9 @@ public class Game {
 		return startTime;
 	}
 
-	public Location getLobby() {
+	public NexusLocation getLobby() {
 		if (lobby == null)
-			return new Location(world, 0, 100, 0);
+			return new NexusLocation(0, 100, 0);
 		return lobby;
 	}
 

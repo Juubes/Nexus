@@ -6,10 +6,9 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
+import com.juubes.nexus.NexusLocation;
 import com.juubes.nexus.logic.Team;
 
 public abstract class AbstractDatabaseManager {
@@ -22,9 +21,9 @@ public abstract class AbstractDatabaseManager {
 	public abstract String[] getMaps();
 
 	// Lobbies
-	public abstract Location getLobbyForMap(String mapID);
+	public abstract NexusLocation getLobbyForMap(String mapID);
 
-	public abstract void saveLobbyForMap(String mapID, Location lobby);
+	public abstract void saveLobbyForMap(String mapID, NexusLocation lobby);
 
 	// Teams
 	public abstract Set<String> getTeamList(String mapID);
@@ -34,7 +33,7 @@ public abstract class AbstractDatabaseManager {
 	public abstract Team[] getTeams(String mapID);
 
 	// Spawns
-	public abstract void saveTeamSpawn(String editWorld, String string, Location location);
+	public abstract void saveTeamSpawn(String editWorld, String string, NexusLocation location);
 
 	// Kits
 	public abstract Inventory getKitForGame(String mapID);
@@ -47,7 +46,7 @@ public abstract class AbstractDatabaseManager {
 	public abstract String getMapID(String name);
 
 	// Playerdata
-	public abstract AbstractPlayerData getPlayerData(Player p);
+	public abstract AbstractPlayerData getPlayerData(UUID uuid);
 
 	public abstract void savePlayerData(AbstractPlayerData data);
 
