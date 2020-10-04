@@ -47,7 +47,6 @@ public class GameLogic {
 			AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p.getUniqueId());
 			pd.setTeam(null);
 			pd.setLastDamager(null);
-			pd.save();
 		}
 		Bukkit.getPluginManager().callEvent(new StartCountdownEvent(nexus.getGameWorldManager().getCurrentMapID()));
 		countdownHandler.stopChangeMapCountdown();
@@ -70,12 +69,6 @@ public class GameLogic {
 	public void restartGame() {
 		gameState = GameState.COUNTDOWN;
 		countdownHandler.changeMapCountdown(30);
-		Bukkit.getScheduler().runTaskAsynchronously(nexus, () -> {
-			for (AbstractPlayerData pd : nexus.getDatabaseManager().getAllPlayerData().values()) {
-				pd.save();
-				// TODO: error, concurrent modif
-			}
-		});
 	}
 
 	public void startGame() {

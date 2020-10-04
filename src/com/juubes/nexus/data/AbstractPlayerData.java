@@ -40,8 +40,6 @@ public abstract class AbstractPlayerData {
 		this.autoJoin = false;
 	}
 
-	public abstract void save();
-
 	public Team getTeam() {
 		return team;
 	}

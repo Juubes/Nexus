@@ -67,7 +67,7 @@ public abstract class AbstractDatabaseManager {
 
 	public abstract AbstractTotalStats getTotalStats(UUID id);
 
-	public abstract void saveSeasonStats(AbstractSeasonStats stats);
+	public abstract void saveSeasonStats(UUID uuid);
 
 	public abstract void saveMapSettings(String mapID);
 
