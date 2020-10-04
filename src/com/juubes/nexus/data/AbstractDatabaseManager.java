@@ -11,6 +11,10 @@ import org.bukkit.inventory.Inventory;
 import com.juubes.nexus.NexusLocation;
 import com.juubes.nexus.logic.Team;
 
+/**
+ * It's the implementers job to implement a cache for all the data.
+ * 
+ */
 public abstract class AbstractDatabaseManager {
 
 	// Maps
@@ -48,7 +52,7 @@ public abstract class AbstractDatabaseManager {
 	// Playerdata
 	public abstract AbstractPlayerData getPlayerData(UUID uuid);
 
-	public abstract void savePlayerData(AbstractPlayerData data);
+	public abstract void savePlayerData(UUID uuid);
 
 	public abstract UUID getUUIDByLastSeenName(String name);
 
@@ -75,5 +79,6 @@ public abstract class AbstractDatabaseManager {
 	public abstract LinkedList<? extends AbstractSeasonStats> getLeaderboard(int count, int season);
 
 	public abstract LinkedList<? extends AbstractTotalStats> getAlltimeLeaderboard(int count);
+
 
 }

@@ -169,15 +169,6 @@ public abstract class AbstractPlayerData {
 		this.autoJoin = b;
 	}
 
-	/**
-	 * Gets the cached current season's stats
-	 */
-	public abstract AbstractSeasonStats getSeasonStats();
-
-	public abstract AbstractSeasonStats getSeasonStats(int season);
-
-	public abstract AbstractTotalStats getTotalStats();
-
 	@Override
 	public String toString() {
 		return "AbstractPlayerData for " + uuid + ", " + lastSeenName;
@@ -187,4 +178,11 @@ public abstract class AbstractPlayerData {
 		return autoJoin;
 	}
 
+	public abstract AbstractSeasonStats getSeasonStats(int season);
+
+	public abstract AbstractTotalStats getTotalStats();
+
+	public AbstractSeasonStats getSeasonStats() {
+		return getSeasonStats(nexus.getCurrentSeason());
+	}
 }

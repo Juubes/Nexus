@@ -47,6 +47,7 @@ public class GameLogic {
 			AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p.getUniqueId());
 			pd.setTeam(null);
 			pd.setLastDamager(null);
+			pd.save();
 		}
 		Bukkit.getPluginManager().callEvent(new StartCountdownEvent(nexus.getGameWorldManager().getCurrentMapID()));
 		countdownHandler.stopChangeMapCountdown();
@@ -87,7 +88,6 @@ public class GameLogic {
 			// TODO: this doesn't belong in Nexus
 			p.sendMessage("§eDestroy the Monument - §btuhoa obsidiaanit");
 			p.sendMessage("§eEnsimmäinen tiimi, joka tuhoaa vihollisen monumentit, voittaa.");
-			p.sendMessage("§eMonumentit muuttuvat obsidiaaniksi §b3§e minuutin kuluttua!");
 		}
 		countdownHandler.stopStartGameCountdown();
 	}

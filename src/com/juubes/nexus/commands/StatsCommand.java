@@ -29,7 +29,7 @@ public class StatsCommand implements CommandExecutor {
 			AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p.getUniqueId());
 			sender.sendMessage("§e§l    Kausi");
 			sender.sendMessage(pd.getSeasonStats().toString());
-			sender.sendMessage("§e§l    Yhteensä");
+			sender.sendMessage("§e§l Yhteensä");
 			sender.sendMessage(pd.getTotalStats().toString());
 		} else {
 			// Print target's stats
