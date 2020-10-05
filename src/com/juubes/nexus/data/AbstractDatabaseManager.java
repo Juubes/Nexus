@@ -1,6 +1,5 @@
 package com.juubes.nexus.data;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.UUID;
@@ -9,6 +8,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.inventory.Inventory;
 
 import com.juubes.nexus.NexusLocation;
+import com.juubes.nexus.TopListEntry;
+import com.juubes.nexus.TopListEntryTotal;
 import com.juubes.nexus.logic.Team;
 
 /**
@@ -56,19 +57,6 @@ public abstract class AbstractDatabaseManager {
 
 	public abstract UUID getUUIDByLastSeenName(String name);
 
-	public abstract HashMap<UUID, ? extends AbstractPlayerData> getAllPlayerData();
-
-	// Stats
-	public abstract AbstractSeasonStats getSeasonStats(String name, int season);
-
-	public abstract AbstractSeasonStats getSeasonStats(UUID id, int season);
-
-	public abstract AbstractTotalStats getTotalStats(String name);
-
-	public abstract AbstractTotalStats getTotalStats(UUID id);
-
-	public abstract void saveSeasonStats(UUID uuid);
-
 	public abstract void saveMapSettings(String mapID);
 
 	public abstract void setTeamDisplayName(String mapID, String teamID, String displayName);
@@ -76,9 +64,7 @@ public abstract class AbstractDatabaseManager {
 	public abstract void setTeamColor(String mapID, String teamID, ChatColor color);
 
 	// Leaderboard
-	public abstract LinkedList<? extends AbstractSeasonStats> getLeaderboard(int count, int season);
-
-	public abstract LinkedList<? extends AbstractTotalStats> getAlltimeLeaderboard(int count);
-
+	public abstract LinkedList<TopListEntry> getLeaderboard(int count, int season);
+	public abstract LinkedList<TopListEntryTotal> getAlltimeLeaderboard(int count);
 
 }
