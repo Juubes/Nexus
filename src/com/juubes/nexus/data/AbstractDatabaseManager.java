@@ -55,8 +55,6 @@ public abstract class AbstractDatabaseManager {
 
 	public abstract void savePlayerData(UUID uuid);
 
-	public abstract UUID getUUIDByLastSeenName(String name);
-
 	public abstract void saveMapSettings(String mapID);
 
 	public abstract void setTeamDisplayName(String mapID, String teamID, String displayName);

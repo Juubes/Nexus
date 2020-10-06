@@ -122,6 +122,13 @@ public class GameLogic {
 		p.getInventory().setContents(getCurrentGame().getKit());
 		p.getInventory().setArmorContents(getArmorForTeam(p, pd.getTeam()));
 
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			player.hidePlayer(p);
+		}
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			player.showPlayer(p);
+		}
+		
 		updateNameTag(p);
 	}
 
