@@ -9,6 +9,8 @@
 
 	<build>
 		<sourceDirectory>src</sourceDirectory>
+		<defaultGoal>package install</defaultGoal>
+
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
