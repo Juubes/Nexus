@@ -156,7 +156,7 @@ public abstract class AbstractPlayerData {
 	}
 
 	public void setLastMessager(Player lastMessager) {
-		this.lastMessager = lastMessager == null ? null : lastMessager.getUniqueId();
+		this.lastMessager = (lastMessager == null) ? null : lastMessager.getUniqueId();
 	}
 
 	public UUID getUUID() {

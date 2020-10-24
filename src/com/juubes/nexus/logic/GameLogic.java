@@ -102,11 +102,14 @@ public class GameLogic {
 
 		// Handle appropriate nametag colours
 		p.setDisplayName(pd.getNick());
-		p.setPlayerListName("§8[" + ChatColor.translateAlternateColorCodes('&', pd.getPrefix()) + "§8] " + pd
-				.getNick());
 		p.setCustomName(pd.getNick());
 		p.setCustomNameVisible(false);
 
+		if (pd.getPrefix() != null)
+			p.setPlayerListName("§8[" + ChatColor.translateAlternateColorCodes('&', pd.getPrefix()) + "§8] " + pd
+					.getNick());
+		else
+			p.setPlayerListName(pd.getNick());
 	}
 
 	public void sendPlayerToGame(Player p, Team team) {
@@ -128,7 +131,7 @@ public class GameLogic {
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			player.showPlayer(p);
 		}
-		
+
 		updateNameTag(p);
 	}
 
@@ -236,10 +239,14 @@ public class GameLogic {
 	public void updateNameTag(Player p) {
 		AbstractPlayerData pd = nexus.getDatabaseManager().getPlayerData(p.getUniqueId());
 		p.setDisplayName(pd.getNick());
-		p.setPlayerListName("§8[" + ChatColor.translateAlternateColorCodes('&', pd.getPrefix()) + "§8] " + pd
-				.getNick());
 		p.setCustomName(pd.getNick());
 		p.setCustomNameVisible(true);
+
+		if (pd.getPrefix() != null)
+			p.setPlayerListName("§8[" + ChatColor.translateAlternateColorCodes('&', pd.getPrefix()) + "§8] " + pd
+					.getNick());
+		else
+			p.setPlayerListName(pd.getNick());
 
 		if (pd.getTeam() != null)
 			nexus.getNameTagColorer().changeNameTag(p, pd.getTeam().getChatColor());

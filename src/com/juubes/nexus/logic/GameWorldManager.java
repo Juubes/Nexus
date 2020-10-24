@@ -68,6 +68,7 @@ public class GameWorldManager {
 		createdWorld.setWeatherDuration(5000000);
 		createdWorld.setGameRuleValue("doDaylightCycle", "false");
 		createdWorld.setGameRuleValue("randomTickSpeed", "5");
+		createdWorld.setGameRuleValue("announceAdvancements", "false");
 
 		// Call event for preload
 		Bukkit.getPluginManager().callEvent(new PreLoadGameWorldEvent(nextMapID, createdWorld));

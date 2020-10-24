@@ -27,39 +27,41 @@ public class SetPrefixCommand implements CommandExecutor {
 		if (args.length < 2) {
 			sender.sendMessage("§bJotai meni pielee... /setprefix <player> <prefix>");
 			return true;
-		} else {
-			String userInput = args[1];
-			for (int i = 2; i < args.length; i++) {
-				userInput += " " + args[i];
-			}
-
-			if (userInput.equals("\"\""))
-				userInput = null;
-			else if (userInput.equals("jonne"))
-				userInput = "&eDTM-Jonne";
-			// TODO: Extra autocompletions?
-
-			Player target = Bukkit.getPlayerExact(args[0]);
-			String correctName;
-
-			if (target == null) {
-				sender.sendMessage("§cPelaaja ei ole servulla.");
-				return true;
-			} else {
-				// Player is on the server
-				AbstractPlayerData data = nexus.getDatabaseManager().getPlayerData(target.getUniqueId());
-				data.setPrefix(userInput);
-				correctName = target.getName();
-
-				nexus.getGameLogic().updateNameTag(target);
-			}
-
-			if (userInput == null)
-				sender.sendMessage("§bPelaajalla " + correctName + " §bei ole enää erityistä prefixiä.");
-			else
-				sender.sendMessage("§bPelaajan " + correctName + " §buusi prefix on " + ChatColor
-						.translateAlternateColorCodes('&', userInput));
 		}
+		
+		// Parse command args
+		String userInput = args[1];
+		for (int i = 2; i < args.length; i++) {
+			userInput += " " + args[i];
+		}
+
+		// Test for known prefixes
+		if (userInput.equals("\"\""))
+			userInput = null;
+		else if (userInput.equals("jonne"))
+			userInput = "&eDTM-Jonne";
+
+		Player target = Bukkit.getPlayerExact(args[0]);
+		String correctName;
+
+		if (target == null) {
+			sender.sendMessage("§cPelaaja ei ole servulla.");
+			return true;
+		} else {
+			// Player is on the server
+			AbstractPlayerData data = nexus.getDatabaseManager().getPlayerData(target.getUniqueId());
+			data.setPrefix(userInput);
+			correctName = target.getName();
+
+			nexus.getGameLogic().updateNameTag(target);
+		}
+
+		if (userInput == null)
+			sender.sendMessage("§bPelaajalla " + correctName + " §bei ole enää erityistä prefixiä.");
+		else
+			sender.sendMessage("§bPelaajan " + correctName + " §buusi prefix on " + ChatColor
+					.translateAlternateColorCodes('&', userInput));
+
 		return true;
 	}
 }
