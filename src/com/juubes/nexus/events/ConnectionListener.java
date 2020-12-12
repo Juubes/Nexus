@@ -17,7 +17,7 @@ public class ConnectionListener implements Listener {
 	}
 
 	@EventHandler
-	public void onJoin(AsyncPlayerPreLoginEvent e) {
+	public void onAsyncJoin(AsyncPlayerPreLoginEvent e) {
 		pl.getDataHandler().createIfNotExists(e.getUniqueId());
 		pl.getDataHandler().loadPlayerData(e.getUniqueId());
 	}
@@ -25,7 +25,7 @@ public class ConnectionListener implements Listener {
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
-		
+
 		// Put player in spectator mode
 		pl.getLogicHandler().sendToSpectate(p);
 	}

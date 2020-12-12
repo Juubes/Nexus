@@ -1,31 +1,21 @@
 package com.juubes.nexus;
 
-import java.util.HashMap;
-
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.juubes.nexus.commands.JoinCommand;
 import com.juubes.nexus.data.AbstractDataHandler;
+import com.juubes.nexus.data.AbstractMap;
 import com.juubes.nexus.events.ConnectionListener;
 import com.juubes.nexus.logic.AbstractLogicHandler;
+import com.juubes.nexus.logic.GameWorldHandler;
 
-import lombok.Getter;
+public abstract class Nexus extends JavaPlugin {
 
-/**
- * 
- */
-public class Nexus extends JavaPlugin {
-	// TODO autosave
+	private final GameWorldHandler gameWorldHandler;
 
-	@Getter
-	private final AbstractDataHandler dataHandler;
-
-	@Getter
-	private final AbstractLogicHandler logicHandler;
-
-	public Nexus(AbstractDataHandler pdh, AbstractLogicHandler glh) {
-		this.dataHandler = pdh;
-		this.logicHandler = glh;
+	public Nexus() {
+		this.gameWorldHandler = new GameWorldHandler(this);
 	}
 
 	/**
@@ -37,18 +27,18 @@ public class Nexus extends JavaPlugin {
 
 		try {
 			// TODO
-			Bukkit.getPluginCommand("join").setExecutor(null);
+			Bukkit.getPluginCommand("join").setExecutor(new JoinCommand(this));
 			Bukkit.getPluginCommand("spec").setExecutor(null);
 			Bukkit.getPluginCommand("top").setExecutor(null);
 			Bukkit.getPluginCommand("shop").setExecutor(null);
-
 		} catch (Exception e) {
-			this.setEnabled(false);
 			this.getLogger().severe("All the nexus commands are not listed in the extending plugin.yml.");
+			this.getLogger().severe("Startup is not possible.");
 		}
 
 		// Load playerdata; only runs after reloads
-		Bukkit.getOnlinePlayers().forEach(p -> dataHandler.loadPlayerData(p.getUniqueId()));
+		Bukkit.getOnlinePlayers().forEach(p -> this.getDataHandler().loadPlayerData(p.getUniqueId()));
+
 	}
 
 	/**
@@ -57,7 +47,15 @@ public class Nexus extends JavaPlugin {
 	 */
 	@Override
 	public void onDisable() {
-		Bukkit.getOnlinePlayers().forEach(p -> dataHandler.savePlayerData(p.getUniqueId()));
+		Bukkit.getOnlinePlayers().forEach(p -> this.getDataHandler().savePlayerData(p.getUniqueId()));
+	}
+
+	public abstract AbstractDataHandler getDataHandler();
+
+	public abstract AbstractLogicHandler getLogicHandler();
+
+	public GameWorldHandler getGameWorldHandler() {
+		return gameWorldHandler;
 	}
 
 	public int getSeason() {

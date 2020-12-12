@@ -7,7 +7,7 @@ import java.util.UUID;
 public abstract class AbstractPlayerData {
 	public final UUID uuid;
 
-	public String lastSeenName, prefix, nick;
+	public String lastSeenName, prefix;
 	public Optional<UUID> lastDamager, lastMessager;
 	public AbstractTeam team;
 	public int emeralds, killStreak;
@@ -17,16 +17,16 @@ public abstract class AbstractPlayerData {
 	/**
 	 * Maps season number to stats.
 	 */
-	public final HashMap<Integer, AbstractSeasonStats> seasonStats = new HashMap<>(5);
+	protected final HashMap<Integer, ? extends AbstractSeasonStats> seasonStats;
 
-	public AbstractPlayerData(UUID uuid, String lastSeenName, int emeralds, String prefix, String nick, int killStreak,
-			double eloRating) {
+	public AbstractPlayerData(UUID uuid, String lastSeenName, int emeralds, String prefix, int killStreak,
+			double eloRating, HashMap<Integer, ? extends AbstractSeasonStats> seasonStats) {
 		this.uuid = uuid;
 		this.lastSeenName = lastSeenName;
 		this.prefix = prefix;
-		this.nick = nick;
 		this.emeralds = emeralds;
 		this.killStreak = killStreak;
 		this.eloRating = eloRating;
+		this.seasonStats = seasonStats;
 	}
 }

@@ -9,19 +9,27 @@ import com.juubes.nexus.Nexus;
 import com.juubes.nexus.data.AbstractPlayerData;
 import com.juubes.nexus.data.AbstractTeam;
 
+import lombok.Getter;
+
 /**
  * Handlers game logic like game cycle and players joining teams.
  */
 public class AbstractLogicHandler {
 	private final Nexus pl;
 
+	@Getter
+	private GameState gameState;
+
 	public AbstractLogicHandler(Nexus pl) {
 		this.pl = pl;
 	}
 
 	public void startGame(Optional<String> mapRequest) {
-		if (!mapRequest.isPresent())
-			throw new NotImplementedException();
+		if (!mapRequest.isPresent()) {
+			pl.getGameWorldHandler().nextMap(mapRequest.get());
+		}
+
+		this.gameState = GameState.RUNNING;
 	}
 
 	public void togglePause() {
@@ -33,11 +41,14 @@ public class AbstractLogicHandler {
 	}
 
 	public void sendPlayerToGame(Player p) {
+		AbstractPlayerData pd = pl.getDataHandler().getPlayerData(p.getUniqueId());
 
 	}
 
 	public void sendToSpectate(Player p) {
 		AbstractPlayerData pd = pl.getDataHandler().getPlayerData(p.getUniqueId());
 		pd.team = null;
+		// TODO
 	}
+
 }

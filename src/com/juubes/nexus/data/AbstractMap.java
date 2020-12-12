@@ -4,27 +4,13 @@ import java.util.LinkedHashSet;
 
 import com.juubes.nexus.NexusLocation;
 
-import lombok.Getter;
-import lombok.Setter;
-
 public class AbstractMap {
-	@Getter
-	private final String id;
+	public final String id;
+	public String displayName;
+	public NexusLocation lobby;
+	public int ticks;
 
-	@Getter
-	@Setter
-	private String displayName;
-
-	@Getter
-	@Setter
-	private NexusLocation lobby;
-
-	@Getter
-	@Setter
-	private int ticks;
-
-	@Getter
-	private final LinkedHashSet<AbstractTeam> teams = new LinkedHashSet<>();
+	public final LinkedHashSet<? extends AbstractTeam> teams = new LinkedHashSet<>();
 
 	public AbstractMap(String id, String displayName, NexusLocation lobby, int ticks) {
 		this.id = id;
