@@ -3,13 +3,18 @@ package com.juubes.nexus.logic;
 import java.util.Optional;
 
 import org.apache.commons.lang.NotImplementedException;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import com.juubes.nexus.Nexus;
+import com.juubes.nexus.data.AbstractMap;
 import com.juubes.nexus.data.AbstractPlayerData;
 import com.juubes.nexus.data.AbstractTeam;
 
 import lombok.Getter;
+import net.md_5.bungee.api.ChatColor;
 
 /**
  * Handlers game logic like game cycle and players joining teams.
@@ -48,7 +53,37 @@ public class AbstractLogicHandler {
 	public void sendToSpectate(Player p) {
 		AbstractPlayerData pd = pl.getDataHandler().getPlayerData(p.getUniqueId());
 		pd.team = null;
-		// TODO
+
+		p.setGameMode(GameMode.SPECTATOR);
+
+		// Teleport to lobby
+		AbstractMap currentMap = pl.getGameWorldHandler().getCurrentMap();
+		World currentWorld = pl.getGameWorldHandler().getCurrentWorld();
+		Location lobby = currentMap.lobby.toLocation(currentWorld);
+		p.teleport(lobby);
+
+		if (p.getWorld() != currentWorld)
+			return;
+
+		if (lobby != null) {
+			p.teleport(lobby);
+		} else {
+			System.err.println("Lobby null for map " + currentMap.displayName);
+			p.teleport(new Location(currentWorld, 0, 100, 0));
+		}
+		p.setGameMode(GameMode.SPECTATOR);
+		p.getInventory().clear();
+
+		// Handle appropriate nametag colours
+		p.setDisplayName("§7" + p.getName());
+		p.setPlayerListName("§8[" + ChatColor.translateAlternateColorCodes('&', pd.prefix) + "§8] §7" + p.getName());
+		p.setCustomName(pd.team.teamColor + p.getName());
+		p.setCustomNameVisible(false);
+
+	}
+
+	public void setPlayerToSmallestTeam(Player p) {
+		
 	}
 
 }

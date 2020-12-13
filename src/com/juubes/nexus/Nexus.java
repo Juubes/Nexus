@@ -4,8 +4,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.juubes.nexus.commands.JoinCommand;
+import com.juubes.nexus.commands.ShopCommand;
+import com.juubes.nexus.commands.SpectateCommand;
+import com.juubes.nexus.commands.TopCommand;
 import com.juubes.nexus.data.AbstractDataHandler;
-import com.juubes.nexus.data.AbstractMap;
 import com.juubes.nexus.events.ConnectionListener;
 import com.juubes.nexus.logic.AbstractLogicHandler;
 import com.juubes.nexus.logic.GameWorldHandler;
@@ -28,9 +30,9 @@ public abstract class Nexus extends JavaPlugin {
 		try {
 			// TODO
 			Bukkit.getPluginCommand("join").setExecutor(new JoinCommand(this));
-			Bukkit.getPluginCommand("spec").setExecutor(null);
-			Bukkit.getPluginCommand("top").setExecutor(null);
-			Bukkit.getPluginCommand("shop").setExecutor(null);
+			Bukkit.getPluginCommand("spec").setExecutor(new SpectateCommand(this));
+			Bukkit.getPluginCommand("top").setExecutor(new TopCommand(this));
+			Bukkit.getPluginCommand("shop").setExecutor(new ShopCommand(this));
 		} catch (Exception e) {
 			this.getLogger().severe("All the nexus commands are not listed in the extending plugin.yml.");
 			this.getLogger().severe("Startup is not possible.");
@@ -47,6 +49,8 @@ public abstract class Nexus extends JavaPlugin {
 	 */
 	@Override
 	public void onDisable() {
+
+		// Save playerdata
 		Bukkit.getOnlinePlayers().forEach(p -> this.getDataHandler().savePlayerData(p.getUniqueId()));
 	}
 

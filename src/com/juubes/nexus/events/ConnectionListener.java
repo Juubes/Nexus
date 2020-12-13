@@ -25,7 +25,7 @@ public class ConnectionListener implements Listener {
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
-
+		
 		// Put player in spectator mode
 		pl.getLogicHandler().sendToSpectate(p);
 	}
