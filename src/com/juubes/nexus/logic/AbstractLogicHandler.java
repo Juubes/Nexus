@@ -47,7 +47,7 @@ public class AbstractLogicHandler {
 
 	public void sendPlayerToGame(Player p) {
 		AbstractPlayerData pd = pl.getDataHandler().getPlayerData(p.getUniqueId());
-
+	
 	}
 
 	public void sendToSpectate(Player p) {
